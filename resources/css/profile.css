@@ -1,0 +1,613 @@
+/* Animaciones de entrada */
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slide-in-right {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Animación de pulso suave */
+@keyframes pulse-glow {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 20px 10px rgba(139, 92, 246, 0);
+    }
+}
+
+/* Cards con animación de entrada */
+.card-elevated {
+    animation: fade-in 0.5s ease-out;
+}
+
+/* Efecto glassmorphism mejorado */
+.btn-glass {
+    background: rgba(255, 255, 255, 0.08) !important;
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-glass::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s;
+}
+
+.btn-glass:hover::before {
+    left: 100%;
+}
+
+.btn-glass:hover {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* Botón primario con gradiente animado */
+.btn-primary {
+    background: linear-gradient(135deg, #7c3aed, #6d28d9) !important;
+    border: none !important;
+    box-shadow: 0 4px 16px rgba(124, 58, 237, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn-primary:hover::before {
+    left: 100%;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(124, 58, 237, 0.5);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+/* Input mejorado con efecto de focus */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    transition: all 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2),
+                0 4px 12px rgba(139, 92, 246, 0.1);
+    transform: translateY(-1px);
+}
+
+/* Foto de perfil con efecto hover */
+.profile-photo-container {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-photo-container img {
+    transition: all 0.3s ease;
+}
+
+.profile-photo-container:hover img {
+    transform: scale(1.05);
+    box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
+}
+
+/* Badges de estado con animación */
+.status-badge {
+    animation: slide-in-right 0.5s ease-out;
+    transition: all 0.3s ease;
+}
+
+.status-badge:hover {
+    transform: translateX(-2px);
+}
+
+/* Banner de verificación con borde animado */
+.verification-banner {
+    position: relative;
+    animation: fade-in 0.6s ease-out;
+}
+
+.verification-banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 2px;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0.5;
+}
+
+/* Alert de éxito con animación de entrada */
+.alert-success {
+    animation: slide-in-right 0.5s ease-out;
+}
+
+/* Cards informativas con hover mejorado */
+.info-card {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.info-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.05), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.info-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+.info-card:hover::before {
+    opacity: 1;
+}
+
+/* Estados de verificación con animación */
+.verification-status {
+    animation: fade-in 0.4s ease-out;
+    transition: all 0.3s ease;
+}
+
+.verification-status:hover {
+    transform: translateX(2px);
+}
+
+/* Spinner de carga */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+/* Efecto de ripple en botones */
+.btn-ripple {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-ripple::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn-ripple:active::after {
+    width: 300px;
+    height: 300px;
+}
+
+/* Degradado de texto */
+.text-gradient {
+    background: linear-gradient(135deg, #a78bfa, #c4b5fd);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Bordes con gradiente */
+.border-gradient {
+    position: relative;
+    border: none;
+}
+
+.border-gradient::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+}
+
+/* Transición suave para todos los elementos interactivos */
+a, button, input, select, textarea {
+    transition: all 0.3s ease;
+}
+
+/* Mejora para modo oscuro */
+@media (prefers-color-scheme: dark) {
+    .card-elevated {
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+    }
+    
+    .info-card:hover {
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+    }
+}
+
+/* Responsive animations */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Scroll suave */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Separador de secciones con efecto */
+.section-border {
+    position: relative;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.3), transparent);
+    margin: 2rem 0;
+}
+
+/* Animaciones de entrada */
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slide-in-right {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Animación de pulso suave */
+@keyframes pulse-glow {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 20px 10px rgba(139, 92, 246, 0);
+    }
+}
+
+/* Cards con animación de entrada */
+.card-elevated {
+    animation: fade-in 0.5s ease-out;
+}
+
+/* Efecto glassmorphism mejorado */
+.btn-glass {
+    background: rgba(255, 255, 255, 0.08) !important;
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-glass::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s;
+}
+
+.btn-glass:hover::before {
+    left: 100%;
+}
+
+.btn-glass:hover {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* Botón primario con gradiente animado */
+.btn-primary {
+    background: linear-gradient(135deg, #7c3aed, #6d28d9) !important;
+    border: none !important;
+    box-shadow: 0 4px 16px rgba(124, 58, 237, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn-primary:hover::before {
+    left: 100%;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(124, 58, 237, 0.5);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+/* Input mejorado con efecto de focus */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    transition: all 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2),
+                0 4px 12px rgba(139, 92, 246, 0.1);
+    transform: translateY(-1px);
+}
+
+/* Foto de perfil con efecto hover */
+.profile-photo-container {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-photo-container img {
+    transition: all 0.3s ease;
+}
+
+.profile-photo-container:hover img {
+    transform: scale(1.05);
+    box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
+}
+
+/* Badges de estado con animación */
+.status-badge {
+    animation: slide-in-right 0.5s ease-out;
+    transition: all 0.3s ease;
+}
+
+.status-badge:hover {
+    transform: translateX(-2px);
+}
+
+/* Banner de verificación con borde animado */
+.verification-banner {
+    position: relative;
+    animation: fade-in 0.6s ease-out;
+}
+
+.verification-banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 2px;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0.5;
+}
+
+/* Alert de éxito con animación de entrada */
+.alert-success {
+    animation: slide-in-right 0.5s ease-out;
+}
+
+/* Cards informativas con hover mejorado */
+.info-card {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.info-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.05), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.info-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+.info-card:hover::before {
+    opacity: 1;
+}
+
+/* Estados de verificación con animación */
+.verification-status {
+    animation: fade-in 0.4s ease-out;
+    transition: all 0.3s ease;
+}
+
+.verification-status:hover {
+    transform: translateX(2px);
+}
+
+/* Spinner de carga */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+/* Efecto de ripple en botones */
+.btn-ripple {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-ripple::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn-ripple:active::after {
+    width: 300px;
+    height: 300px;
+}
+
+/* Degradado de texto */
+.text-gradient {
+    background: linear-gradient(135deg, #a78bfa, #c4b5fd);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Bordes con gradiente */
+.border-gradient {
+    position: relative;
+    border: none;
+}
+
+.border-gradient::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+}
+
+/* Transición suave para todos los elementos interactivos */
+a, button, input, select, textarea {
+    transition: all 0.3s ease;
+}
+
+/* Mejora para modo oscuro */
+@media (prefers-color-scheme: dark) {
+    .card-elevated {
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+    }
+    
+    .info-card:hover {
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+    }
+}
+
+/* Responsive animations */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Scroll suave */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Separador de secciones con efecto */
+.section-border {
+    position: relative;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.3), transparent);
+    margin: 2rem 0;
+}
