@@ -99,19 +99,26 @@
                 border-color: rgba(255, 255, 255, 0.15);
             }
 
-            /* LOGO - OPTIMIZADO */
+            /* LOGO - FUERA DEL CARD */
             .logo-container {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                margin-bottom: 1.5rem; /* Reducido de 2rem */
+                margin-bottom: 2rem;
             }
 
             .logo-image {
-                width: 100px; /* Aumentado de 80px */
-                height: 100px; /* Aumentado de 80px */
+                width: 120px;
+                height: 120px;
                 object-fit: contain;
                 display: block;
+                filter: drop-shadow(0 8px 24px rgba(124, 58, 237, 0.3));
+                transition: all 0.3s ease;
+            }
+
+            .logo-image:hover {
+                transform: scale(1.05);
+                filter: drop-shadow(0 12px 32px rgba(124, 58, 237, 0.4));
             }
 
             /* HEADER */
@@ -297,21 +304,25 @@
                 .login-container {
                     padding: 1rem;
                 }
-                
+
                 .login-card {
                     padding: 2rem 1.5rem;
                 }
-                
+
                 .logo-image {
-                    width: 90px;
-                    height: 90px;
+                    width: 100px;
+                    height: 100px;
                 }
-                
+
+                .logo-container {
+                    margin-bottom: 1.5rem;
+                }
+
                 .form-footer {
                     flex-direction: column;
                     gap: 1rem;
                 }
-                
+
                 .btn-glass, .btn-primary {
                     width: 100%;
                 }
@@ -340,15 +351,15 @@
 
         <!-- Contenido principal -->
         <div class="login-container">
-            <div class="login-card">
-                <!-- Logo optimizado -->
-                <div class="logo-container">
-                    <a href="/" class="flex items-center gap-2 no-underline">
-                        <!-- Logo reemplazado por gestior.png -->
-                        <img src="images/gestior.png" alt="Gestior" class="logo-image">
-                    </a>
-                </div>
+            <!-- Logo optimizado -->
+            <div class="logo-container">
+                <a href="/" class="flex items-center gap-2 no-underline">
+                    <!-- Logo reemplazado por gestior.png -->
+                    <img src="images/gestior.png" alt="Gestior" class="logo-image">
+                </a>
+            </div>
 
+            <div class="login-card">
                 <!-- Header -->
                 <div class="login-header">
                     <h1 class="login-title">Iniciar sesión</h1>
@@ -456,29 +467,22 @@
             // Checkbox personalizado optimizado
             document.addEventListener('DOMContentLoaded', function() {
                 createParticles();
-                
+
                 const checkbox = document.getElementById('remember_me');
                 const customCheckbox = document.getElementById('customCheckbox');
                 const checkboxContainer = document.querySelector('.checkbox-container');
-                
+
                 if (checkbox && customCheckbox && checkboxContainer) {
                     // Sincronizar estado inicial
                     if (checkbox.checked) {
                         customCheckbox.classList.add('checked');
                     }
-                    
+
                     // Manejar clicks en el contenedor del checkbox
                     checkboxContainer.addEventListener('click', function(e) {
-                        // Evitar que se active dos veces si se hace clic directamente en el checkbox
-                        if (e.target !== checkbox) {
-                            checkbox.checked = !checkbox.checked;
-                            customCheckbox.classList.toggle('checked', checkbox.checked);
-                        }
-                    });
-                    
-                    // Sincronizar cambios del checkbox real
-                    checkbox.addEventListener('change', function() {
-                        customCheckbox.classList.toggle('checked', this.checked);
+                        e.preventDefault();
+                        checkbox.checked = !checkbox.checked;
+                        customCheckbox.classList.toggle('checked', checkbox.checked);
                     });
                 }
             });

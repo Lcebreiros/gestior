@@ -312,7 +312,8 @@
                 ],
                 'button' => $currentPlan === 'basic' ? 'Plan actual' : ($isLoggedIn ? 'Seleccionar' : 'Comenzar'),
                 'button_type' => $currentPlan === 'basic' ? 'disabled' : 'primary',
-                'url' => $isLoggedIn ? '#' : route('register')
+                'url' => $isLoggedIn ? '#' : route('register'),
+                'action' => $isLoggedIn ? 'openModal' : null
             ],
             'premium' => [
                 'name' => 'Premium',
@@ -333,7 +334,8 @@
                 ],
                 'button' => $currentPlan === 'premium' ? 'Plan actual' : ($isLoggedIn ? 'Seleccionar' : 'Comenzar'),
                 'button_type' => $currentPlan === 'premium' ? 'disabled' : 'highlight',
-                'url' => $isLoggedIn ? '#' : route('register')
+                'url' => $isLoggedIn ? '#' : route('register'),
+                'action' => $isLoggedIn ? 'openModal' : null
             ],
             'enterprise' => [
                 'name' => 'Enterprise',
@@ -355,7 +357,8 @@
                 ],
                 'button' => $currentPlan === 'enterprise' ? 'Plan actual' : 'Contactar',
                 'button_type' => $currentPlan === 'enterprise' ? 'disabled' : 'enterprise',
-                'url' => 'mailto:ventas@gestior.com?subject=Consulta Plan Enterprise'
+                'url' => 'mailto:ventas@gestior.com?subject=Consulta Plan Enterprise',
+                'action' => null // Enterprise no usa modal, va a mailto
             ]
         ];
     @endphp
@@ -446,8 +449,14 @@
                                     <button class="btn-plan btn-plan--disabled w-full" disabled>
                                         {{ $plan['button'] }}
                                     </button>
+                                @elseif($plan['action'] === 'openModal')
+                                    <button
+                                        onclick="openInvitationModal('{{ $planKey }}')"
+                                        class="btn-plan w-full {{ $plan['button_type'] === 'highlight' ? 'btn-plan--highlight' : '' }}">
+                                        {{ $plan['button'] }}
+                                    </button>
                                 @else
-                                    <a href="{{ $plan['url'] }}" 
+                                    <a href="{{ $plan['url'] }}"
                                        class="btn-plan w-full {{ $plan['button_type'] === 'highlight' ? 'btn-plan--highlight' : '' }} {{ $plan['button_type'] === 'enterprise' ? 'btn-plan--enterprise' : '' }}">
                                         {{ $plan['button'] }}
                                     </a>
@@ -530,4 +539,361 @@
             </div>
         </div>
     </section>
+
+    <!-- Modal de código de invitación -->
+    @if($isLoggedIn)
+    <div id="invitationModal" class="modal-overlay" style="display: none;">
+        <div class="modal-container">
+            <div class="modal-content">
+                <!-- Header -->
+                <div class="modal-header">
+                    <div class="flex items-center gap-3">
+                        <div class="modal-icon">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="modal-title">Activar plan <span id="modalPlanName"></span></h3>
+                            <p class="modal-subtitle">Ingresa tu código de invitación</p>
+                        </div>
+                    </div>
+                    <button onclick="closeInvitationModal()" class="modal-close">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Body -->
+                <div class="modal-body">
+                    <form id="invitationForm" method="POST" action="{{ route('subscription.activate.submit') }}">
+                        @csrf
+                        <input type="hidden" name="plan" id="modalPlanInput" value="">
+
+                        <div class="form-group-modal">
+                            <label for="invitation_code" class="form-label-modal">
+                                Código de invitación
+                            </label>
+                            <input
+                                type="text"
+                                id="invitation_code"
+                                name="invitation_code"
+                                class="form-input-modal"
+                                placeholder="Ingresa tu código"
+                                required
+                                autocomplete="off"
+                                maxlength="32"
+                            >
+                            <p class="form-help-modal">
+                                El código debe coincidir con el plan seleccionado
+                            </p>
+                            <div id="modalError" class="modal-error" style="display: none;"></div>
+                        </div>
+
+                        <div class="modal-actions">
+                            <button type="button" onclick="closeInvitationModal()" class="btn-modal-secondary">
+                                Cancelar
+                            </button>
+                            <button type="submit" class="btn-modal-primary">
+                                Activar suscripción
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="modal-footer-info">
+                        <svg class="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                        </svg>
+                        <span class="text-sm text-gray-500">
+                            ¿No tienes un código? Contacta con el administrador
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+        }
+
+        .modal-container {
+            width: 100%;
+            max-width: 480px;
+            transform: scale(0.95);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .modal-overlay.show .modal-container {
+            transform: scale(1);
+        }
+
+        .modal-content {
+            background: rgba(20, 20, 20, 0.98);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.25rem;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        .modal-header {
+            padding: 1.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+
+        .modal-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(109, 40, 217, 0.1));
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #a78bfa;
+            flex-shrink: 0;
+        }
+
+        .modal-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 0.25rem;
+            text-transform: capitalize;
+        }
+
+        .modal-subtitle {
+            font-size: 0.875rem;
+            color: #9ca3af;
+            font-weight: 400;
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #9ca3af;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.12);
+            color: white;
+        }
+
+        .modal-body {
+            padding: 1.75rem;
+        }
+
+        .form-group-modal {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label-modal {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #e5e7eb;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input-modal {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.75rem;
+            padding: 0.875rem 1rem;
+            color: white;
+            font-size: 1rem;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 0.05em;
+            transition: all 0.2s ease;
+        }
+
+        .form-input-modal::placeholder {
+            color: #6b7280;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: normal;
+        }
+
+        .form-input-modal:focus {
+            outline: none;
+            border-color: rgba(167, 139, 250, 0.4);
+            box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.1);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .form-help-modal {
+            margin-top: 0.5rem;
+            font-size: 0.8125rem;
+            color: #6b7280;
+        }
+
+        .modal-error {
+            margin-top: 0.75rem;
+            padding: 0.75rem 1rem;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 0.5rem;
+            color: #fca5a5;
+            font-size: 0.875rem;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn-modal-secondary {
+            flex: 1;
+            padding: 0.875rem 1.5rem;
+            border-radius: 0.75rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-modal-secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-modal-primary {
+            flex: 1;
+            padding: 0.875rem 1.5rem;
+            border-radius: 0.75rem;
+            background: linear-gradient(135deg, #7c3aed, #6d28d9);
+            border: none;
+            color: white;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(124, 58, 237, 0.3);
+        }
+
+        .btn-modal-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+        }
+
+        .modal-footer-info {
+            margin-top: 1.25rem;
+            padding-top: 1.25rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        @media (max-width: 640px) {
+            .modal-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+
+    <script>
+        const planNames = {
+            'basic': 'Básico',
+            'premium': 'Premium',
+            'enterprise': 'Enterprise'
+        };
+
+        function openInvitationModal(plan) {
+            const modal = document.getElementById('invitationModal');
+            const planNameEl = document.getElementById('modalPlanName');
+            const planInput = document.getElementById('modalPlanInput');
+            const errorEl = document.getElementById('modalError');
+            const codeInput = document.getElementById('invitation_code');
+
+            // Limpiar formulario
+            codeInput.value = '';
+            errorEl.style.display = 'none';
+            errorEl.textContent = '';
+
+            // Establecer plan
+            planNameEl.textContent = planNames[plan] || plan;
+            planInput.value = plan;
+
+            // Mostrar modal con animación
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('show'), 10);
+
+            // Focus en el input
+            setTimeout(() => codeInput.focus(), 300);
+        }
+
+        function closeInvitationModal() {
+            const modal = document.getElementById('invitationModal');
+            modal.classList.remove('show');
+            setTimeout(() => modal.style.display = 'none', 300);
+        }
+
+        // Cerrar con ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeInvitationModal();
+            }
+        });
+
+        // Cerrar al hacer click fuera
+        document.getElementById('invitationModal')?.addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeInvitationModal();
+            }
+        });
+
+        // Auto-formatear código
+        document.getElementById('invitation_code')?.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
+            if (value.length > 32) {
+                value = value.substring(0, 32);
+            }
+            e.target.value = value;
+        });
+
+        // Mostrar errores si vienen de la sesión
+        @if($errors->any() && old('plan'))
+        window.addEventListener('DOMContentLoaded', function() {
+            openInvitationModal('{{ old('plan') }}');
+            const errorEl = document.getElementById('modalError');
+            errorEl.textContent = '{{ $errors->first('invitation_code') }}';
+            errorEl.style.display = 'block';
+        });
+        @endif
+    </script>
+    @endif
 </x-dynamic-component>

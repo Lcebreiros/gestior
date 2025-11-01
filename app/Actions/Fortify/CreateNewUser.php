@@ -30,6 +30,8 @@ class CreateNewUser implements CreatesNewUsers
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
+            'is_active' => false, // Requiere activación con código de invitación
+            'hierarchy_level' => User::HIERARCHY_COMPANY, // Siempre nivel empresa (0)
         ]);
     }
 }

@@ -6,22 +6,22 @@
         @include('components.landing.hero-network')
     </header>
 
+    <!-- SEGUNDA SECCIÓN: Feature Sections -->
+        @foreach(config('features.features') as $feature)
+        <x-feature-section
+            :badge="$feature['badge']"
+            :title="$feature['title']"
+            :description="$feature['description']"
+            :features="$feature['features']"
+            :image="$feature['image']"
+            :inverted="$feature['inverted']"
+            :background="$feature['background']"
+        />
+    @endforeach
+
     <!-- SEGUNDA SECCIÓN: Screenshots 3D -->
     @include('components.landing.screenshot-section')
 
-    <!-- Producto / Feature Cards (Livewire dynamic) -->
-    <section id="producto" class="bg-black text-gray-100 py-16 md:py-24">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="flex items-end justify-between gap-6 mb-8">
-                <div>
-                    <h2 class="text-3xl md:text-4xl font-semibold tracking-tight">Resumen de funciones</h2>
-                    <p class="text-gray-400 mt-2">Crea y reorganiza tarjetas para mostrar las capacidades del panel.</p>
-                </div>
-            </div>
-
-            @livewire('feature-cards')
-        </div>
-    </section>
 
     <!-- TERCERA SECCIÓN: Mockups de Dispositivos -->
     <section class="bg-black text-white py-20 screenshots-section">
@@ -358,39 +358,6 @@
                     Gestiona pedidos, stock y equipo desde una plataforma diseñada para que tu negocio crezca sin límites.
                 </p>
 
-                <!-- Features -->
-                <div class="cta-apple-features">
-                    <div class="cta-apple-feature">
-                        <div class="cta-apple-feature-icon">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                            </svg>
-                        </div>
-                        <span>Configuración rápida</span>
-                    </div>
-
-                    <div class="cta-apple-feature">
-                        <div class="cta-apple-feature-icon">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-                            </svg>
-                        </div>
-                        <span>100% seguro</span>
-                    </div>
-
-                    <div class="cta-apple-feature">
-                        <div class="cta-apple-feature-icon">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
-                            </svg>
-                        </div>
-                        <span>Sin tarjeta</span>
-                    </div>
-                </div>
-
-                <!-- Divider -->
-                <div class="cta-apple-divider"></div>
-
                 <!-- CTA Button -->
                 <div class="cta-apple-button-wrapper">
                     <a href="{{ route('register') }}" class="cta-apple-button">
@@ -403,7 +370,7 @@
 
                 <!-- Support text -->
                 <div class="cta-apple-support">
-                    <span class="cta-apple-support-highlight">14 días de prueba completa</span>
+                    <span class="cta-apple-support-highlight">primer mes gratis</span>
                     <span> • </span>
                     <span>Sin compromisos</span>
                     <span> • </span>
@@ -413,7 +380,10 @@
             </div>
         </div>
     </div>
-</section>
+ </section>
+
+    {{-- Footer --}}
+    @include('components.landing.footer')
 
     <script>
         // Sincronizar animaciones entre HERO y screenshots
@@ -459,4 +429,4 @@
             setTimeout(syncAnimations, 100);
         });
     </script>
-</x-guest-layout>
+ </x-guest-layout>

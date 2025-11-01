@@ -113,17 +113,17 @@
 
             <!-- Centered Navigation Links -->
             <div class="hidden md:flex items-center gap-8 absolute left-1/2 transform -translate-x-1/2">
-                <a href="{{ route('dashboard') }}" 
+                <a href="{{ route('dashboard') }}"
                    class="nav-link-minimal {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                     Dashboard
                 </a>
-                <a href="{{ url('/#producto') }}" class="nav-link-minimal">
+                <a href="{{ route('services') }}" class="nav-link-minimal {{ request()->routeIs('services') ? 'active' : '' }}">
                     Servicio
                 </a>
-                <a href="{{ route('plans') }}" class="nav-link-minimal">
+                <a href="{{ route('plans') }}" class="nav-link-minimal {{ request()->routeIs('plans') ? 'active' : '' }}">
                     Planes
                 </a>
-                <a href="{{ url('/#contacto') }}" class="nav-link-minimal">
+                <a href="{{ route('contact') }}" class="nav-link-minimal">
                     Contacto
                 </a>
             </div>
@@ -274,6 +274,34 @@
 
 @guest
 <nav class="bg-transparent border-b border-white/[0.06]">
+    <style>
+        .nav-link-minimal {
+            padding: 0.5rem 1rem;
+            color: rgba(255, 255, 255, 0.65);
+            font-size: 14px;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+            transition: color 0.2s ease;
+        }
+        .nav-link-minimal:hover { color: rgba(255, 255, 255, 0.95); }
+        .nav-link-minimal.active { color: #ffffff; font-weight: 500; }
+
+        .btn-panel {
+            padding: 0.625rem 1.5rem;
+            background: #7534c9;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 8px;
+            letter-spacing: -0.01em;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(117, 52, 201, 0.25);
+        }
+        .btn-panel:hover { background: #6428b0; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(117, 52, 201, 0.35); }
+        .btn-panel:active { transform: translateY(0); box-shadow: 0 3px 10px rgba(117, 52, 201, 0.25); }
+        .btn-panel:focus { outline: none; }
+        .btn-panel:focus-visible { box-shadow: 0 0 0 3px rgba(117, 52, 201, 0.45); }
+    </style>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
             
@@ -286,9 +314,9 @@
 
             <!-- Centered Navigation -->
             <div class="hidden md:flex items-center gap-8 absolute left-1/2 transform -translate-x-1/2">
-                <a href="#producto" class="nav-link-minimal">Servicio</a>
+                <a href="{{ route('services') }}" class="nav-link-minimal">Servicio</a>
                 <a href="{{ route('plans') }}" class="nav-link-minimal">Planes</a>
-                <a href="#contacto" class="nav-link-minimal">Contacto</a>
+                <a href="{{ route('contact') }}" class="nav-link-minimal">Contacto</a>
             </div>
 
             <!-- Right Side -->

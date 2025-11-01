@@ -183,16 +183,30 @@
                                 <p class="text-xs text-amber-300/80 mt-1 font-light">
                                     Verifica tu correo para acceder a todas las funciones
                                 </p>
-                                <a href="{{ route('verification.notice') }}" 
-                                   class="inline-flex items-center gap-1.5 mt-2 text-xs text-amber-200 hover:text-amber-100 font-medium transition-colors">
-                                    Verificar ahora
+                                <button type="button"
+                                        class="inline-flex items-center gap-1.5 mt-2 text-xs text-amber-200 hover:text-amber-100 font-medium transition-colors"
+                                        wire:click.prevent="sendEmailVerification">
+                                    Reenviar correo de verificación
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                                     </svg>
-                                </a>
+                                </button>
                             </div>
                         </div>
                     </div>
+
+                    @if ($verificationLinkSent)
+                        <div class="mt-3 verification-alert alert-success">
+                            <div class="flex items-center gap-2">
+                                <svg class="w-5 h-5 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                                <p class="text-sm font-medium text-emerald-200">
+                                    Correo de verificación enviado
+                                </p>
+                            </div>
+                        </div>
+                    @endif
                 @else
                     <div class="mt-3 verification-alert alert-success">
                         <div class="flex items-center gap-3">
