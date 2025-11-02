@@ -266,7 +266,7 @@
         <!-- Copyright & Trademark -->
         <div class="footer-bottom">
             <p class="footer-copyright">
-                © {{ date('Y') }} Gestior. Todos los derechos reservados.
+                © {{ date('Y') }} Gestior. Todos los derechos reservados. Desarrollado por Leandro Cebreiros
             </p>
         </div>
     </div>

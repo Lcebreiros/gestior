@@ -7,7 +7,7 @@
                 </h2>
                 <p class="mt-1 text-sm text-gray-400">Es hora de dar los primeros pasos</p>
             </div>
-            <a href="https://www.panel.gestior.com.ar" class="px-4 py-2 rounded-lg btn-primary text-sm font-semibold">Ir al panel</a>
+            <a href="https://panel.gestior.com.ar" class="px-4 py-2 rounded-lg btn-primary text-sm font-semibold">Ir al panel</a>
         </div>
     </x-slot>
 
@@ -52,7 +52,7 @@
                 <h3 class="text-xl font-semibold text-white">Todo listo para comenzar</h3>
                 <p class="mt-2 text-gray-300">Accede al panel completo para continuar con la configuración.</p>
                 <div class="mt-6">
-                    <a href="https://panel.gestior" class="px-5 py-3 rounded-xl btn-primary font-semibold inline-flex items-center gap-2">
+                    <a href="https://panel.gestior.com.ar" class="px-5 py-3 rounded-xl btn-primary font-semibold inline-flex items-center gap-2">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                         Ir al panel
                     </a>

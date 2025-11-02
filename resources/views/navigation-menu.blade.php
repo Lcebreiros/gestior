@@ -130,7 +130,7 @@
 
             <!-- Right Side - Panel Button + Profile -->
             <div class="hidden md:flex items-center gap-4">
-                <a href="{{ route('dashboard') }}" class="btn-panel">
+                <a href="https://panel.gestior.com.ar" class="btn-panel">
                     Ir al panel
                 </a>
 
@@ -258,7 +258,7 @@
 
         <!-- Panel Button & Logout -->
         <div class="px-4 py-3 space-y-2">
-            <a href="{{ route('dashboard') }}" class="btn-panel block text-center">
+            <a href="https://panel.gestior.com.ar" class="btn-panel block text-center">
                 Ir al panel
             </a>
             <form method="POST" action="{{ route('logout') }}" x-data>

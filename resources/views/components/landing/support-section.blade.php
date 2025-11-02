@@ -412,7 +412,7 @@
                 <p class="support-channel-description">
                     Accedé al chat de soporte integrado directamente desde tu panel de control. Respuestas en tiempo real para resolver tus dudas al instante.
                 </p>
-                <a href="{{ route('dashboard') }}" class="support-channel-action">
+                <a href="https://panel.gestior.com.ar" class="support-channel-action">
                     <span>Ir al panel</span>
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
