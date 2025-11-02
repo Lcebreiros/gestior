@@ -286,7 +286,7 @@
                 flex-direction: column;
                 gap: 3rem;
             }
-            
+
             .screenshots-text {
                 flex: none;
                 padding-right: 0;
@@ -300,14 +300,131 @@
             .screenshots-text p {
                 font-size: 1.125rem;
             }
-            
+
+            .screenshot-container {
+                height: 500px;
+                perspective: 1000px;
+                width: 100%;
+                padding: 0 1rem;
+            }
+
+            .screenshot {
+                width: min(550px, 90vw);
+            }
+
+            /* Ajustar posiciones para móvil */
+            .s1 {
+                transform:
+                    translate(-50%, -50%)
+                    translateX(200px)
+                    translateZ(-200px)
+                    rotateX(8deg)
+                    rotateY(-30deg)
+                    scale(0.5);
+            }
+
+            .s2 {
+                transform:
+                    translate(-50%, -50%)
+                    translateX(100px)
+                    translateZ(-100px)
+                    rotateX(10deg)
+                    rotateY(-20deg)
+                    scale(0.65);
+            }
+
+            .s3 {
+                transform:
+                    translate(-50%, -50%)
+                    translateX(0px)
+                    translateZ(-50px)
+                    rotateX(10deg)
+                    rotateY(-10deg)
+                    scale(0.75);
+            }
+
+            .screenshots-section.visible .s1 {
+                transform:
+                    translate(-50%, -50%)
+                    translateX(150px)
+                    translateZ(-100px)
+                    rotateX(12deg)
+                    rotateY(-20deg)
+                    scale(0.7);
+            }
+
+            .screenshots-section.visible .s2 {
+                transform:
+                    translate(-50%, -50%)
+                    translateX(50px)
+                    translateZ(-30px)
+                    rotateX(12deg)
+                    rotateY(-12deg)
+                    scale(0.85);
+            }
+
+            .screenshots-section.visible .s3 {
+                transform:
+                    translate(-50%, -50%)
+                    translateX(-80px)
+                    translateZ(30px)
+                    rotateX(12deg)
+                    rotateY(-5deg)
+                    scale(0.95);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .screenshots-section {
+                padding: 3rem 0 6rem 0;
+            }
+
             .screenshot-container {
                 height: 400px;
-                perspective: 800px;
+                padding: 0 0.5rem;
             }
-            
+
             .screenshot {
-                width: 450px;
+                width: min(400px, 95vw);
+            }
+
+            .screenshots-text h2 {
+                font-size: 1.75rem;
+            }
+
+            .screenshots-text p {
+                font-size: 1rem;
+            }
+
+            /* Posiciones más compactas para móvil pequeño */
+            .screenshots-section.visible .s1 {
+                transform:
+                    translate(-50%, -50%)
+                    translateX(120px)
+                    translateZ(-80px)
+                    rotateX(10deg)
+                    rotateY(-18deg)
+                    scale(0.6);
+            }
+
+            .screenshots-section.visible .s2 {
+                transform:
+                    translate(-50%, -50%)
+                    translateX(40px)
+                    translateZ(-20px)
+                    rotateX(10deg)
+                    rotateY(-10deg)
+                    scale(0.75);
+            }
+
+            .screenshots-section.visible .s3 {
+                transform:
+                    translate(-50%, -50%)
+                    translateX(-60px)
+                    translateZ(20px)
+                    rotateX(10deg)
+                    rotateY(-3deg)
+                    scale(0.85);
             }
         }
     </style>

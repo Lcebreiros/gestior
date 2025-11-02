@@ -295,8 +295,19 @@
                 </div>
             @endif
 
+            @if (session('info'))
+                <div class="info-message" style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 0.75rem; padding: 1rem; margin-bottom: 1.5rem; color: #60a5fa; font-size: 0.875rem; display: flex; align-items: center; gap: 0.75rem;">
+                    <svg style="width: 20px; height: 20px; flex-shrink: 0;" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                    </svg>
+                    <span>{{ session('info') }}</span>
+                </div>
+            @endif
+
             <form method="POST" action="{{ route('subscription.activate.submit') }}">
                 @csrf
+
+                <input type="hidden" name="plan" value="{{ $subscriptionLevel }}">
 
                 <div class="form-group">
                     <label for="invitation_code" class="form-label">Código de invitación</label>

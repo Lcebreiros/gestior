@@ -82,7 +82,10 @@ class SubscriptionController extends Controller
 
         $planInfo = SubscriptionService::getPlanInfo($user->subscription_level);
 
-        return view('subscription.activate', compact('planInfo'));
+        return view('subscription.activate', [
+            'planInfo' => $planInfo,
+            'subscriptionLevel' => $user->subscription_level,
+        ]);
     }
 
     /**
@@ -116,7 +119,7 @@ class SubscriptionController extends Controller
         );
 
         if (!$result['success']) {
-            return redirect()->route('plans')
+            return redirect()->route('subscription.activate')
                 ->withErrors(['invitation_code' => $result['message']])
                 ->withInput();
         }

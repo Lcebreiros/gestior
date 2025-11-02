@@ -251,49 +251,49 @@
             .mockup-title {
                 font-size: 2rem;
             }
-            
+
             .mockup-description {
                 font-size: 1rem;
             }
-            
+
             .images-container {
-                height: 420px;
+                height: 480px;
             }
-            
+
             .mockup-image.computer {
-                max-width: 450px !important;
-                transform: translateX(-80px) scale(0.8);
+                max-width: 480px !important;
+                transform: translateX(-60px) scale(0.85);
             }
-            
+
             .mockup-image.computer.visible {
-                transform: translateX(0px) scale(0.95);
+                transform: translateX(10px) scale(1);
             }
-            
+
             .mockup-image.phone {
-                max-width: 200px !important;
-                transform: translateX(80px) scale(0.7);
+                max-width: 260px !important;
+                transform: translateX(80px) scale(0.75);
             }
-            
+
             .mockup-image.phone.visible {
-                transform: translateX(-100px) translateY(25px) scale(0.75);
+                transform: translateX(-110px) translateY(30px) scale(0.85);
             }
         }
 
         @media (max-width: 480px) {
             .images-container {
-                height: 350px;
+                height: 420px;
             }
-            
+
             .mockup-image.computer {
-                max-width: 350px !important;
+                max-width: 380px !important;
             }
-            
+
             .mockup-image.phone {
-                max-width: 160px !important;
+                max-width: 220px !important;
             }
-            
+
             .mockup-image.phone.visible {
-                transform: translateX(-80px) translateY(20px) scale(0.7);
+                transform: translateX(-90px) translateY(25px) scale(0.8);
             }
         }
     </style>

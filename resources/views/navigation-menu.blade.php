@@ -222,17 +222,17 @@
 
         <!-- Navigation -->
         <div class="px-4 py-3 space-y-1">
-            <a href="{{ route('dashboard') }}" 
+            <a href="{{ route('dashboard') }}"
                class="dropdown-item-minimal {{ request()->routeIs('dashboard') ? 'text-white font-medium' : '' }}">
                 Dashboard
             </a>
-            <a href="{{ url('/#producto') }}" class="dropdown-item-minimal">
+            <a href="{{ route('services') }}" class="dropdown-item-minimal {{ request()->routeIs('services') ? 'text-white font-medium' : '' }}">
                 Servicio
             </a>
-            <a href="{{ route('plans') }}" class="dropdown-item-minimal">
+            <a href="{{ route('plans') }}" class="dropdown-item-minimal {{ request()->routeIs('plans') ? 'text-white font-medium' : '' }}">
                 Planes
             </a>
-            <a href="{{ url('/#contacto') }}" class="dropdown-item-minimal">
+            <a href="{{ route('contact') }}" class="dropdown-item-minimal {{ request()->routeIs('contact') ? 'text-white font-medium' : '' }}">
                 Contacto
             </a>
         </div>

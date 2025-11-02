@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\CustomVerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -81,8 +82,18 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hierarchy_level === self::HIERARCHY_ADMIN; 
     }
 
-    public function isRegularUser(): bool 
-    { 
-        return $this->hierarchy_level === self::HIERARCHY_USER; 
+    public function isRegularUser(): bool
+    {
+        return $this->hierarchy_level === self::HIERARCHY_USER;
+    }
+
+    /**
+     * Send the email verification notification.
+     *
+     * @return void
+     */
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new CustomVerifyEmail);
     }
 }

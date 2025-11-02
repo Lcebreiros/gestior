@@ -157,7 +157,7 @@ class SubscriptionService
 
             return [
                 'success' => true,
-                'message' => 'Suscripción activada correctamente',
+                'message' => '¡Te has suscrito correctamente! Bienvenido a Gestior.',
                 'invitation' => $invitation,
             ];
         });

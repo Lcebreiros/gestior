@@ -36,10 +36,16 @@ class EnsureActiveSubscription
             return redirect()->route('verification.notice');
         }
 
-        // Si no ha seleccionado un plan o no está activo, redirigir a planes
-        if (is_null($user->subscription_level) || !$user->is_active) {
-            return redirect()->route('plans')
-                ->with('info', 'Por favor, selecciona un plan e ingresa tu código de invitación');
+        // Si no ha seleccionado un plan, redirigir a selección de plan
+        if (is_null($user->subscription_level)) {
+            return redirect()->route('subscription.plans')
+                ->with('info', 'Por favor, selecciona un plan para continuar');
+        }
+
+        // Si seleccionó plan pero no está activo, redirigir a activación
+        if (!$user->is_active) {
+            return redirect()->route('subscription.activate')
+                ->with('info', 'Por favor, ingresa tu código de invitación para activar tu cuenta');
         }
 
         // Usuario tiene suscripción activa, continuar

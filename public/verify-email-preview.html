@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="es">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Verificar Email - {{ config('app.name', 'Gestior') }}</title>
+    <title>Verificar Email - Gestior</title>
 
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:300,400,500,600,700&display=swap" rel="stylesheet" />
@@ -246,10 +246,30 @@
         .pulse {
             animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
+
+        .demo-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(34, 197, 94, 0.2);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: #86efac;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            z-index: 1000;
+        }
+
+        .demo-toggle:hover {
+            background: rgba(34, 197, 94, 0.3);
+        }
     </style>
 </head>
 <body>
     <div class="bg-gradient"></div>
+
+    <button class="demo-toggle" onclick="toggleSuccess()">Mostrar mensaje de éxito</button>
 
     <div class="container">
         <div class="logo-container">
@@ -270,14 +290,12 @@
                 </div>
             </div>
 
-            @if (session('status') == 'verification-link-sent')
-                <div class="success-message">
-                    <svg fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                    </svg>
-                    <span>¡Listo! Te hemos enviado un nuevo enlace de verificación al correo que proporcionaste.</span>
-                </div>
-            @endif
+            <div class="success-message" id="successMessage" style="display: none;">
+                <svg fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+                <span>¡Listo! Te hemos enviado un nuevo enlace de verificación al correo que proporcionaste.</span>
+            </div>
 
             <div class="message">
                 <p>
@@ -288,30 +306,35 @@
                 </p>
             </div>
 
-            <form method="POST" action="{{ route('verification.send') }}">
-                @csrf
-                <button type="submit" class="button-primary">
-                    Reenviar email de verificación
-                </button>
-            </form>
+            <button type="button" class="button-primary" onclick="toggleSuccess()">
+                Reenviar email de verificación
+            </button>
 
             <div class="links-container">
-                <a href="{{ route('profile.show') }}" class="link">
+                <a href="#" class="link">
                     ← Editar perfil
                 </a>
 
-                <form method="POST" action="{{ route('logout') }}" style="margin: 0;">
-                    @csrf
-                    <button type="submit" class="link" style="background: none; border: none; cursor: pointer;">
-                        Cerrar sesión →
-                    </button>
-                </form>
+                <button type="button" class="link" style="background: none; border: none; cursor: pointer;">
+                    Cerrar sesión →
+                </button>
             </div>
 
             <div class="help-text">
-                ¿Problemas? Revisa tu carpeta de spam o <a href="{{ route('profile.show') }}" class="link">actualiza tu email</a>
+                ¿Problemas? Revisa tu carpeta de spam o <a href="#" class="link">actualiza tu email</a>
             </div>
         </div>
     </div>
+
+    <script>
+        function toggleSuccess() {
+            const successMsg = document.getElementById('successMessage');
+            if (successMsg.style.display === 'none') {
+                successMsg.style.display = 'flex';
+            } else {
+                successMsg.style.display = 'none';
+            }
+        }
+    </script>
 </body>
 </html>

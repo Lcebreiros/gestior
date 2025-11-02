@@ -2,10 +2,12 @@
 
 namespace App\Console\Commands;
 
+use App\Mail\InvitationCodeMail;
 use App\Models\Invitation;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 
@@ -21,7 +23,8 @@ class GenerateInvitationCode extends Command
                             {--level=premium : Nivel de suscripción (basic, premium, enterprise)}
                             {--expires=30 : Días hasta que expire (0 = sin expiración)}
                             {--users= : Máximo de usuarios (solo para company)}
-                            {--notes= : Notas internas}';
+                            {--notes= : Notas internas}
+                            {--email= : Enviar código por email a esta dirección}';
 
     /**
      * The console command description.
@@ -40,6 +43,7 @@ class GenerateInvitationCode extends Command
         $expiresDays = (int) $this->option('expires');
         $maxUsers = $this->option('users');
         $notes = $this->option('notes');
+        $email = $this->option('email');
 
         // Validar tipo
         if (!in_array($type, Invitation::getValidTypes())) {
@@ -129,6 +133,18 @@ class GenerateInvitationCode extends Command
             $this->warn('⚠ IMPORTANTE: Este código solo se mostrará una vez.');
             $this->warn('  Guárdalo en un lugar seguro antes de continuar.');
             $this->newLine();
+
+            // Enviar email si se especificó
+            if ($email) {
+                try {
+                    Mail::to($email)->send(new InvitationCodeMail($code, $invitation, $email));
+                    $this->info("✓ Email enviado exitosamente a: {$email}");
+                    $this->newLine();
+                } catch (\Exception $e) {
+                    $this->error("✗ Error al enviar email: {$e->getMessage()}");
+                    $this->newLine();
+                }
+            }
 
             return 0;
 

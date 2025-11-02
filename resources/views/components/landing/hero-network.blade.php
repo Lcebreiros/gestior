@@ -254,14 +254,40 @@
             .slogan-container p { font-size: 1.125rem; }
             .module-icon svg { width: 42px; height: 42px; }
             .module-label { font-size: 0.8rem; padding: 5px 10px; }
+
+            /* AJUSTAR POSICIONES FINALES - EVITAR OVERFLOW */
+            .node-productos.attracted { top: -30px; left: 50%; transform: translate(-50%, 0); }
+            .node-stock.attracted { top: -35px; right: 15px; }
+            .node-servicios.attracted { top: 15px; right: -20px; }
+            .node-clientes.attracted { bottom: -10px; right: 5px; }
+            .node-gastos.attracted { bottom: -30px; left: 50%; transform: translateX(-50%); }
+            .node-pedidos.attracted { bottom: 10px; left: 5px; }
+            .node-sucursales.attracted { top: 50px; left: -10px; }
+            .node-empleados.attracted { top: -60px; left: 100px; }
+            .node-tablas.attracted { top: 60%; right: -40px; transform: translateY(-50%); }
         }
 
         @media (max-width: 480px) {
-            .intro-logo { height: 400px; max-width: 500px; }
+            .intro-logo { height: 400px; max-width: 100%; padding: 0 1rem; }
+            .slogan-container {
+                padding: 1.25rem 1rem;
+                max-width: 100%;
+            }
             .slogan-container h1 { font-size: 2rem; }
             .slogan-container p { font-size: 1rem; }
-            .module-icon svg { width: 38px; height: 38px; }
-            .module-label { font-size: 0.75rem; }
+            .module-icon svg { width: 36px; height: 36px; }
+            .module-label { font-size: 0.7rem; padding: 4px 8px; }
+
+            /* POSICIONES MÁS COMPACTAS - MANTENER TODO EN PANTALLA */
+            .node-productos.attracted { top: -25px; left: 50%; transform: translate(-50%, 0); }
+            .node-stock.attracted { top: -30px; right: 5px; }
+            .node-servicios.attracted { top: 20px; right: -10px; }
+            .node-clientes.attracted { bottom: -5px; right: 0px; }
+            .node-gastos.attracted { bottom: -25px; left: 50%; transform: translateX(-50%); }
+            .node-pedidos.attracted { bottom: 15px; left: 0px; }
+            .node-sucursales.attracted { top: 55px; left: -5px; }
+            .node-empleados.attracted { top: -50px; left: 80px; }
+            .node-tablas.attracted { top: 60%; right: -25px; transform: translateY(-50%); }
         }
     </style>
 </head>
