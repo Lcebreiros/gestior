@@ -13,9 +13,30 @@
 
             <!-- Content -->
             <div class="bg-gray-900/30 backdrop-blur-sm rounded-2xl p-8 sm:p-12">
-                <div class="space-y-10 text-gray-200 leading-relaxed">
+                <!-- Índice / Table of contents -->
+                <div class="mb-10 rounded-xl border border-white/10 bg-white/5 p-6">
+                    <h2 class="text-xl font-semibold text-white mb-4">Contenido</h2>
+                    <ol class="grid gap-2 sm:grid-cols-2 list-decimal pl-5 marker:text-purple-400">
+                        <li><a class="text-gray-300 hover:text-white transition-colors" href="#introduccion">1. Introducción</a></li>
+                        <li><a class="text-gray-300 hover:text-white transition-colors" href="#informacion">2. Información que Recopilamos</a></li>
+                        <li><a class="text-gray-300 hover:text-white transition-colors" href="#uso">3. Cómo Utilizamos su Información</a></li>
+                        <li><a class="text-gray-300 hover:text-white transition-colors" href="#base-legal">4. Base Legal para el Procesamiento</a></li>
+                        <li><a class="text-gray-300 hover:text-white transition-colors" href="#terceros">5. Compartir Información con Terceros</a></li>
+                        <li><a class="text-gray-300 hover:text-white transition-colors" href="#seguridad">6. Seguridad de los Datos</a></li>
+                        <li><a class="text-gray-300 hover:text-white transition-colors" href="#retencion">7. Retención de Datos</a></li>
+                        <li><a class="text-gray-300 hover:text-white transition-colors" href="#derechos">8. Sus Derechos de Privacidad</a></li>
+                        <li><a class="text-gray-300 hover:text-white transition-colors" href="#cookies">9. Cookies y Tecnologías de Seguimiento</a></li>
+                        <li><a class="text-gray-300 hover:text-white transition-colors" href="#transferencias">10. Transferencias Internacionales de Datos</a></li>
+                        <li><a class="text-gray-300 hover:text-white transition-colors" href="#menores">11. Privacidad de Menores</a></li>
+                        <li><a class="text-gray-300 hover:text-white transition-colors" href="#cambios">12. Cambios a esta Política de Privacidad</a></li>
+                        <li><a class="text-gray-300 hover:text-white transition-colors" href="#contacto">13. Contacto</a></li>
+                        <li><a class="text-gray-300 hover:text-white transition-colors" href="#consentimiento">14. Consentimiento</a></li>
+                    </ol>
+                </div>
+
+                <div class="prose prose-invert max-w-none text-gray-200 leading-relaxed prose-headings:text-white prose-a:text-purple-400 hover:prose-a:text-purple-300 prose-strong:text-white prose-li:marker:text-purple-400 space-y-10">
                     <section>
-                        <h2 class="text-2xl font-bold mb-4 text-white">1. Introducción</h2>
+                        <h2 id="introduccion" class="text-2xl font-bold mb-4 text-white">1. Introducción</h2>
                         <p>
                             En Gestior ("nosotros", "nuestro" o "la Plataforma"), respetamos su privacidad y nos comprometemos
                             a proteger sus datos personales. Esta Política de Privacidad explica cómo recopilamos, usamos,
@@ -28,7 +49,7 @@
                     </section>
 
                     <section>
-                        <h2 class="text-2xl font-bold mb-4 text-white">2. Información que Recopilamos</h2>
+                        <h2 id="informacion" class="text-2xl font-bold mb-4 text-white">2. Información que Recopilamos</h2>
 
                         <h3 class="text-lg font-semibold mt-6 mb-3 text-gray-100">2.1 Información de Cuenta y Perfil</h3>
                         <ul class="list-disc pl-6 space-y-2">
@@ -77,7 +98,7 @@
                     </section>
 
                     <section>
-                        <h2 class="text-2xl font-bold mb-4 text-white">3. Cómo Utilizamos su Información</h2>
+                        <h2 id="uso" class="text-2xl font-bold mb-4 text-white">3. Cómo Utilizamos su Información</h2>
                         <p>Utilizamos la información recopilada para los siguientes propósitos:</p>
 
                         <h3 class="text-lg font-semibold mt-6 mb-3 text-gray-100">3.1 Provisión de Servicios</h3>
@@ -116,7 +137,7 @@
                     </section>
 
                     <section>
-                        <h2 class="text-2xl font-bold mb-4 text-white">4. Base Legal para el Procesamiento</h2>
+                        <h2 id="base-legal" class="text-2xl font-bold mb-4 text-white">4. Base Legal para el Procesamiento</h2>
                         <p>Procesamos sus datos personales bajo las siguientes bases legales:</p>
                         <ul class="list-disc pl-6 space-y-2">
                             <li><strong>Ejecución de contrato:</strong> Para proporcionar los servicios que ha contratado</li>
@@ -127,7 +148,7 @@
                     </section>
 
                     <section>
-                        <h2 class="text-2xl font-bold mb-4 text-white">5. Compartir Información con Terceros</h2>
+                        <h2 id="terceros" class="text-2xl font-bold mb-4 text-white">5. Compartir Información con Terceros</h2>
                         <p>
                             No vendemos ni alquilamos su información personal a terceros. Podemos compartir su información
                             únicamente en las siguientes circunstancias:
@@ -142,7 +163,7 @@
                     </section>
 
                     <section>
-                        <h2 class="text-2xl font-bold mb-4 text-white">6. Seguridad de los Datos</h2>
+                        <h2 id="seguridad" class="text-2xl font-bold mb-4 text-white">6. Seguridad de los Datos</h2>
                         <p>Implementamos medidas de seguridad técnicas y organizativas para proteger sus datos:</p>
                         <ul class="list-disc pl-6 space-y-2">
                             <li><strong>Encriptación:</strong> Las contraseñas se almacenan encriptadas usando algoritmos seguros (bcrypt)</li>
@@ -160,7 +181,7 @@
                     </section>
 
                     <section>
-                        <h2 class="text-2xl font-bold mb-4 text-white">7. Retención de Datos</h2>
+                        <h2 id="retencion" class="text-2xl font-bold mb-4 text-white">7. Retención de Datos</h2>
                         <p>
                             Conservamos sus datos personales durante el tiempo necesario para cumplir con los propósitos
                             descritos en esta política:
@@ -175,7 +196,7 @@
                     </section>
 
                     <section>
-                        <h2 class="text-2xl font-bold mb-4 text-white">8. Sus Derechos de Privacidad</h2>
+                        <h2 id="derechos" class="text-2xl font-bold mb-4 text-white">8. Sus Derechos de Privacidad</h2>
                         <p>Dependiendo de su ubicación, puede tener los siguientes derechos:</p>
                         <ul class="list-disc pl-6 space-y-2">
                             <li><strong>Acceso:</strong> Solicitar una copia de los datos personales que tenemos sobre usted</li>
@@ -193,7 +214,7 @@
                     </section>
 
                     <section>
-                        <h2 class="text-2xl font-bold mb-4 text-white">9. Cookies y Tecnologías de Seguimiento</h2>
+                        <h2 id="cookies" class="text-2xl font-bold mb-4 text-white">9. Cookies y Tecnologías de Seguimiento</h2>
                         <p>
                             Utilizamos cookies y tecnologías similares para mejorar su experiencia en nuestra plataforma:
                         </p>
@@ -210,7 +231,7 @@
                     </section>
 
                     <section>
-                        <h2 class="text-2xl font-bold mb-4 text-white">10. Transferencias Internacionales de Datos</h2>
+                        <h2 id="transferencias" class="text-2xl font-bold mb-4 text-white">10. Transferencias Internacionales de Datos</h2>
                         <p>
                             Sus datos pueden ser transferidos y almacenados en servidores ubicados fuera de su país de residencia.
                             Cuando realicemos transferencias internacionales, implementaremos medidas apropiadas para garantizar
@@ -219,7 +240,7 @@
                     </section>
 
                     <section>
-                        <h2 class="text-2xl font-bold mb-4 text-white">11. Privacidad de Menores</h2>
+                        <h2 id="menores" class="text-2xl font-bold mb-4 text-white">11. Privacidad de Menores</h2>
                         <p>
                             Nuestros servicios están dirigidos a empresas y usuarios profesionales. No recopilamos
                             conscientemente información personal de menores de 18 años. Si descubrimos que hemos recopilado
@@ -229,7 +250,7 @@
                     </section>
 
                     <section>
-                        <h2 class="text-2xl font-bold mb-4 text-white">12. Cambios a esta Política de Privacidad</h2>
+                        <h2 id="cambios" class="text-2xl font-bold mb-4 text-white">12. Cambios a esta Política de Privacidad</h2>
                         <p>
                             Podemos actualizar esta Política de Privacidad ocasionalmente para reflejar cambios en nuestras
                             prácticas o por razones operativas, legales o regulatorias. Cuando realicemos cambios significativos,
@@ -243,7 +264,7 @@
                     </section>
 
                     <section>
-                        <h2 class="text-2xl font-bold mb-4 text-white">13. Contacto</h2>
+                        <h2 id="contacto" class="text-2xl font-bold mb-4 text-white">13. Contacto</h2>
                         <p>
                             Si tiene preguntas, inquietudes o solicitudes relacionadas con esta Política de Privacidad o
                             nuestras prácticas de datos, puede contactarnos:
@@ -266,7 +287,7 @@
                     </section>
 
                     <section>
-                        <h2 class="text-2xl font-bold mb-4 text-white">14. Consentimiento</h2>
+                        <h2 id="consentimiento" class="text-2xl font-bold mb-4 text-white">14. Consentimiento</h2>
                         <p>
                             Al utilizar nuestros servicios, usted reconoce que ha leído y comprendido esta Política de
                             Privacidad y consiente el procesamiento de sus datos personales según lo descrito en este documento.
@@ -277,6 +298,11 @@
                         <p class="text-sm text-gray-500 text-center">
                             Esta Política de Privacidad fue actualizada por última vez el {{ date('d/m/Y') }} y es efectiva a partir de esta fecha.
                         </p>
+                    </div>
+                    <div class="mt-10 text-center">
+                        <a href="#introduccion" class="inline-flex items-center gap-2 px-6 py-2 bg-white/10 hover:bg-white/20 border border-white/10 text-white rounded-lg transition-colors">
+                            Volver al inicio de la política
+                        </a>
                     </div>
                 </div>
             </div>
