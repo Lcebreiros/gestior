@@ -97,7 +97,7 @@
         }
         .code-hint {
             font-size: 13px;
-            color: #6b7280;
+            color: #9ca3af;
             margin-top: 12px;
         }
         .action-button {
@@ -147,7 +147,7 @@
             text-align: center;
             padding: 30px 20px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #6b7280;
+            color: #9ca3af;
             font-size: 13px;
         }
         .footer a {

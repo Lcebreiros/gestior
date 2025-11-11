@@ -12,7 +12,7 @@
             </div>
 
             <!-- Content -->
-            <div class="bg-gray-900/30 backdrop-blur-sm rounded-2xl p-8 sm:p-12">
+            <div class="bg-gray-900/90 backdrop-blur-sm rounded-2xl p-8 sm:p-12">
                 <!-- Índice / Table of contents -->
                 <div class="mb-10 rounded-xl border border-white/10 bg-white/5 p-6">
                     <h2 class="text-xl font-semibold text-white mb-4">Contenido</h2>
@@ -269,7 +269,7 @@
                             Si tiene preguntas, inquietudes o solicitudes relacionadas con esta Política de Privacidad o
                             nuestras prácticas de datos, puede contactarnos:
                         </p>
-                        <div class="bg-gray-800/80 border border-gray-600 p-4 rounded-lg mt-3">
+                        <div class="bg-gray-800 border border-gray-600 p-4 rounded-lg mt-3">
                             <p><strong>Gestior - Plataforma de Gestión Empresarial</strong></p>
                             <p class="mt-2">
                                 <strong>Correo electrónico:</strong>
@@ -295,7 +295,7 @@
                     </section>
 
                     <div class="mt-12 pt-8 border-t border-gray-800">
-                        <p class="text-sm text-gray-500 text-center">
+                        <p class="text-sm text-gray-400 text-center">
                             Esta Política de Privacidad fue actualizada por última vez el {{ date('d/m/Y') }} y es efectiva a partir de esta fecha.
                         </p>
                     </div>
