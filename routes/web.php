@@ -19,6 +19,11 @@ Route::view('/pricing', 'plans')->name('pricing');
 // Página de contacto (pública)
 Route::view('/contacto', 'contact')->name('contact');
 
+// Política de Privacidad (pública)
+Route::view('/privacy-policy', 'privacy-policy')->name('privacy-policy');
+// Alias para Jetstream (usado en formulario de registro)
+Route::view('/policy', 'privacy-policy')->name('policy.show');
+
 // Rutas de suscripción (requiere autenticación y email verificado)
 Route::middleware([
     'auth:sanctum',

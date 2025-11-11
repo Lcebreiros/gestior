@@ -231,6 +231,7 @@
                     <a href="{{ route('services') }}#security" class="footer-link">Seguridad</a>
                     <a href="{{ route('plans') }}" class="footer-link">Precios</a>
                     <a href="{{ route('contact') }}" class="footer-link">Contacto</a>
+                    <a href="{{ route('privacy-policy') }}" class="footer-link">Política de Privacidad</a>
                 </nav>
             </div>
 
