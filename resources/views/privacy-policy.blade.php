@@ -1,20 +1,21 @@
 <x-guest-layout>
-    <div class="min-h-screen bg-black">
-        <div class="max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
-            <div class="bg-gradient-to-br from-gray-900 to-black border border-gray-800 rounded-2xl shadow-2xl overflow-hidden">
-                <div class="px-6 py-8 sm:px-10 sm:py-12 prose prose-invert max-w-none">
-                <div class="text-center mb-12">
-                    <h1 class="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent mb-4">
-                        Política de Privacidad
-                    </h1>
-                    <p class="text-sm text-gray-400">
-                        <strong>Última actualización:</strong> {{ date('d/m/Y') }}
-                    </p>
-                </div>
+    <div class="min-h-screen bg-black py-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Header -->
+            <div class="text-center mb-16">
+                <h1 class="text-4xl sm:text-5xl font-bold text-white mb-3">
+                    Política de Privacidad
+                </h1>
+                <p class="text-gray-400">
+                    Última actualización: {{ date('d/m/Y') }}
+                </p>
+            </div>
 
-                <div class="space-y-8 text-gray-300">
+            <!-- Content -->
+            <div class="bg-gray-900/30 backdrop-blur-sm rounded-2xl p-8 sm:p-12">
+                <div class="space-y-10 text-gray-200 leading-relaxed">
                     <section>
-                        <h2 class="text-2xl font-semibold mb-4 text-purple-400">1. Introducción</h2>
+                        <h2 class="text-2xl font-bold mb-4 text-white">1. Introducción</h2>
                         <p>
                             En Gestior ("nosotros", "nuestro" o "la Plataforma"), respetamos su privacidad y nos comprometemos
                             a proteger sus datos personales. Esta Política de Privacidad explica cómo recopilamos, usamos,
@@ -27,9 +28,9 @@
                     </section>
 
                     <section>
-                        <h2 class="text-2xl font-semibold mb-4 text-purple-400">2. Información que Recopilamos</h2>
+                        <h2 class="text-2xl font-bold mb-4 text-white">2. Información que Recopilamos</h2>
 
-                        <h3 class="text-xl font-semibold mt-6 mb-3 text-purple-300">2.1 Información de Cuenta y Perfil</h3>
+                        <h3 class="text-lg font-semibold mt-6 mb-3 text-gray-100">2.1 Información de Cuenta y Perfil</h3>
                         <ul class="list-disc pl-6 space-y-2">
                             <li><strong>Datos de registro:</strong> Nombre completo, dirección de correo electrónico y contraseña (encriptada)</li>
                             <li><strong>Información de perfil:</strong> Foto de perfil (opcional), configuraciones de usuario</li>
@@ -37,21 +38,21 @@
                             <li><strong>Datos de organización:</strong> Nivel de jerarquía en la organización, relaciones padre-hijo entre usuarios, límites de usuarios y sucursales</li>
                         </ul>
 
-                        <h3 class="text-xl font-semibold mt-6 mb-3 text-purple-300">2.2 Información de Suscripción</h3>
+                        <h3 class="text-lg font-semibold mt-6 mb-3 text-gray-100">2.2 Información de Suscripción</h3>
                         <ul class="list-disc pl-6 space-y-2">
                             <li><strong>Plan de suscripción:</strong> Nivel de suscripción (Básico, Premium, Enterprise)</li>
                             <li><strong>Códigos de invitación:</strong> Códigos de activación utilizados, historial de invitaciones</li>
                             <li><strong>Estado de cuenta:</strong> Estado de activación, límites de funcionalidades según el plan</li>
                         </ul>
 
-                        <h3 class="text-xl font-semibold mt-6 mb-3 text-purple-300">2.3 Datos de Negocio y Clientes</h3>
+                        <h3 class="text-lg font-semibold mt-6 mb-3 text-gray-100">2.3 Datos de Negocio y Clientes</h3>
                         <ul class="list-disc pl-6 space-y-2">
                             <li><strong>Información de clientes:</strong> Nombres, correos electrónicos, números de teléfono, números de documento, direcciones, información de empresas</li>
                             <li><strong>Datos de sucursales:</strong> Nombres de sucursales, ubicaciones, configuraciones</li>
                             <li><strong>Información de empleados:</strong> Datos de empleados asociados a su organización</li>
                         </ul>
 
-                        <h3 class="text-xl font-semibold mt-6 mb-3 text-purple-300">2.4 Datos de Operaciones Comerciales</h3>
+                        <h3 class="text-lg font-semibold mt-6 mb-3 text-gray-100">2.4 Datos de Operaciones Comerciales</h3>
                         <ul class="list-disc pl-6 space-y-2">
                             <li><strong>Órdenes y ventas:</strong> Información de pedidos, números de orden, totales, descuentos, impuestos</li>
                             <li><strong>Inventario:</strong> Productos, insumos, recetas, niveles de stock, ajustes de inventario</li>
@@ -59,7 +60,7 @@
                             <li><strong>Servicios:</strong> Información sobre servicios ofrecidos, precios, insumos asociados</li>
                         </ul>
 
-                        <h3 class="text-xl font-semibold mt-6 mb-3 text-purple-300">2.5 Datos de Uso y Técnicos</h3>
+                        <h3 class="text-lg font-semibold mt-6 mb-3 text-gray-100">2.5 Datos de Uso y Técnicos</h3>
                         <ul class="list-disc pl-6 space-y-2">
                             <li><strong>Información del dispositivo:</strong> Tipo de navegador, sistema operativo, dirección IP</li>
                             <li><strong>Datos de uso:</strong> Páginas visitadas, funciones utilizadas, tiempo de uso</li>
@@ -67,7 +68,7 @@
                             <li><strong>Logs del sistema:</strong> Registros de actividad para seguridad y resolución de problemas</li>
                         </ul>
 
-                        <h3 class="text-xl font-semibold mt-6 mb-3 text-purple-300">2.6 Comunicaciones</h3>
+                        <h3 class="text-lg font-semibold mt-6 mb-3 text-gray-100">2.6 Comunicaciones</h3>
                         <ul class="list-disc pl-6 space-y-2">
                             <li><strong>Correos electrónicos:</strong> Correspondencia con nuestro equipo de soporte</li>
                             <li><strong>Notificaciones:</strong> Configuraciones de notificaciones de stock, alertas del sistema</li>
@@ -76,10 +77,10 @@
                     </section>
 
                     <section>
-                        <h2 class="text-2xl font-semibold mb-4 text-purple-400">3. Cómo Utilizamos su Información</h2>
+                        <h2 class="text-2xl font-bold mb-4 text-white">3. Cómo Utilizamos su Información</h2>
                         <p>Utilizamos la información recopilada para los siguientes propósitos:</p>
 
-                        <h3 class="text-xl font-semibold mt-6 mb-3 text-purple-300">3.1 Provisión de Servicios</h3>
+                        <h3 class="text-lg font-semibold mt-6 mb-3 text-gray-100">3.1 Provisión de Servicios</h3>
                         <ul class="list-disc pl-6 space-y-2">
                             <li>Crear y administrar su cuenta de usuario</li>
                             <li>Procesar y gestionar sus suscripciones</li>
@@ -88,7 +89,7 @@
                             <li>Generar reportes y analíticas de negocio</li>
                         </ul>
 
-                        <h3 class="text-xl font-semibold mt-6 mb-3 text-purple-300">3.2 Comunicación</h3>
+                        <h3 class="text-lg font-semibold mt-6 mb-3 text-gray-100">3.2 Comunicación</h3>
                         <ul class="list-disc pl-6 space-y-2">
                             <li>Enviar correos de verificación de cuenta</li>
                             <li>Notificar sobre cambios en su cuenta o servicios</li>
@@ -97,7 +98,7 @@
                             <li>Enviar actualizaciones importantes sobre el servicio</li>
                         </ul>
 
-                        <h3 class="text-xl font-semibold mt-6 mb-3 text-purple-300">3.3 Seguridad y Prevención de Fraude</h3>
+                        <h3 class="text-lg font-semibold mt-6 mb-3 text-gray-100">3.3 Seguridad y Prevención de Fraude</h3>
                         <ul class="list-disc pl-6 space-y-2">
                             <li>Verificar su identidad y prevenir accesos no autorizados</li>
                             <li>Detectar y prevenir actividades fraudulentas o ilegales</li>
@@ -105,7 +106,7 @@
                             <li>Cumplir con obligaciones legales y regulatorias</li>
                         </ul>
 
-                        <h3 class="text-xl font-semibold mt-6 mb-3 text-purple-300">3.4 Mejora de Servicios</h3>
+                        <h3 class="text-lg font-semibold mt-6 mb-3 text-gray-100">3.4 Mejora de Servicios</h3>
                         <ul class="list-disc pl-6 space-y-2">
                             <li>Analizar el uso de la plataforma para mejorar funcionalidades</li>
                             <li>Desarrollar nuevas características basadas en necesidades de usuarios</li>
@@ -115,7 +116,7 @@
                     </section>
 
                     <section>
-                        <h2 class="text-2xl font-semibold mb-4 text-purple-400">4. Base Legal para el Procesamiento</h2>
+                        <h2 class="text-2xl font-bold mb-4 text-white">4. Base Legal para el Procesamiento</h2>
                         <p>Procesamos sus datos personales bajo las siguientes bases legales:</p>
                         <ul class="list-disc pl-6 space-y-2">
                             <li><strong>Ejecución de contrato:</strong> Para proporcionar los servicios que ha contratado</li>
@@ -126,7 +127,7 @@
                     </section>
 
                     <section>
-                        <h2 class="text-2xl font-semibold mb-4 text-purple-400">5. Compartir Información con Terceros</h2>
+                        <h2 class="text-2xl font-bold mb-4 text-white">5. Compartir Información con Terceros</h2>
                         <p>
                             No vendemos ni alquilamos su información personal a terceros. Podemos compartir su información
                             únicamente en las siguientes circunstancias:
@@ -141,7 +142,7 @@
                     </section>
 
                     <section>
-                        <h2 class="text-2xl font-semibold mb-4 text-purple-400">6. Seguridad de los Datos</h2>
+                        <h2 class="text-2xl font-bold mb-4 text-white">6. Seguridad de los Datos</h2>
                         <p>Implementamos medidas de seguridad técnicas y organizativas para proteger sus datos:</p>
                         <ul class="list-disc pl-6 space-y-2">
                             <li><strong>Encriptación:</strong> Las contraseñas se almacenan encriptadas usando algoritmos seguros (bcrypt)</li>
@@ -159,7 +160,7 @@
                     </section>
 
                     <section>
-                        <h2 class="text-2xl font-semibold mb-4 text-purple-400">7. Retención de Datos</h2>
+                        <h2 class="text-2xl font-bold mb-4 text-white">7. Retención de Datos</h2>
                         <p>
                             Conservamos sus datos personales durante el tiempo necesario para cumplir con los propósitos
                             descritos en esta política:
@@ -174,7 +175,7 @@
                     </section>
 
                     <section>
-                        <h2 class="text-2xl font-semibold mb-4 text-purple-400">8. Sus Derechos de Privacidad</h2>
+                        <h2 class="text-2xl font-bold mb-4 text-white">8. Sus Derechos de Privacidad</h2>
                         <p>Dependiendo de su ubicación, puede tener los siguientes derechos:</p>
                         <ul class="list-disc pl-6 space-y-2">
                             <li><strong>Acceso:</strong> Solicitar una copia de los datos personales que tenemos sobre usted</li>
@@ -192,7 +193,7 @@
                     </section>
 
                     <section>
-                        <h2 class="text-2xl font-semibold mb-4 text-purple-400">9. Cookies y Tecnologías de Seguimiento</h2>
+                        <h2 class="text-2xl font-bold mb-4 text-white">9. Cookies y Tecnologías de Seguimiento</h2>
                         <p>
                             Utilizamos cookies y tecnologías similares para mejorar su experiencia en nuestra plataforma:
                         </p>
@@ -209,7 +210,7 @@
                     </section>
 
                     <section>
-                        <h2 class="text-2xl font-semibold mb-4 text-purple-400">10. Transferencias Internacionales de Datos</h2>
+                        <h2 class="text-2xl font-bold mb-4 text-white">10. Transferencias Internacionales de Datos</h2>
                         <p>
                             Sus datos pueden ser transferidos y almacenados en servidores ubicados fuera de su país de residencia.
                             Cuando realicemos transferencias internacionales, implementaremos medidas apropiadas para garantizar
@@ -218,7 +219,7 @@
                     </section>
 
                     <section>
-                        <h2 class="text-2xl font-semibold mb-4 text-purple-400">11. Privacidad de Menores</h2>
+                        <h2 class="text-2xl font-bold mb-4 text-white">11. Privacidad de Menores</h2>
                         <p>
                             Nuestros servicios están dirigidos a empresas y usuarios profesionales. No recopilamos
                             conscientemente información personal de menores de 18 años. Si descubrimos que hemos recopilado
@@ -228,7 +229,7 @@
                     </section>
 
                     <section>
-                        <h2 class="text-2xl font-semibold mb-4 text-purple-400">12. Cambios a esta Política de Privacidad</h2>
+                        <h2 class="text-2xl font-bold mb-4 text-white">12. Cambios a esta Política de Privacidad</h2>
                         <p>
                             Podemos actualizar esta Política de Privacidad ocasionalmente para reflejar cambios en nuestras
                             prácticas o por razones operativas, legales o regulatorias. Cuando realicemos cambios significativos,
@@ -242,22 +243,22 @@
                     </section>
 
                     <section>
-                        <h2 class="text-2xl font-semibold mb-4 text-purple-400">13. Contacto</h2>
+                        <h2 class="text-2xl font-bold mb-4 text-white">13. Contacto</h2>
                         <p>
                             Si tiene preguntas, inquietudes o solicitudes relacionadas con esta Política de Privacidad o
                             nuestras prácticas de datos, puede contactarnos:
                         </p>
-                        <div class="bg-gray-800/50 border border-gray-700 p-4 rounded-lg mt-3">
+                        <div class="bg-gray-800/80 border border-gray-600 p-4 rounded-lg mt-3">
                             <p><strong>Gestior - Plataforma de Gestión Empresarial</strong></p>
                             <p class="mt-2">
                                 <strong>Correo electrónico:</strong>
-                                <a href="mailto:privacy@gestior.com" class="text-purple-400 hover:underline">
+                                <a href="mailto:privacy@gestior.com" class="text-purple-400 hover:text-purple-300 underline transition-colors">
                                     privacy@gestior.com
                                 </a>
                             </p>
                             <p class="mt-1">
                                 <strong>Soporte:</strong>
-                                <a href="{{ route('contact') }}" class="text-purple-400 hover:underline">
+                                <a href="{{ route('contact') }}" class="text-purple-400 hover:text-purple-300 underline transition-colors">
                                     Formulario de contacto
                                 </a>
                             </p>
@@ -265,25 +266,24 @@
                     </section>
 
                     <section>
-                        <h2 class="text-2xl font-semibold mb-4 text-purple-400">14. Consentimiento</h2>
+                        <h2 class="text-2xl font-bold mb-4 text-white">14. Consentimiento</h2>
                         <p>
                             Al utilizar nuestros servicios, usted reconoce que ha leído y comprendido esta Política de
                             Privacidad y consiente el procesamiento de sus datos personales según lo descrito en este documento.
                         </p>
                     </section>
 
-                    <div class="mt-8 pt-6 border-t border-gray-700">
-                        <p class="text-sm text-gray-400">
-                            Esta Política de Privacidad fue actualizada por última vez el {{ date('d/m/Y') }} y es efectiva
-                            a partir de esta fecha.
+                    <div class="mt-12 pt-8 border-t border-gray-800">
+                        <p class="text-sm text-gray-500 text-center">
+                            Esta Política de Privacidad fue actualizada por última vez el {{ date('d/m/Y') }} y es efectiva a partir de esta fecha.
                         </p>
                     </div>
                 </div>
-                </div>
             </div>
 
-            <div class="mt-8 text-center">
-                <a href="{{ route('home') }}" class="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors duration-200">
+            <!-- Botón de regreso -->
+            <div class="mt-10 text-center">
+                <a href="{{ route('home') }}" class="inline-flex items-center gap-2 px-8 py-3 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition-all duration-200 shadow-lg hover:shadow-xl">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                     </svg>
