@@ -24,6 +24,10 @@ Route::view('/privacy-policy', 'privacy-policy')->name('privacy-policy');
 // Alias para Jetstream (usado en formulario de registro)
 Route::view('/policy', 'privacy-policy')->name('policy.show');
 
+// Solicitudes de prueba gratis (pública)
+Route::post('/trial-request', [App\Http\Controllers\TrialRequestController::class, 'store'])
+    ->name('trial-request.store');
+
 // Rutas de suscripción (requiere autenticación y email verificado)
 Route::middleware([
     'auth:sanctum',

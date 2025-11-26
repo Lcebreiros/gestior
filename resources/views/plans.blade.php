@@ -299,7 +299,9 @@
                 'name' => 'Basic',
                 'tagline' => 'Ideal para empezar',
                 'price' => 'Gratis',
+                'original_price' => null,
                 'period' => '',
+                'trial_mode' => false,
                 'highlighted' => false,
                 'current' => $currentPlan === 'basic',
                 'features' => [
@@ -310,16 +312,18 @@
                     'Acceso web y móvil',
                     'Hasta 100 transacciones/mes'
                 ],
-                'button' => $currentPlan === 'basic' ? 'Plan actual' : ($isLoggedIn ? 'Seleccionar' : 'Comenzar'),
+                'button' => $currentPlan === 'basic' ? 'Plan actual' : 'Solicitar prueba gratis',
                 'button_type' => $currentPlan === 'basic' ? 'disabled' : 'primary',
-                'url' => $isLoggedIn ? '#' : route('register'),
-                'action' => $isLoggedIn ? 'openModal' : null
+                'url' => '#',
+                'action' => 'openTrialModal'
             ],
             'premium' => [
                 'name' => 'Premium',
                 'tagline' => 'Para equipos en crecimiento',
-                'price' => '19',
+                'price' => 'Prueba gratis',
+                'original_price' => '$19',
                 'period' => '/mes',
+                'trial_mode' => true,
                 'highlighted' => true,
                 'current' => $currentPlan === 'premium',
                 'features' => [
@@ -332,16 +336,18 @@
                     'Reportes avanzados',
                     'Hasta 1000 transacciones/mes'
                 ],
-                'button' => $currentPlan === 'premium' ? 'Plan actual' : ($isLoggedIn ? 'Seleccionar' : 'Comenzar'),
+                'button' => $currentPlan === 'premium' ? 'Plan actual' : 'Solicitar prueba gratis',
                 'button_type' => $currentPlan === 'premium' ? 'disabled' : 'highlight',
-                'url' => $isLoggedIn ? '#' : route('register'),
-                'action' => $isLoggedIn ? 'openModal' : null
+                'url' => '#',
+                'action' => 'openTrialModal'
             ],
             'enterprise' => [
                 'name' => 'Enterprise',
                 'tagline' => 'Escala sin límites',
-                'price' => null,
+                'price' => 'Prueba gratis',
+                'original_price' => 'Personalizado',
                 'period' => '',
+                'trial_mode' => true,
                 'highlighted' => false,
                 'current' => $currentPlan === 'enterprise',
                 'features' => [
@@ -355,10 +361,10 @@
                     'Migración de datos',
                     'Entrenamiento incluido'
                 ],
-                'button' => $currentPlan === 'enterprise' ? 'Plan actual' : 'Contactar',
+                'button' => $currentPlan === 'enterprise' ? 'Plan actual' : 'Solicitar prueba gratis',
                 'button_type' => $currentPlan === 'enterprise' ? 'disabled' : 'enterprise',
-                'url' => 'mailto:ventas@gestior.com?subject=Consulta Plan Enterprise',
-                'action' => null // Enterprise no usa modal, va a mailto
+                'url' => '#',
+                'action' => 'openTrialModal'
             ]
         ];
     @endphp
@@ -412,15 +418,28 @@
                                 <p class="text-sm text-gray-500 mb-6">{{ $plan['tagline'] }}</p>
 
                                 <!-- Precio -->
-                                <div class="flex items-baseline gap-1.5">
-                                    @if($plan['price'])
-                                        <span class="text-gray-400 text-lg font-light">USD</span>
-                                        <span class="text-5xl font-extralight text-white tracking-tight">
-                                            {{ $plan['price'] }}
-                                        </span>
-                                        @if($plan['period'])
-                                            <span class="text-gray-500 text-base font-light">{{ $plan['period'] }}</span>
-                                        @endif
+                                <div>
+                                    @if($plan['trial_mode'] && $plan['original_price'])
+                                        <!-- Precio original tachado -->
+                                        <div class="flex items-baseline gap-1.5 mb-2">
+                                            <span class="text-gray-600 text-sm font-light line-through">{{ $plan['original_price'] }}{{ $plan['period'] }}</span>
+                                        </div>
+                                        <!-- Prueba gratis -->
+                                        <div class="flex items-baseline gap-1.5">
+                                            <span class="text-4xl font-medium text-green-500 tracking-tight">
+                                                Prueba gratis
+                                            </span>
+                                        </div>
+                                    @elseif($plan['price'])
+                                        <div class="flex items-baseline gap-1.5">
+                                            <span class="text-gray-400 text-lg font-light">USD</span>
+                                            <span class="text-5xl font-extralight text-white tracking-tight">
+                                                {{ $plan['price'] }}
+                                            </span>
+                                            @if($plan['period'])
+                                                <span class="text-gray-500 text-base font-light">{{ $plan['period'] }}</span>
+                                            @endif
+                                        </div>
                                     @else
                                         <span class="text-4xl font-light text-white">Personalizado</span>
                                     @endif
@@ -447,6 +466,12 @@
                             <div class="p-8 pt-0">
                                 @if($plan['button_type'] === 'disabled')
                                     <button class="btn-plan btn-plan--disabled w-full" disabled>
+                                        {{ $plan['button'] }}
+                                    </button>
+                                @elseif($plan['action'] === 'openTrialModal')
+                                    <button
+                                        onclick="openTrialModal('{{ $planKey }}')"
+                                        class="btn-plan w-full {{ $plan['button_type'] === 'highlight' ? 'btn-plan--highlight' : '' }}">
                                         {{ $plan['button'] }}
                                     </button>
                                 @elseif($plan['action'] === 'openModal')
@@ -607,6 +632,101 @@
                         </svg>
                         <span class="text-sm text-gray-500">
                             ¿No tienes un código? Contacta con el administrador
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de solicitud de prueba gratis -->
+    <div id="trialModal" class="modal-overlay" style="display: none;">
+        <div class="modal-container">
+            <div class="modal-content">
+                <!-- Header -->
+                <div class="modal-header">
+                    <div class="flex items-center gap-3">
+                        <div class="modal-icon" style="background: rgba(16, 185, 129, 0.1);">
+                            <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="modal-title">Solicitar prueba gratis</h3>
+                            <p class="modal-subtitle">Plan <span id="trialModalPlanName"></span></p>
+                        </div>
+                    </div>
+                    <button onclick="closeTrialModal()" class="modal-close">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Body -->
+                <div class="modal-body">
+                    @if(session('success'))
+                        <div class="mb-4 p-3 rounded-lg bg-green-500/10 border border-green-500/20 text-green-400 text-sm">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    <form id="trialForm" method="POST" action="{{ route('trial-request.store') }}">
+                        @csrf
+                        <input type="hidden" name="plan" id="trialModalPlanInput" value="">
+
+                        <div class="form-group-modal">
+                            <label for="trial_name" class="form-label-modal">
+                                Nombre completo
+                            </label>
+                            <input
+                                type="text"
+                                id="trial_name"
+                                name="name"
+                                class="form-input-modal"
+                                placeholder="Tu nombre y apellido"
+                                required
+                                value="{{ old('name') }}"
+                            >
+                        </div>
+
+                        <div class="form-group-modal">
+                            <label for="trial_email" class="form-label-modal">
+                                Email
+                            </label>
+                            <input
+                                type="email"
+                                id="trial_email"
+                                name="email"
+                                class="form-input-modal"
+                                placeholder="tu@email.com"
+                                required
+                                value="{{ old('email') }}"
+                            >
+                            <p class="form-help-modal">
+                                Te enviaremos las instrucciones a este email
+                            </p>
+                            @error('email')
+                                <div class="modal-error" style="display: block;">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="modal-actions">
+                            <button type="button" onclick="closeTrialModal()" class="btn-modal-secondary">
+                                Cancelar
+                            </button>
+                            <button type="submit" class="btn-modal-primary">
+                                Enviar solicitud
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="modal-footer-info">
+                        <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                        </svg>
+                        <span class="text-sm text-gray-400">
+                            Tu solicitud será revisada y te contactaremos pronto
                         </span>
                     </div>
                 </div>
@@ -862,10 +982,36 @@
             setTimeout(() => modal.style.display = 'none', 300);
         }
 
+        // Funciones del modal de prueba gratis
+        function openTrialModal(plan) {
+            const modal = document.getElementById('trialModal');
+            const planNameEl = document.getElementById('trialModalPlanName');
+            const planInput = document.getElementById('trialModalPlanInput');
+            const nameInput = document.getElementById('trial_name');
+
+            // Establecer plan
+            planNameEl.textContent = planNames[plan] || plan;
+            planInput.value = plan;
+
+            // Mostrar modal con animación
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('show'), 10);
+
+            // Focus en el input
+            setTimeout(() => nameInput.focus(), 300);
+        }
+
+        function closeTrialModal() {
+            const modal = document.getElementById('trialModal');
+            modal.classList.remove('show');
+            setTimeout(() => modal.style.display = 'none', 300);
+        }
+
         // Cerrar con ESC
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closeInvitationModal();
+                closeTrialModal();
             }
         });
 
@@ -873,6 +1019,12 @@
         document.getElementById('invitationModal')?.addEventListener('click', function(e) {
             if (e.target === this) {
                 closeInvitationModal();
+            }
+        });
+
+        document.getElementById('trialModal')?.addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeTrialModal();
             }
         });
 
