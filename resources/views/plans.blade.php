@@ -312,10 +312,10 @@
                     'Acceso web y móvil',
                     'Hasta 100 transacciones/mes'
                 ],
-                'button' => $currentPlan === 'basic' ? 'Plan actual' : 'Solicitar prueba gratis',
+                'button' => $currentPlan === 'basic' ? 'Plan actual' : 'Comenzar',
                 'button_type' => $currentPlan === 'basic' ? 'disabled' : 'primary',
-                'url' => '#',
-                'action' => 'openTrialModal'
+                'url' => route('register.wizard', ['plan' => 'basic']),
+                'action' => 'redirect'
             ],
             'premium' => [
                 'name' => 'Premium',
@@ -331,15 +331,16 @@
                     'Hasta 5 organizaciones',
                     'Usuarios ilimitados',
                     'Múltiples sucursales',
+                    'Acceso a la API',
                     'Integraciones API',
                     'Soporte prioritario 24/7',
                     'Reportes avanzados',
                     'Hasta 1000 transacciones/mes'
                 ],
-                'button' => $currentPlan === 'premium' ? 'Plan actual' : 'Solicitar prueba gratis',
+                'button' => $currentPlan === 'premium' ? 'Plan actual' : 'Comenzar',
                 'button_type' => $currentPlan === 'premium' ? 'disabled' : 'highlight',
-                'url' => '#',
-                'action' => 'openTrialModal'
+                'url' => route('register.wizard', ['plan' => 'premium']),
+                'action' => 'redirect'
             ],
             'enterprise' => [
                 'name' => 'Enterprise',
@@ -361,10 +362,10 @@
                     'Migración de datos',
                     'Entrenamiento incluido'
                 ],
-                'button' => $currentPlan === 'enterprise' ? 'Plan actual' : 'Solicitar prueba gratis',
+                'button' => $currentPlan === 'enterprise' ? 'Plan actual' : 'Comenzar',
                 'button_type' => $currentPlan === 'enterprise' ? 'disabled' : 'enterprise',
-                'url' => '#',
-                'action' => 'openTrialModal'
+                'url' => route('register.wizard', ['plan' => 'enterprise']),
+                'action' => 'redirect'
             ]
         ];
     @endphp

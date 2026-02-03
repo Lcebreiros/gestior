@@ -28,6 +28,12 @@ Route::view('/policy', 'privacy-policy')->name('policy.show');
 Route::post('/trial-request', [App\Http\Controllers\TrialRequestController::class, 'store'])
     ->name('trial-request.store');
 
+// Registro por pasos (pública)
+Route::get('/register-wizard', [App\Http\Controllers\Auth\PlanRegisterController::class, 'showWizard'])
+    ->name('register.wizard');
+Route::post('/register-wizard/store', [App\Http\Controllers\Auth\PlanRegisterController::class, 'storeWizard'])
+    ->name('register.wizard.store');
+
 // Rutas de suscripción (requiere autenticación y email verificado)
 Route::middleware([
     'auth:sanctum',

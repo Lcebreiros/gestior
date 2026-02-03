@@ -39,7 +39,7 @@
 
             <div class="flex items-center gap-3">
                 <a href="{{ route('login') }}" class="px-3 py-1.5 rounded-lg text-sm text-white/80 hover:text-white transition-colors">Iniciar sesión</a>
-                <a href="{{ route('register') }}" class="btn-comienza">Comienza hoy</a>
+                <a href="{{ route('register.wizard') }}" class="btn-comienza">Comienza hoy</a>
             </div>
         </div>
     </div>

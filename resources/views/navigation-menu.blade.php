@@ -321,11 +321,11 @@
 
             <!-- Right Side -->
             <div class="hidden md:flex items-center gap-3">
-                <a href="{{ route('login') }}" 
+                <a href="{{ route('login') }}"
                    class="px-4 py-2 text-sm text-white/70 hover:text-white transition-colors">
                     Iniciar sesión
                 </a>
-                <a href="{{ route('register') }}" class="btn-panel">
+                <a href="{{ route('register.wizard') }}" class="btn-panel">
                     Comienza hoy
                 </a>
             </div>
@@ -333,7 +333,7 @@
             <!-- Mobile -->
             <div class="md:hidden flex items-center gap-3">
                 <a href="{{ route('login') }}" class="text-sm text-white/70">Entrar</a>
-                <a href="{{ route('register') }}" class="btn-panel text-xs px-3 py-1.5">Registrarse</a>
+                <a href="{{ route('register.wizard') }}" class="btn-panel text-xs px-3 py-1.5">Registrarse</a>
             </div>
         </div>
     </div>

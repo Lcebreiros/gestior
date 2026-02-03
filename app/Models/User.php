@@ -41,6 +41,12 @@ class User extends Authenticatable implements MustVerifyEmail
         'user_limit',
         'representable_id',
         'representable_type',
+        'google_access_token',
+        'google_refresh_token',
+        'google_token_expires_at',
+        'google_calendar_id',
+        'google_email',
+        'google_calendar_sync_enabled',
     ];
 
     protected $hidden = [
@@ -48,6 +54,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
         'two_factor_recovery_codes',
         'two_factor_secret',
+        'google_access_token',
+        'google_refresh_token',
     ];
 
     protected $appends = [
@@ -63,6 +71,8 @@ class User extends Authenticatable implements MustVerifyEmail
             'hierarchy_level' => 'integer',
             'user_limit' => 'integer',
             'branch_limit' => 'integer',
+            'google_token_expires_at' => 'datetime',
+            'google_calendar_sync_enabled' => 'boolean',
         ];
     }
 

@@ -52,6 +52,7 @@
             justify-content: center;
             perspective: 1200px;
             perspective-origin: 50% 30%;
+            overflow: visible;
         }
 
         .screenshot-container::before {
@@ -101,6 +102,7 @@
             flex-direction: column;
             transform-style: preserve-3d;
             transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            max-height: 90vh;
         }
 
         /* ESTADOS INICIALES */
@@ -282,6 +284,11 @@
 
         /* Responsive */
         @media (max-width: 1024px) {
+            .screenshots-section {
+                margin-top: 0;
+                padding: 5rem 0 10rem 0;
+            }
+
             .screenshots-content {
                 flex-direction: column;
                 gap: 3rem;
@@ -302,14 +309,19 @@
             }
 
             .screenshot-container {
-                height: 500px;
+                height: 640px;
                 perspective: 1000px;
                 width: 100%;
-                padding: 0 1rem;
+                padding: 2rem 1rem 0;
+                overflow: visible;
             }
 
             .screenshot {
-                width: min(550px, 90vw);
+                width: min(600px, 92vw);
+            }
+
+            .s1, .s2, .s3 {
+                top: 70%;
             }
 
             /* Ajustar posiciones para móvil */
@@ -376,16 +388,21 @@
 
         @media (max-width: 640px) {
             .screenshots-section {
-                padding: 3rem 0 6rem 0;
+                padding: 5rem 0 12rem 0;
+                overflow: visible;
             }
 
             .screenshot-container {
-                height: 400px;
-                padding: 0 0.5rem;
+                height: 720px;
+                padding: 3rem 0.5rem 0;
             }
 
             .screenshot {
-                width: min(400px, 95vw);
+                width: min(380px, 94vw);
+            }
+
+            .s1, .s2, .s3 {
+                top: 86%;
             }
 
             .screenshots-text h2 {
@@ -400,8 +417,8 @@
             .screenshots-section.visible .s1 {
                 transform:
                     translate(-50%, -50%)
-                    translateX(120px)
-                    translateZ(-80px)
+                    translateX(110px)
+                    translateZ(-70px)
                     rotateX(10deg)
                     rotateY(-18deg)
                     scale(0.6);
@@ -433,10 +450,10 @@
         <!-- Texto -->
         <div class="screenshots-text">
             <h2>
-                Interfaz simple y facil.
+                Hacé Gestior tuyo.
             </h2>
             <p>
-                Diseñada para la velocidad. Cada pantalla optimizada para que tu equipo trabaje sin fricciones.
+                Una experiencia tan única como tu marca.
             </p>
         </div>
 

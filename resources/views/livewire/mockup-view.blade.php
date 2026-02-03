@@ -260,22 +260,24 @@
                 height: 480px;
             }
 
+            /* Movida a la derecha en mobile (tablet) */
             .mockup-image.computer {
                 max-width: 480px !important;
-                transform: translateX(-60px) scale(0.85);
+                transform: translateX(-20px) scale(0.9);
             }
 
             .mockup-image.computer.visible {
-                transform: translateX(10px) scale(1);
+                transform: translateX(100px) scale(1.05);
             }
 
+            /* Ajusta estos valores para mover el telefono en mobile (tablet) */
             .mockup-image.phone {
-                max-width: 260px !important;
-                transform: translateX(80px) scale(0.75);
+                max-width: 320px !important;
+                transform: translateX(60px) translateY(10px) scale(0.85);
             }
 
             .mockup-image.phone.visible {
-                transform: translateX(-110px) translateY(30px) scale(0.85);
+                transform: translateX(-100px) translateY(55px) scale(0.98);
             }
         }
 
@@ -284,16 +286,19 @@
                 height: 420px;
             }
 
+            /* Movida a la derecha en mobile chico */
             .mockup-image.computer {
                 max-width: 380px !important;
+                transform: translateX(20px) scale(0.92);
             }
 
+            /* Ajusta estos valores para mover el telefono en mobile chico */
             .mockup-image.phone {
-                max-width: 220px !important;
+                max-width: 280px !important;
             }
 
             .mockup-image.phone.visible {
-                transform: translateX(-90px) translateY(25px) scale(0.8);
+                transform: translateX(-80px) translateY(50px) scale(0.95);
             }
         }
     </style>

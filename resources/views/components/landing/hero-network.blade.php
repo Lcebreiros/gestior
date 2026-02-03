@@ -176,17 +176,25 @@
         .node-sucursales { top: 60px; left: -150px; }
         .node-empleados { top: -140px; left: -140px; }
         .node-tablas { top: 50%; right: -170px; transform: translateY(-50%); }
+        .node-estacionamientos { top: 55%; left: -180px; transform: translateY(-50%); }
+        .node-pagos { top: 30%; right: -200px; transform: translateY(-50%); }
+        .node-facturacion { top: -200px; right: 130px; }
+        .node-agenda { bottom: -180px; left: 140px; }
 
         /* POSICIONES FINALES - MUY CERCA */
-        .node-productos.attracted { top: -35px; left: 50%; transform: translate(-50%, 0); opacity: 1; }
-        .node-stock.attracted { top: -45px; right: 45px; opacity: 1; }
-        .node-servicios.attracted { top: 10px; right: -60px; opacity: 1; }
-        .node-clientes.attracted { bottom: -15px; right: -10px; opacity: 1; }
+        .node-productos.attracted { top: -65px; left: 40%; transform: translate(-50%, 0); opacity: 1; }
+        .node-stock.attracted { top: -35px; right: 160px; opacity: 1; }
+        .node-servicios.attracted { top: 10px; right: -5px; opacity: 1; }
+        .node-clientes.attracted { bottom: -15px; right: 140px; opacity: 1; }
         .node-gastos.attracted { bottom: -35px; left: 50%; transform: translateX(-50%); opacity: 1; }
-        .node-pedidos.attracted { bottom: 5px; left: -5px; opacity: 1; }
+        .node-pedidos.attracted { bottom: 10px; left: 10px; opacity: 1; }
         .node-sucursales.attracted { top: 45px; left: -10px; opacity: 1; }
-        .node-empleados.attracted { top: -75px; left: 120px; opacity: 1; }
-        .node-tablas.attracted { top: 60%; right: -90px; transform: translateY(-50%); opacity: 1; }
+        .node-empleados.attracted { top: -60px; left: 120px; opacity: 1; }
+        .node-tablas.attracted { top: 75%; right: -20px; transform: translateY(-50%); opacity: 1; }
+        .node-estacionamientos.attracted { top: 55%; left: -90px; transform: translateY(-50%); opacity: 1; }
+        .node-pagos.attracted { top: 45%; right: -85px; transform: translateY(-50%); opacity: 1; }
+        .node-facturacion.attracted { top: -65px; right: 320px; opacity: 1; }
+        .node-agenda.attracted { bottom: -25px; left: 200px; opacity: 1; }
 
         /* ANIMACIÓN DE SALIDA */
         .hero-intro-section.exit .slogan-container h1,
@@ -204,6 +212,10 @@
         .hero-intro-section.exit .node-sucursales.attracted { top: 60px; left: -150px; opacity: 0; }
         .hero-intro-section.exit .node-empleados.attracted { top: -140px; left: -140px; opacity: 0; }
         .hero-intro-section.exit .node-tablas.attracted { top: 50%; right: -170px; opacity: 0; }
+        .hero-intro-section.exit .node-estacionamientos.attracted { top: 55%; left: -180px; transform: translateY(-50%); opacity: 0; }
+        .hero-intro-section.exit .node-pagos.attracted { top: 30%; right: -200px; transform: translateY(-50%); opacity: 0; }
+        .hero-intro-section.exit .node-facturacion.attracted { top: -200px; right: 130px; opacity: 0; }
+        .hero-intro-section.exit .node-agenda.attracted { bottom: -180px; left: 140px; opacity: 0; }
 
         /* Efectos hover */
         .module-icon:hover svg {
@@ -256,15 +268,19 @@
             .module-label { font-size: 0.8rem; padding: 5px 10px; }
 
             /* AJUSTAR POSICIONES FINALES - EVITAR OVERFLOW */
-            .node-productos.attracted { top: -30px; left: 50%; transform: translate(-50%, 0); }
-            .node-stock.attracted { top: -35px; right: 15px; }
-            .node-servicios.attracted { top: 15px; right: -20px; }
-            .node-clientes.attracted { bottom: -10px; right: 5px; }
-            .node-gastos.attracted { bottom: -30px; left: 50%; transform: translateX(-50%); }
+            .node-productos.attracted { top: -30px; left: 45%; transform: translate(-50%, 0); }
+            .node-stock.attracted { top: auto; bottom: -30px; right: 110px; }
+            .node-servicios.attracted { top: 30px; right: -5px; }
+            .node-clientes.attracted { top: 35%; right: -15px; transform: translateY(-50%); }
+            .node-gastos.attracted { top: 58%; left: -20px; transform: translateY(-50%); }
             .node-pedidos.attracted { bottom: 10px; left: 5px; }
             .node-sucursales.attracted { top: 50px; left: -10px; }
-            .node-empleados.attracted { top: -60px; left: 100px; }
-            .node-tablas.attracted { top: 60%; right: -40px; transform: translateY(-50%); }
+            .node-empleados.attracted { top: -60px; left: 60px; }
+            .node-tablas.attracted { top: 65%; right: -20px; transform: translateY(-50%); }
+            .node-estacionamientos.attracted { bottom: -30px; left: 50%; transform: translateX(-50%); }
+            .node-pagos.attracted { bottom: -80px; right: 10px; transform: none; }
+            .node-facturacion.attracted { top: 5px; right: 80px; }
+            .node-agenda.attracted { bottom: -5px; left: 90px; }
         }
 
         @media (max-width: 480px) {
@@ -280,14 +296,18 @@
 
             /* POSICIONES MÁS COMPACTAS - MANTENER TODO EN PANTALLA */
             .node-productos.attracted { top: -25px; left: 50%; transform: translate(-50%, 0); }
-            .node-stock.attracted { top: -30px; right: 5px; }
-            .node-servicios.attracted { top: 20px; right: -10px; }
-            .node-clientes.attracted { bottom: -5px; right: 0px; }
-            .node-gastos.attracted { bottom: -25px; left: 50%; transform: translateX(-50%); }
+            .node-stock.attracted { top: auto; bottom: -5px; right: 55px; }
+            .node-servicios.attracted { top: 45px; right: -10px; }
+            .node-clientes.attracted { top: 46%; right: 0px; transform: translateY(-50%); }
+            .node-gastos.attracted { top: 60%; left: -15px; transform: translateY(-50%); }
             .node-pedidos.attracted { bottom: 15px; left: 0px; }
             .node-sucursales.attracted { top: 55px; left: -5px; }
             .node-empleados.attracted { top: -50px; left: 80px; }
-            .node-tablas.attracted { top: 60%; right: -25px; transform: translateY(-50%); }
+            .node-tablas.attracted { top: 65%; right: -10px; transform: translateY(-50%); }
+            .node-estacionamientos.attracted { bottom: -25px; left: 50%; transform: translateX(-50%); }
+            .node-pagos.attracted { bottom: -5px; right: 25px; transform: none; }
+            .node-facturacion.attracted { top: 15px; right: 25px; }
+            .node-agenda.attracted { bottom: 30px; left: 60px; }
         }
     </style>
 </head>
@@ -399,6 +419,50 @@
                         <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
                     </svg>
                     <span class="module-label">Tablas</span>
+                </div>
+
+                <!-- ESTACIONAMIENTOS -->
+                <div class="module-icon node-estacionamientos" data-module="estacionamientos">
+                    <svg viewBox="0 0 24 24">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <path d="M9 7h4a3 3 0 0 1 0 6H9z"/>
+                        <line x1="9" y1="13" x2="9" y2="17"/>
+                    </svg>
+                    <span class="module-label">Estacionamientos</span>
+                </div>
+
+                <!-- MEDIOS DE PAGO -->
+                <div class="module-icon node-pagos" data-module="pagos">
+                    <svg viewBox="0 0 24 24">
+                        <rect x="2" y="5" width="20" height="14" rx="2" ry="2"/>
+                        <line x1="2" y1="10" x2="22" y2="10"/>
+                        <line x1="8" y1="15" x2="11" y2="15"/>
+                        <line x1="14" y1="15" x2="16" y2="15"/>
+                    </svg>
+                    <span class="module-label">Medios de pago</span>
+                </div>
+
+                <!-- FACTURACIÓN -->
+                <div class="module-icon node-facturacion" data-module="facturacion">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M21 15V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v16l3-2 3 2 3-2 3 2 3-2 3 2V15"/>
+                        <line x1="8" y1="10" x2="16" y2="10"/>
+                        <line x1="8" y1="14" x2="16" y2="14"/>
+                    </svg>
+                    <span class="module-label">Facturación</span>
+                </div>
+
+                <!-- AGENDA -->
+                <div class="module-icon node-agenda" data-module="agenda">
+                    <svg viewBox="0 0 24 24">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                        <line x1="16" y1="2" x2="16" y2="6"/>
+                        <line x1="8" y1="2" x2="8" y2="6"/>
+                        <line x1="3" y1="10" x2="21" y2="10"/>
+                        <path d="M9 16h6"/>
+                        <path d="M9 13h3"/>
+                    </svg>
+                    <span class="module-label">Agenda</span>
                 </div>
             </div>
 
