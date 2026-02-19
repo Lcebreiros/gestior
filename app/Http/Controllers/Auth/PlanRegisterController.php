@@ -146,8 +146,8 @@ class PlanRegisterController extends Controller
             'email' => $request->email,
             'plan' => $request->plan,
             'business_type' => $request->business_type,
-            'password' => \Illuminate\Support\Facades\Hash::make($request->password),
             'status' => 'pending',
+            'user_id' => $user->id,
         ]);
 
         // Autenticar al usuario automáticamente
