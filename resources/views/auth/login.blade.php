@@ -267,18 +267,57 @@
             }
 
             /* ERRORES Y ESTADOS */
-            .validation-errors {
-                background: rgba(239, 68, 68, 0.1);
-                border: 1px solid rgba(239, 68, 68, 0.2);
+            .error-banner {
+                display: flex;
+                align-items: flex-start;
+                gap: 0.75rem;
+                background: rgba(239, 68, 68, 0.08);
+                border: 1px solid rgba(239, 68, 68, 0.3);
                 border-radius: 0.75rem;
-                padding: 1rem;
+                padding: 0.875rem 1rem;
                 margin-bottom: 1.5rem;
+                animation: shakeX 0.4s ease;
             }
 
-            .validation-errors ul {
-                list-style: none;
+            @keyframes shakeX {
+                0%, 100% { transform: translateX(0); }
+                20%       { transform: translateX(-6px); }
+                40%       { transform: translateX(6px); }
+                60%       { transform: translateX(-4px); }
+                80%       { transform: translateX(4px); }
+            }
+
+            .error-banner-icon {
+                flex-shrink: 0;
+                width: 1.125rem;
+                height: 1.125rem;
+                color: #f87171;
+                margin-top: 1px;
+            }
+
+            .error-banner-text {
                 color: #fca5a5;
                 font-size: 0.875rem;
+                line-height: 1.5;
+            }
+
+            .field-error {
+                display: flex;
+                align-items: center;
+                gap: 0.375rem;
+                color: #f87171;
+                font-size: 0.75rem;
+                margin-top: 0.375rem;
+            }
+
+            .form-input.input-error {
+                border-color: rgba(239, 68, 68, 0.5);
+                box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.08);
+            }
+
+            .form-input.input-error:focus {
+                border-color: rgba(239, 68, 68, 0.6);
+                box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
             }
 
             .status-message {
@@ -366,18 +405,40 @@
                     <p class="login-subtitle">Accede a tu cuenta para continuar</p>
                 </div>
 
-                <!-- Errores de validación -->
-                @if ($errors->any())
-                    <div class="validation-errors">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
+                <!-- Banner de error de credenciales -->
+                @if ($errors->has('email'))
+                    @php
+                        $msg = $errors->first('email');
+                        // Normalizar mensajes de Fortify/Laravel a español
+                        $esMsg = match(true) {
+                            str_contains($msg, 'credentials') || str_contains($msg, 'match') =>
+                                'El email o la contraseña son incorrectos. Verificá tus datos e intentá de nuevo.',
+                            str_contains($msg, 'password') =>
+                                'La contraseña ingresada es incorrecta.',
+                            str_contains($msg, 'Too many') || str_contains($msg, 'throttle') =>
+                                'Demasiados intentos fallidos. Esperá unos segundos antes de intentar de nuevo.',
+                            default => $msg,
+                        };
+                    @endphp
+                    <div class="error-banner">
+                        <svg class="error-banner-icon" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                        </svg>
+                        <span class="error-banner-text">{{ $esMsg }}</span>
                     </div>
                 @endif
 
-                <!-- Mensaje de estado -->
+                <!-- Otros errores de validación (ej: campos requeridos) -->
+                @if ($errors->any() && !$errors->has('email'))
+                    <div class="error-banner">
+                        <svg class="error-banner-icon" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                        </svg>
+                        <span class="error-banner-text">Revisá los campos marcados antes de continuar.</span>
+                    </div>
+                @endif
+
+                <!-- Mensaje de estado (ej: logout, reset password) -->
                 @if (session('status'))
                     <div class="status-message">
                         {{ session('status') }}
@@ -391,14 +452,14 @@
                     <!-- Email -->
                     <div class="form-group">
                         <label for="email" class="form-label">Email</label>
-                        <input 
-                            id="email" 
-                            class="form-input" 
-                            type="email" 
-                            name="email" 
-                            value="{{ old('email') }}" 
-                            required 
-                            autofocus 
+                        <input
+                            id="email"
+                            class="form-input {{ $errors->has('email') ? 'input-error' : '' }}"
+                            type="email"
+                            name="email"
+                            value="{{ old('email') }}"
+                            required
+                            autofocus
                             autocomplete="username"
                             placeholder="tu@email.com"
                         />
@@ -407,15 +468,31 @@
                     <!-- Contraseña -->
                     <div class="form-group">
                         <label for="password" class="form-label">Contraseña</label>
-                        <input 
-                            id="password" 
-                            class="form-input" 
-                            type="password" 
-                            name="password" 
-                            required 
-                            autocomplete="current-password"
-                            placeholder="••••••••"
-                        />
+                        <div style="position:relative;">
+                            <input
+                                id="password"
+                                class="form-input {{ $errors->has('email') ? 'input-error' : '' }}"
+                                type="password"
+                                name="password"
+                                required
+                                autocomplete="current-password"
+                                placeholder="••••••••"
+                                style="padding-right: 2.75rem;"
+                            />
+                            <!-- Toggle mostrar/ocultar contraseña -->
+                            <button type="button" id="togglePassword"
+                                    style="position:absolute; right:0.75rem; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; color:#9ca3af; padding:0; line-height:0;"
+                                    aria-label="Mostrar contraseña">
+                                <svg id="eyeIcon" style="width:1.1rem;height:1.1rem;" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                                    <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+                                </svg>
+                                <svg id="eyeOffIcon" style="display:none;width:1.1rem;height:1.1rem;" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M3.707 2.293a1 1 0 00-1.414 1.414l14 14a1 1 0 001.414-1.414l-1.473-1.473A10.014 10.014 0 0019.542 10C18.268 5.943 14.478 3 10 3a9.958 9.958 0 00-4.512 1.074l-1.78-1.781zm4.261 4.26l1.514 1.515a2.003 2.003 0 012.45 2.449l1.514 1.515a4 4 0 00-5.478-5.478z" clip-rule="evenodd"/>
+                                    <path d="M12.454 16.697L9.75 13.992a4 4 0 01-3.742-3.741L2.335 6.578A9.98 9.98 0 00.458 10c1.274 4.057 5.064 7 9.542 7 .847 0 1.669-.105 2.454-.303z"/>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
 
                     <!-- Recordarme y olvidé contraseña -->
@@ -483,6 +560,21 @@
                         e.preventDefault();
                         checkbox.checked = !checkbox.checked;
                         customCheckbox.classList.toggle('checked', checkbox.checked);
+                    });
+                }
+
+                // Toggle mostrar/ocultar contraseña
+                const toggleBtn = document.getElementById('togglePassword');
+                const pwdInput  = document.getElementById('password');
+                const eyeIcon   = document.getElementById('eyeIcon');
+                const eyeOff    = document.getElementById('eyeOffIcon');
+                if (toggleBtn && pwdInput) {
+                    toggleBtn.addEventListener('click', function() {
+                        const show = pwdInput.type === 'password';
+                        pwdInput.type = show ? 'text' : 'password';
+                        eyeIcon.style.display = show ? 'none' : '';
+                        eyeOff.style.display  = show ? ''     : 'none';
+                        toggleBtn.setAttribute('aria-label', show ? 'Ocultar contraseña' : 'Mostrar contraseña');
                     });
                 }
             });
