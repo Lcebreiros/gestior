@@ -13,6 +13,11 @@ class TrialRequest extends Model
         'business_type',
         'password',
         'status',
+        'user_id',
+        'notes',
+        'approved_by',
+        'approved_at',
+        'rejected_at',
     ];
 
     protected $casts = [
