@@ -14,3 +14,6 @@ Schedule::command('calendar:mark-overdue')->hourly();
 
 // Schedule stock checks
 Schedule::command('stock:check-low')->everyThreeHours();
+
+// Schedule insights generation (twice daily: 8am and 6pm)
+Schedule::command('insights:generate-all')->twiceDaily(8, 18);

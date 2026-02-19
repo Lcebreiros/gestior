@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\CalendarController;
 use App\Http\Controllers\Api\GoogleCalendarController;
+use App\Http\Controllers\Api\HealthReportController;
+use App\Http\Controllers\Api\InsightsController;
 use App\Http\Controllers\Api\NotificationController;
 
 Route::get('/user', function (Request $request) {
@@ -37,6 +39,15 @@ Route::middleware('auth:sanctum')->prefix('google-calendar')->group(function () 
     Route::post('/disconnect', [GoogleCalendarController::class, 'disconnect']);
     Route::post('/toggle-sync', [GoogleCalendarController::class, 'toggleSync']);
     Route::get('/status', [GoogleCalendarController::class, 'status']);
+});
+
+// Rutas de insights (Nexum)
+Route::middleware('auth:sanctum')->prefix('insights')->group(function () {
+    Route::get('/', [InsightsController::class, 'index']);
+    Route::post('/generate', [InsightsController::class, 'generate']);
+    Route::get('/stats', [InsightsController::class, 'stats']);
+    Route::patch('/{id}/dismiss', [InsightsController::class, 'dismiss']);
+    Route::get('/health-report', [HealthReportController::class, 'show']);
 });
 
 // Rutas de notificaciones
