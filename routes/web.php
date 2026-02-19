@@ -33,6 +33,8 @@ Route::get('/register-wizard', [App\Http\Controllers\Auth\PlanRegisterController
     ->name('register.wizard');
 Route::post('/register-wizard/store', [App\Http\Controllers\Auth\PlanRegisterController::class, 'storeWizard'])
     ->name('register.wizard.store');
+Route::get('/register-success', [App\Http\Controllers\Auth\PlanRegisterController::class, 'success'])
+    ->name('register.success');
 
 // Rutas de suscripción (requiere autenticación y email verificado)
 Route::middleware([
