@@ -526,8 +526,8 @@
                     </svg>
                   </div>
                   <div class="flex-1">
-                    <h3 class="text-lg font-semibold text-white mb-2">Alquiler / Estacionamiento</h3>
-                    <p class="text-sm text-gray-400 mb-3">Administra espacios, servicios, turnos y cobros de estacionamiento</p>
+                    <h3 class="text-lg font-semibold text-white mb-2">Alquiler / Clubes</h3>
+                    <p class="text-sm text-gray-400 mb-3">Administra espacios, servicios, turnos y cobros</p>
                     <ul class="space-y-2 text-xs text-gray-400">
                       <li class="flex items-center gap-2">
                         <svg class="w-4 h-4 text-violet-400" fill="currentColor" viewBox="0 0 20 20">
