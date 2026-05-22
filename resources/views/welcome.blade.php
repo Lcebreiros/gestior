@@ -1,10 +1,89 @@
 <x-guest-layout>
 
-    <header class="relative text-white">
+<style>
+  /* ===== Global landing canvas ===== */
+  .helipso-landing {
+    position: relative;
+    background: #0B0820;
+    overflow-x: hidden;
+  }
 
-        <!-- PRIMERA SECCIÓN: Hero Network -->
-        @include('components.landing.hero-network')
-    </header>
+  /* Page-wide star field — fixed, visible while scrolling */
+  .page-stars {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .page-stars span {
+    position: absolute;
+    border-radius: 50%;
+    background: #fff;
+    opacity: 0;
+    animation: pgStarTwinkle var(--dur, 8s) ease-in-out var(--delay, 0s) infinite;
+  }
+  @keyframes pgStarTwinkle {
+    0%, 100% { opacity: 0.03; transform: scale(0.9); }
+    50%       { opacity: var(--peak, 0.18); transform: scale(1); }
+  }
+
+  /* Constellation trail SVG — absolute over the full landing */
+  .page-trail-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+    overflow: visible;
+  }
+  .pt-halo {
+    transform-box: fill-box;
+    transform-origin: center;
+    transform: scale(0.3);
+    opacity: 0;
+    filter: blur(4px);
+    transition: transform 1.4s cubic-bezier(0.32, 0.72, 0, 1), opacity 1.2s ease;
+  }
+  .pt-halo.lit { transform: scale(1.9); opacity: 0.4; }
+  .pt-node {
+    transform-box: fill-box;
+    transform-origin: center;
+    transform: scale(0);
+    opacity: 0;
+    transition: transform 0.9s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.9s ease;
+  }
+  .pt-node.lit { transform: scale(1); opacity: 1; }
+  .pt-line {
+    stroke: #B79CFA;
+    stroke-width: 1.2;
+    stroke-linecap: round;
+    fill: none;
+    opacity: 0;
+    transition: stroke-dashoffset 1.8s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.7s ease;
+    vector-effect: non-scaling-stroke;
+  }
+  .pt-line.drawn { opacity: 0.4; stroke-dashoffset: 0 !important; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pt-halo.lit, .pt-node.lit { transform: none; opacity: 1; }
+    .pt-line.drawn { opacity: 0.4; }
+    .page-stars span { animation: none; opacity: 0.08; }
+  }
+</style>
+
+<div id="helipsoLanding" class="helipso-landing">
+
+  <!-- Global star field (behind everything) -->
+  <div class="page-stars" id="pageStars" aria-hidden="true"></div>
+
+  <!-- Constellation trail SVG (overlays full page) -->
+  <svg class="page-trail-svg" id="pageTrailSvg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"></svg>
+
+    <!-- PRIMERA SECCIÓN: Hero Animada -->
+    @include('components.landing.hero-network')
 
     <!-- SEGUNDA SECCIÓN: Feature Sections -->
         @foreach(config('features.features') as $feature)
@@ -24,12 +103,13 @@
 
 
     <!-- TERCERA SECCIÓN: Mockups de Dispositivos -->
-    <section class="bg-black text-white py-20 screenshots-section">
+    <section class="py-20 screenshots-section" style="background: #0B0820; color: white;">
         @livewire('mockup-view')
     </section>
 
-<!-- CTA Final Section - Apple Marketing Style -->
-<section id="cta-final" class="relative bg-black text-white py-20 md:py-32 overflow-hidden">
+<!-- CTA Final Section -->
+<section id="cta-final" class="relative text-white py-20 md:py-32 overflow-hidden" style="background: #0B0820;">
+    <div class="cst-anchor" aria-hidden="true" style="display:block;width:1px;height:1px;visibility:hidden;pointer-events:none;position:absolute;top:3rem;left:6vw;"></div>
     <style>
         /* Apple-style premium background */
         .cta-apple-bg {
@@ -39,8 +119,8 @@
             right: 0;
             bottom: 0;
             background: 
-                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(117, 52, 201, 0.2), transparent),
-                radial-gradient(ellipse 60% 50% at 50% 120%, rgba(117, 52, 201, 0.15), transparent);
+                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(138, 92, 245, 0.2), transparent),
+                radial-gradient(ellipse 60% 50% at 50% 120%, rgba(138, 92, 245, 0.15), transparent);
             pointer-events: none;
         }
 
@@ -89,7 +169,7 @@
             transform: translateY(-4px);
             box-shadow: 
                 0 40px 80px rgba(0, 0, 0, 0.3),
-                0 0 60px rgba(117, 52, 201, 0.1);
+                0 0 60px rgba(138, 92, 245, 0.1);
         }
 
         /* Inner glow effect */
@@ -102,7 +182,7 @@
             height: 500px;
             background: radial-gradient(
                 circle,
-                rgba(117, 52, 201, 0.08) 0%,
+                rgba(138, 92, 245, 0.08) 0%,
                 transparent 70%
             );
             pointer-events: none;
@@ -118,7 +198,7 @@
         .cta-apple-pretitle {
             font-size: 1.125rem;
             font-weight: 600;
-            color: #7534c9;
+            color: #8A5CF5;
             text-transform: uppercase;
             letter-spacing: 0.1em;
             margin-bottom: 1.5rem;
@@ -177,8 +257,8 @@
         .cta-apple-feature-icon {
             width: 44px;
             height: 44px;
-            background: rgba(117, 52, 201, 0.12);
-            border: 1px solid rgba(117, 52, 201, 0.2);
+            background: rgba(138, 92, 245, 0.12);
+            border: 1px solid rgba(138, 92, 245, 0.2);
             border-radius: 12px;
             display: flex;
             align-items: center;
@@ -187,15 +267,15 @@
         }
 
         .cta-apple-feature:hover .cta-apple-feature-icon {
-            background: rgba(117, 52, 201, 0.18);
-            border-color: rgba(117, 52, 201, 0.3);
+            background: rgba(138, 92, 245, 0.18);
+            border-color: rgba(138, 92, 245, 0.3);
             transform: translateY(-2px);
         }
 
         .cta-apple-feature-icon svg {
             width: 22px;
             height: 22px;
-            color: #7534c9;
+            color: #8A5CF5;
         }
 
         /* CTA Button - Apple style */
@@ -213,7 +293,7 @@
             justify-content: center;
             gap: 0.75rem;
             padding: 1.25rem 3.5rem;
-            background: #7534c9;
+            background: #8A5CF5;
             color: #ffffff;
             font-size: 1.125rem;
             font-weight: 600;
@@ -224,22 +304,22 @@
             border: none;
             cursor: pointer;
             box-shadow: 
-                0 4px 16px rgba(117, 52, 201, 0.3),
+                0 4px 16px rgba(138, 92, 245, 0.3),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
         .cta-apple-button:hover {
-            background: #6428b0;
+            background: #7A4FE0;
             transform: translateY(-2px);
             box-shadow: 
-                0 8px 24px rgba(117, 52, 201, 0.4),
+                0 8px 24px rgba(138, 92, 245, 0.4),
                 inset 0 1px 0 rgba(255, 255, 255, 0.15);
         }
 
         .cta-apple-button:active {
             transform: translateY(0);
             box-shadow: 
-                0 2px 8px rgba(117, 52, 201, 0.3),
+                0 2px 8px rgba(138, 92, 245, 0.3),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
@@ -350,7 +430,7 @@
 
                 <!-- Main title -->
                 <h2 class="cta-apple-title">
-                    Probá Gestior ahora
+                    Probá Helipso ahora
                 </h2>
 
                 <!-- Subtitle -->
@@ -385,48 +465,125 @@
     {{-- Footer --}}
     @include('components.landing.footer')
 
-    <script>
-        // Sincronizar animaciones entre HERO y screenshots
-        document.addEventListener('DOMContentLoaded', function() {
-            const heroSection = document.querySelector('.hero-intro-section');
-            const screenshotsSection = document.querySelector('.screenshots-section');
-            const HERO_EXIT_THRESHOLD = 0.3;
-            const SCREENSHOTS_ENTRY_THRESHOLD = 0.6;
+</div>{{-- /helipsoLanding --}}
 
-            function syncAnimations() {
-                const windowHeight = window.innerHeight;
+<script>
+(function () {
+  'use strict';
 
-                if (heroSection) {
-                    const heroRect = heroSection.getBoundingClientRect();
-                    const heroTop = heroRect.top;
-                    const heroHeight = heroRect.height;
-                    if (heroTop < -heroHeight * HERO_EXIT_THRESHOLD) {
-                        heroSection.classList.add('exit');
-                    } else {
-                        heroSection.classList.remove('exit');
-                    }
-                }
+  /* ─── Page star field ─── */
+  const starsEl = document.getElementById('pageStars');
+  if (starsEl) {
+    let seed = 1984;
+    const rnd = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
+    const frag = document.createDocumentFragment();
+    for (let i = 0; i < 110; i++) {
+      const s = document.createElement('span');
+      const size = 1 + rnd() * 1.8;
+      s.style.left   = rnd() * 100 + '%';
+      s.style.top    = rnd() * 100 + '%';
+      s.style.width  = size + 'px';
+      s.style.height = size + 'px';
+      s.style.setProperty('--peak',  (0.06 + rnd() * 0.22).toFixed(2));
+      s.style.setProperty('--dur',   (6 + rnd() * 12).toFixed(1) + 's');
+      s.style.setProperty('--delay', (-rnd() * 14).toFixed(1) + 's');
+      frag.appendChild(s);
+    }
+    starsEl.appendChild(frag);
+  }
 
-                if (screenshotsSection) {
-                    const screenshotsRect = screenshotsSection.getBoundingClientRect();
-                    const screenshotsTop = screenshotsRect.top;
-                    const screenshotsHeight = screenshotsRect.height;
-                    if (screenshotsTop < windowHeight * SCREENSHOTS_ENTRY_THRESHOLD && screenshotsTop > -screenshotsHeight * 0.3) {
-                        screenshotsSection.classList.add('visible');
-                        screenshotsSection.classList.remove('exit');
-                    } else if (screenshotsTop < -screenshotsHeight * 0.3) {
-                        screenshotsSection.classList.remove('visible');
-                        screenshotsSection.classList.add('exit');
-                    } else if (screenshotsTop > windowHeight * 0.8) {
-                        screenshotsSection.classList.remove('visible', 'exit');
-                    }
-                }
-            }
+  /* ─── Constellation trail ─── */
+  const svgEl   = document.getElementById('pageTrailSvg');
+  const landing = document.getElementById('helipsoLanding');
+  if (!svgEl || !landing) return;
 
-            window.addEventListener('scroll', syncAnimations);
-            window.addEventListener('resize', syncAnimations);
-            syncAnimations();
-            setTimeout(syncAnimations, 100);
-        });
-    </script>
+  const svgNS = 'http://www.w3.org/2000/svg';
+  let svgHalos = [], svgNodes = [], svgLines = [];
+
+  function buildTrail() {
+    const anchors = [...landing.querySelectorAll('.cst-anchor')];
+    if (anchors.length < 2) return anchors;
+
+    svgEl.innerHTML = '';
+    svgHalos = []; svgNodes = []; svgLines = [];
+
+    const lRect  = landing.getBoundingClientRect();
+    const lTop   = lRect.top + window.scrollY;
+    const W      = landing.offsetWidth;
+    const H      = landing.scrollHeight;
+    svgEl.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    svgEl.setAttribute('height', H);
+
+    const pts = anchors.map(a => {
+      const r = a.getBoundingClientRect();
+      return {
+        x: r.left + r.width / 2,
+        y: r.top + window.scrollY - lTop + r.height / 2,
+      };
+    });
+
+    pts.forEach((p, i) => {
+      const accent = i % 2 === 0 ? '#D670F0' : '#8A5CF5';
+
+      const halo = document.createElementNS(svgNS, 'circle');
+      halo.setAttribute('cx', p.x); halo.setAttribute('cy', p.y); halo.setAttribute('r', '14');
+      halo.setAttribute('fill', accent); halo.classList.add('pt-halo');
+      svgEl.appendChild(halo); svgHalos.push(halo);
+
+      const node = document.createElementNS(svgNS, 'circle');
+      node.setAttribute('cx', p.x); node.setAttribute('cy', p.y); node.setAttribute('r', '4');
+      node.setAttribute('fill', accent); node.classList.add('pt-node');
+      svgEl.appendChild(node); svgNodes.push(node);
+
+      if (i < pts.length - 1) {
+        const next = pts[i + 1];
+        const len  = Math.hypot(next.x - p.x, next.y - p.y).toFixed(1);
+        const line = document.createElementNS(svgNS, 'line');
+        line.setAttribute('x1', p.x); line.setAttribute('y1', p.y);
+        line.setAttribute('x2', next.x); line.setAttribute('y2', next.y);
+        line.style.strokeDasharray  = len;
+        line.style.strokeDashoffset = len;
+        line.classList.add('pt-line');
+        svgEl.appendChild(line); svgLines.push(line);
+      } else {
+        svgLines.push(null);
+      }
+    });
+
+    return anchors;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting || entry.target.dataset.lit) return;
+      entry.target.dataset.lit = '1';
+      const i = parseInt(entry.target.dataset.trailIdx, 10);
+      setTimeout(() => {
+        svgHalos[i]?.classList.add('lit');
+        svgNodes[i]?.classList.add('lit');
+      }, 80);
+      if (i > 0) setTimeout(() => svgLines[i - 1]?.classList.add('drawn'), 220);
+    });
+  }, { threshold: 0.2, rootMargin: '0px 0px -6% 0px' });
+
+  function init() {
+    const anchors = buildTrail();
+    if (!anchors) return;
+    anchors.forEach((a, i) => { a.dataset.trailIdx = i; observer.observe(a); });
+  }
+
+  if (document.readyState === 'complete') {
+    init();
+  } else {
+    window.addEventListener('load', init);
+  }
+
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => { buildTrail(); }, 200);
+  });
+})();
+</script>
+
  </x-guest-layout>

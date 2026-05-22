@@ -1,5 +1,6 @@
 <!-- Security Section - Apple Minimalist Style -->
-<section id="security" class="relative bg-black text-white py-32 md:py-40 overflow-hidden">
+<section id="security" class="relative text-white py-32 md:py-40 overflow-hidden" style="background: #0B0820;">
+    <div class="cst-anchor" aria-hidden="true" style="display:block;width:1px;height:1px;visibility:hidden;pointer-events:none;position:absolute;top:3rem;left:6vw;"></div>
     <style>
         /* Subtle background gradients */
         .security-bg {
@@ -47,7 +48,7 @@
             letter-spacing: -0.025em;
             margin-bottom: 1.25rem;
             color: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+            font-family: 'Space Grotesk', sans-serif; font-weight: 300; letter-spacing: -0.04em;
         }
 
         .security-subtitle {

@@ -1,5 +1,6 @@
 <!-- Support Section - Apple Minimalist Style -->
-<section id="support" class="relative bg-black text-white py-32 md:py-40 overflow-hidden">
+<section id="support" class="relative text-white py-32 md:py-40 overflow-hidden" style="background: #0B0820;">
+    <div class="cst-anchor" aria-hidden="true" style="display:block;width:1px;height:1px;visibility:hidden;pointer-events:none;position:absolute;top:3rem;left:6vw;"></div>
     <style>
         /* Subtle background gradients */
         .support-bg {
@@ -47,7 +48,7 @@
             letter-spacing: -0.025em;
             margin-bottom: 1.25rem;
             color: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+            font-family: 'Space Grotesk', sans-serif; font-weight: 300; letter-spacing: -0.04em;
         }
 
         .support-subtitle {
@@ -412,7 +413,7 @@
                 <p class="support-channel-description">
                     Accedé al chat de soporte integrado directamente desde tu panel de control. Respuestas en tiempo real para resolver tus dudas al instante.
                 </p>
-                <a href="https://panel.gestior.com.ar" class="support-channel-action">
+                <a href="https://panel.helipso.com.ar" class="support-channel-action">
                     <span>Ir al panel</span>
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
@@ -432,8 +433,8 @@
                 <p class="support-channel-description">
                     Envianos un email con tu consulta detallada. Nuestro equipo te responderá con soluciones completas en menos de 24 horas.
                 </p>
-                <a href="mailto:soporte@gestior.com.ar" class="support-channel-action">
-                    <span>soporte@gestior.com.ar</span>
+                <a href="mailto:soporte@helipso.com.ar" class="support-channel-action">
+                    <span>soporte@helipso.com.ar</span>
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                     </svg>
@@ -448,9 +449,9 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5"/>
                     </svg>
                 </div>
-                <h3 class="support-channel-title">API de Gestior</h3>
+                <h3 class="support-channel-title">API de Helipso</h3>
                 <p class="support-channel-description">
-                    Integrá Gestior como el cerebro de tu negocio desde tu propia tienda virtual. API REST completa para gestionar productos, pedidos, stock y más desde cualquier plataforma.
+                    Integrá Helipso como el cerebro de tu negocio desde tu propia tienda virtual. API REST completa para gestionar productos, pedidos, stock y más desde cualquier plataforma.
                 </p>
                 <a href="{{ route('plans') }}" class="support-channel-action">
                     <span>Ver documentación</span>

@@ -436,10 +436,10 @@
         <div class="api-container">
             <div class="api-header">
                 <h2 class="api-title">
-                    Gestior impulsa tu negocio<br>desde el centro
+                    Helipso impulsa tu negocio<br>desde el centro
                 </h2>
                 <p class="api-subtitle">
-                    Conectá tu web, tu app o tus sistemas a Gestior y manejá todo desde un solo lugar. Nuestra API te permite usar Gestior como el cerebro operativo de tu empresa: ventas, stock, clientes y automatizaciones, todo sincronizado en tiempo real.
+                    Conectá tu web, tu app o tus sistemas a Helipso y manejá todo desde un solo lugar. Nuestra API te permite usar Helipso como el cerebro operativo de tu empresa: ventas, stock, clientes y automatizaciones, todo sincronizado en tiempo real.
                 </p>
             </div>
 
@@ -453,7 +453,7 @@
                     </div>
                     <h3 class="api-card-title">Integración Total</h3>
                     <p class="api-card-description">
-                        Conectá cualquier plataforma o sistema a Gestior y unificá todas tus operaciones.
+                        Conectá cualquier plataforma o sistema a Helipso y unificá todas tus operaciones.
                     </p>
                     <ul class="api-card-features">
                         <li>
@@ -519,7 +519,7 @@
                     </div>
                     <h3 class="api-card-title">Automatización Inteligente</h3>
                     <p class="api-card-description">
-                        Dejá que Gestior trabaje por vos, automatizando procesos y decisiones de negocio.
+                        Dejá que Helipso trabaje por vos, automatizando procesos y decisiones de negocio.
                     </p>
                     <ul class="api-card-features">
                         <li>

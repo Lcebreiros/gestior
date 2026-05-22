@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Iniciar sesión - {{ config('app.name', 'Gestior') }}</title>
+        <title>Iniciar sesión - {{ config('app.name', 'Helipso') }}</title>
 
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=inter:300,400,500,600,700&display=swap" rel="stylesheet" />
@@ -393,8 +393,8 @@
             <!-- Logo optimizado -->
             <div class="logo-container">
                 <a href="/" class="flex items-center gap-2 no-underline">
-                    <!-- Logo reemplazado por gestior.png -->
-                    <img src="images/gestior.png" alt="Gestior" class="logo-image">
+                    <!-- Logo reemplazado por helipso.png -->
+                    <img src="images/helipso.png" alt="Helipso" class="logo-image">
                 </a>
             </div>
 

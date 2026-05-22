@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Verificar Email - {{ config('app.name', 'Gestior') }}</title>
+    <title>Verificar Email - {{ config('app.name', 'Helipso') }}</title>
 
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:300,400,500,600,700&display=swap" rel="stylesheet" />
@@ -253,7 +253,7 @@
 
     <div class="container">
         <div class="logo-container">
-            <img src="/images/gestior.png" alt="Gestior" class="logo">
+            <img src="/images/helipso.png" alt="Helipso" class="logo">
         </div>
 
         <div class="card">

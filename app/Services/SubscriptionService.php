@@ -157,7 +157,7 @@ class SubscriptionService
 
             return [
                 'success' => true,
-                'message' => '¡Te has suscrito correctamente! Bienvenido a Gestior.',
+                'message' => '¡Te has suscrito correctamente! Bienvenido a Helipso.',
                 'invitation' => $invitation,
             ];
         });

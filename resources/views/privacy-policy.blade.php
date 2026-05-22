@@ -38,12 +38,12 @@
                     <section>
                         <h2 id="introduccion" class="text-2xl font-bold mb-4 text-white">1. Introducción</h2>
                         <p>
-                            En Gestior ("nosotros", "nuestro" o "la Plataforma"), respetamos su privacidad y nos comprometemos
+                            En Helipso ("nosotros", "nuestro" o "la Plataforma"), respetamos su privacidad y nos comprometemos
                             a proteger sus datos personales. Esta Política de Privacidad explica cómo recopilamos, usamos,
                             almacenamos y protegemos su información cuando utiliza nuestros servicios de gestión empresarial.
                         </p>
                         <p>
-                            Gestior es una plataforma de gestión empresarial que permite a las empresas administrar sus operaciones,
+                            Helipso es una plataforma de gestión empresarial que permite a las empresas administrar sus operaciones,
                             incluyendo ventas, inventario, clientes y sucursales de manera eficiente y segura.
                         </p>
                     </section>
@@ -270,11 +270,11 @@
                             nuestras prácticas de datos, puede contactarnos:
                         </p>
                         <div class="bg-gray-800 border border-gray-600 p-4 rounded-lg mt-3">
-                            <p><strong>Gestior - Plataforma de Gestión Empresarial</strong></p>
+                            <p><strong>Helipso - Plataforma de Gestión Empresarial</strong></p>
                             <p class="mt-2">
                                 <strong>Correo electrónico:</strong>
-                                <a href="mailto:privacy@gestior.com" class="text-purple-400 hover:text-purple-300 underline transition-colors">
-                                    privacy@gestior.com
+                                <a href="mailto:privacy@helipso.com" class="text-purple-400 hover:text-purple-300 underline transition-colors">
+                                    privacy@helipso.com
                                 </a>
                             </p>
                             <p class="mt-1">

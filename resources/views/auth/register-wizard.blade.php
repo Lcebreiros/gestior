@@ -1,956 +1,1109 @@
 <!DOCTYPE html>
-<html lang="es" class="h-full">
+<html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>Crear cuenta • Gestior</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="csrf-token" content="{{ csrf_token() }}">
+<title>Crear cuenta · Helipso</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+@vite(['resources/css/app.css', 'resources/js/app.js'])
+@livewireStyles
+<style>
+  /* ====================================================
+     TOKENS
+     ==================================================== */
+  :root {
+    --space:        #0B0820;
+    --space-2:      #15102E;
+    --violet:       #8A5CF5;
+    --violet-deep:  #5B2FCC;
+    --violet-soft:  #B79CFA;
+    --violet-pale:  #E5DBFD;
+    --fuchsia:      #D670F0;
+    --bg:           #FAFAF7;
+    --bg-2:         #F4F2EE;
+    --card:         #FFFFFF;
+    --ink:          #1A1330;
+    --ink-2:        #4A4360;
+    --slate:        #8B8499;
+    --slate-2:      #B5B0C2;
+    --line:         #ECE9F2;
+    --line-2:       #DCD7E5;
+    --error:        #C2272D;
+    --warning:      #C28A27;
+    --ease:         cubic-bezier(0.32, 0.72, 0, 1);
+  }
 
-  {{-- Fuentes --}}
-  <link rel="preconnect" href="https://fonts.bunny.net">
-  <link href="https://fonts.bunny.net/css?family=inter:300,400,500,600,700&display=swap" rel="stylesheet" />
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; }
+  [x-cloak] { display: none !important; }
 
-  {{-- Vite --}}
-  @vite(['resources/css/app.css', 'resources/js/app.js'])
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
 
-  <style>
-    :root {
-      --violet-700: #7e22ce;
-      --violet-800: #6b21a8;
-      --violet-900: #581c87;
-      --violet-950: #2a0b47;
-    }
+  /* ====================================================
+     SHELL
+     ==================================================== */
+  .shell {
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 0.82fr 1fr;
+    padding: 16px;
+    gap: 16px;
+    background: var(--bg);
+  }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+  /* ====================================================
+     COSMOS PANE (left – dark)
+     ==================================================== */
+  .cosmos {
+    position: relative;
+    overflow: hidden;
+    border-radius: 24px;
+    background:
+      radial-gradient(ellipse 90% 60% at 30% 35%, rgba(138,92,245,0.22), transparent 60%),
+      radial-gradient(ellipse 60% 50% at 80% 85%, rgba(214,112,240,0.14), transparent 55%),
+      radial-gradient(ellipse 100% 100% at 50% 50%, #1a1240 0%, #0B0820 70%, #050313 100%);
+    color: #fff;
+    isolation: isolate;
+  }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      overflow-x: hidden;
-      background: #000000;
-      color: white;
+  .stars { position: absolute; inset: 0; pointer-events: none; }
+  .stars span {
+    position: absolute;
+    border-radius: 50%;
+    background: #fff;
+    opacity: 0;
+    animation: twinkle var(--dur, 8s) ease-in-out infinite;
+    animation-delay: var(--delay, 0s);
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.05; transform: scale(0.8); }
+    50%       { opacity: var(--peak, 0.5); transform: scale(1); }
+  }
+
+  .nebula {
+    position: absolute;
+    left: 50%; top: 48%;
+    width: 70%; aspect-ratio: 1/1;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle at center,
+      rgba(183,156,250,0.16) 0%,
+      rgba(138,92,245,0.08) 30%,
+      transparent 65%);
+    filter: blur(14px);
+    pointer-events: none;
+  }
+
+  .cosmos-content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 32px 38px;
+  }
+
+  /* Brand lockup (top) */
+  .cosmos-brand {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0;
+    text-decoration: none;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .cosmos-brand .brand-glyph {
+    width:  calc(22px * 1.05 * 52 / 80);
+    height: calc(22px * 1.05);
+    transform: translateY(calc(22px * 0.10));
+    margin-right: 1px;
+  }
+  .cosmos-brand .brand-word {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 350;
+    font-size: 22px;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  /* Center: context text (no animated glyph) */
+  .center {
+    margin: auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 460px;
+  }
+
+  .context-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 300;
+    font-size: clamp(28px, 3vw, 40px);
+    letter-spacing: -0.025em;
+    color: #fff;
+    margin: 0;
+    line-height: 1.1;
+  }
+  .context-title em {
+    font-style: normal;
+    color: var(--violet-soft);
+  }
+  .context-sub {
+    font-size: 14px;
+    line-height: 1.55;
+    color: rgba(255,255,255,0.58);
+    margin: 0;
+    max-width: 360px;
+  }
+
+  /* Step pills */
+  .cosmos-progress {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-top: 28px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    margin-top: 32px;
+  }
+  .cosmos-step-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: opacity 0.3s var(--ease);
+  }
+  .cosmos-step-row .num {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.5);
+    display: grid; place-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 500;
+    flex-shrink: 0;
+    transition: all 0.3s var(--ease);
+  }
+  .cosmos-step-row .num svg { width: 12px; height: 12px; display: none; }
+  .cosmos-step-row .label { font-size: 13px; color: rgba(255,255,255,0.55); transition: color 0.3s var(--ease); }
+  .cosmos-step-row .meta {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    transition: color 0.3s var(--ease);
+  }
+  .cosmos-step-row.is-active .num    { background: #fff; border-color: #fff; color: var(--ink); }
+  .cosmos-step-row.is-active .label  { color: #fff; font-weight: 500; }
+  .cosmos-step-row.is-active .meta   { color: var(--violet-soft); }
+  .cosmos-step-row.is-done .num      { background: var(--violet); border-color: var(--violet); color: #fff; }
+  .cosmos-step-row.is-done .num span { display: none; }
+  .cosmos-step-row.is-done .num svg  { display: block; }
+  .cosmos-step-row.is-done .label    { color: rgba(255,255,255,0.45); }
+
+  .cosmos-foot {
+    margin-top: auto;
+    padding-top: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+  }
+
+  /* ====================================================
+     FORM PANE (right – light)
+     ==================================================== */
+  .form-pane {
+    position: relative;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 24px 16px 16px;
+    overflow-y: auto;
+    background: var(--bg);
+    border-radius: 20px;
+  }
+
+  .pane-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 24px;
+    flex-shrink: 0;
+  }
+  .top-progress {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--slate);
+  }
+  .top-progress .bar { display: flex; gap: 4px; }
+  .top-progress .bar i {
+    display: block;
+    width: 22px; height: 3px;
+    border-radius: 999px;
+    background: var(--line-2);
+    transition: background 0.4s var(--ease);
+  }
+  .top-progress .bar i.bar-on   { background: var(--ink); }
+  .top-progress .bar i.bar-done { background: var(--violet); }
+
+  .pane-top .top-link { font-size: 13px; color: var(--slate); }
+  .pane-top .top-link a {
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 500;
+    border-bottom: 1px solid var(--line-2);
+    padding-bottom: 1px;
+    margin-left: 4px;
+    transition: border-color 0.2s var(--ease);
+  }
+  .pane-top .top-link a:hover { border-bottom-color: var(--ink); }
+
+  .pane-mid {
+    display: grid;
+    place-items: center;
+    padding: 16px 24px;
+    overflow-y: auto;
+  }
+  .form-card { width: 100%; max-width: 560px; }
+
+  /* Step eyebrow */
+  .step-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 10px;
+  }
+  .step-eyebrow .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--violet);
+  }
+  .step-header h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 400;
+    font-size: 30px;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    margin: 0 0 8px;
+    line-height: 1.18;
+  }
+  .step-header p {
+    font-size: 14px;
+    color: var(--slate);
+    margin: 0 0 32px;
+    line-height: 1.55;
+  }
+
+  /* Step transition */
+  @keyframes stepIn {
+    from { opacity: 0; transform: translateX(8px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  .step-enter { animation: stepIn 0.4s var(--ease); }
+
+  /* ====================================================
+     STEP 1 · Business cards
+     ==================================================== */
+  .biz-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .biz-card {
+    position: relative;
+    background: var(--card);
+    border: 1px solid var(--line-2);
+    border-radius: 16px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.25s var(--ease);
+    text-align: left;
+    width: 100%;
+  }
+  .biz-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    border: 1.5px solid transparent;
+    pointer-events: none;
+    transition: border-color 0.25s var(--ease);
+  }
+  .biz-card:hover { border-color: var(--violet-soft); transform: translateY(-1px); }
+  .biz-card.selected {
+    background: linear-gradient(180deg, #fff 0%, #FAF7FF 100%);
+    border-color: var(--violet);
+  }
+  .biz-card.selected::before {
+    border-color: var(--violet);
+    box-shadow: 0 0 0 4px rgba(138,92,245,0.10);
+  }
+  .biz-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .biz-icon {
+    width: 40px; height: 40px;
+    border-radius: 12px;
+    background: var(--bg-2);
+    display: grid; place-items: center;
+    color: var(--ink-2);
+    transition: all 0.25s var(--ease);
+  }
+  .biz-card.selected .biz-icon { background: var(--violet); color: #fff; }
+  .check-circle {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    border: 1.5px solid var(--line-2);
+    background: #fff;
+    display: grid; place-items: center;
+    transition: all 0.25s var(--ease);
+    flex-shrink: 0;
+  }
+  .check-circle svg { opacity: 0; transition: opacity 0.18s var(--ease); }
+  .biz-card.selected .check-circle { background: var(--violet); border-color: var(--violet); }
+  .biz-card.selected .check-circle svg { opacity: 1; }
+  .biz-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    margin: 0 0 4px;
+  }
+  .biz-desc { font-size: 13px; color: var(--slate); margin: 0 0 16px; line-height: 1.5; }
+  .biz-features { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 7px; }
+  .biz-features li { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--ink-2); }
+  .biz-features li svg { color: var(--violet); flex-shrink: 0; }
+
+  /* ====================================================
+     STEP 2 · Plan cards
+     ==================================================== */
+  .plan-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+  }
+  .plan-card {
+    position: relative;
+    background: var(--card);
+    border: 1px solid var(--line-2);
+    border-radius: 16px;
+    padding: 20px 18px 18px;
+    cursor: pointer;
+    transition: all 0.25s var(--ease);
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  .plan-card:hover { border-color: var(--violet-soft); transform: translateY(-1px); }
+  .plan-card.selected {
+    border-color: var(--violet);
+    background: linear-gradient(180deg, #fff 0%, #FAF7FF 100%);
+    box-shadow: 0 0 0 4px rgba(138,92,245,0.10);
+  }
+  .plan-card.featured { background: linear-gradient(180deg, #fff 0%, #FAF7FF 100%); }
+  .plan-badge {
+    position: absolute;
+    top: -10px; left: 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: #fff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px; font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .plan-badge.violet { background: linear-gradient(110deg, var(--violet-deep), var(--violet)); }
+  .plan-badge.preview { background: var(--bg-2); color: var(--ink-2); border: 1px solid var(--line-2); }
+  .plan-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
+  .plan-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 500; font-size: 18px;
+    color: var(--ink); letter-spacing: -0.01em;
+    margin: 0; line-height: 1.2;
+  }
+  .plan-tag { font-size: 12px; color: var(--slate); margin: 2px 0 0; }
+  .plan-price { margin-bottom: 16px; }
+  .plan-price .amount {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 500; font-size: 28px;
+    letter-spacing: -0.02em;
+    color: var(--ink); line-height: 1;
+  }
+  .plan-price .note { display: block; font-size: 11.5px; color: var(--slate); margin-top: 6px; }
+  .plan-features { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .plan-features li { display: flex; align-items: flex-start; gap: 8px; font-size: 12.5px; color: var(--ink-2); line-height: 1.4; }
+  .plan-features li svg { color: var(--violet); flex-shrink: 0; margin-top: 3px; }
+
+  /* ====================================================
+     STEP 3 · Form fields
+     ==================================================== */
+  .fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+  }
+  .fields .full { grid-column: 1 / -1; }
+
+  .field {
+    position: relative;
+    border-bottom: 1px solid var(--line-2);
+    padding-top: 18px;
+    transition: border-color 0.2s var(--ease);
+  }
+  .field:focus-within { border-bottom-color: var(--ink); }
+  .field.has-error { border-bottom-color: var(--error); }
+
+  .field label {
+    position: absolute;
+    left: 0; top: 22px;
+    font-size: 14px;
+    color: var(--slate);
+    pointer-events: none;
+    transition: all 0.2s var(--ease);
+    transform-origin: left center;
+  }
+  .field input:focus ~ label,
+  .field input:not(:placeholder-shown) ~ label {
+    top: 0; font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--slate);
+    font-weight: 500;
+  }
+  .field:focus-within label { color: var(--ink); }
+  .field.has-error label { color: var(--error); }
+
+  .field input {
+    width: 100%;
+    border: 0; outline: 0;
+    background: transparent;
+    padding: 0 50px 10px 0;
+    font: inherit;
+    font-size: 15px;
+    color: var(--ink);
+  }
+  .field input:-webkit-autofill {
+    -webkit-text-fill-color: var(--ink);
+    box-shadow: 0 0 0 1000px var(--bg) inset;
+  }
+
+  .field-action { position: absolute; right: 0; top: 18px; }
+  .toggle-pw {
+    border: 0; background: transparent;
+    color: var(--slate);
+    cursor: pointer; padding: 4px;
+    display: grid; place-items: center;
+    transition: color 0.2s var(--ease);
+  }
+  .toggle-pw:hover { color: var(--ink); }
+
+  /* Password strength */
+  .pw-strength {
+    grid-column: 1 / -1;
+    display: flex; align-items: center; gap: 10px;
+    font-size: 11.5px; color: var(--slate);
+    margin-top: -10px;
+  }
+  .pw-strength .track { flex: 1; height: 3px; border-radius: 999px; background: var(--line-2); overflow: hidden; }
+  .pw-strength .fill {
+    height: 100%; width: 0%;
+    background: var(--violet);
+    transition: width 0.3s var(--ease), background 0.3s var(--ease);
+    border-radius: 999px;
+  }
+  .pw-strength.weak   .fill { width: 25%; background: #E36800; }
+  .pw-strength.medium .fill { width: 55%; background: var(--warning); }
+  .pw-strength.strong .fill { width: 100%; background: #1d9d6c; }
+  .pw-strength .label-text { width: 60px; text-align: right; font-weight: 500; }
+
+  /* Info box */
+  .info {
+    margin-top: 24px;
+    background: var(--bg-2);
+    border: 1px solid var(--line-2);
+    border-radius: 12px;
+    padding: 14px 16px;
+    display: flex; gap: 12px;
+    font-size: 13px; color: var(--ink-2); line-height: 1.5;
+  }
+  .info svg { color: var(--violet); flex-shrink: 0; margin-top: 1px; }
+  .info strong { color: var(--ink); font-weight: 600; }
+  .info ul {
+    margin: 6px 0 0; padding: 0;
+    list-style: none;
+    display: flex; flex-direction: column; gap: 4px;
+    color: var(--slate); font-size: 12.5px;
+  }
+  .info ul li::before { content: "·"; margin-right: 6px; color: var(--violet); }
+
+  /* Validation alert */
+  .alert {
+    display: none;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 0 10px 14px;
+    border-left: 2px solid var(--error);
+    margin-bottom: 22px;
+    font-size: 13px; line-height: 1.5;
+    color: var(--ink-2);
+  }
+  .alert.show { display: flex; }
+  .alert strong { color: var(--ink); font-weight: 600; }
+  .alert ul { margin: 4px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 3px; color: var(--error); font-size: 12.5px; }
+
+  /* ====================================================
+     FOOTER NAV
+     ==================================================== */
+  .pane-foot {
+    padding: 16px 24px 8px;
+    display: flex; gap: 12px; align-items: center;
+    border-top: 1px solid var(--line);
+    background: var(--bg);
+    flex-shrink: 0;
+  }
+  .pane-foot .footer-meta { flex: 1; font-size: 12px; color: var(--slate); }
+  .pane-foot .footer-meta strong { color: var(--ink); font-weight: 600; }
+
+  .btn {
+    border: 0;
+    padding: 12px 22px;
+    border-radius: 999px;
+    font: inherit; font-size: 14px; font-weight: 500;
+    cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    transition: all 0.2s var(--ease);
+    white-space: nowrap;
+  }
+  .btn-primary { background: var(--ink); color: #fff; }
+  .btn-primary:hover:not(:disabled) { background: var(--violet-deep); box-shadow: 0 6px 20px rgba(91,47,204,0.25); }
+  .btn-primary:disabled { background: var(--bg-2); color: var(--slate-2); cursor: not-allowed; }
+  .btn-primary svg { transition: transform 0.2s var(--ease); }
+  .btn-primary:hover:not(:disabled) svg { transform: translateX(2px); }
+  .btn-ghost { background: transparent; color: var(--ink-2); padding: 12px 18px; }
+  .btn-ghost:hover { color: var(--ink); }
+  .btn-ghost svg { transition: transform 0.2s var(--ease); }
+  .btn-ghost:hover svg { transform: translateX(-2px); }
+
+  /* ====================================================
+     RESPONSIVE
+     ==================================================== */
+  @media (max-width: 1024px) {
+    body { overflow-y: auto; }
+    .shell {
+      grid-template-columns: 1fr;
+      height: auto;
       min-height: 100vh;
+      padding: 12px;
+      gap: 12px;
     }
+    .cosmos { min-height: 260px; }
+    .cosmos-content { padding: 24px 24px 28px; }
+    .context-title { font-size: 24px; }
+    .cosmos-progress { display: none; }
+    .plan-grid { grid-template-columns: 1fr; }
+    .biz-grid { grid-template-columns: 1fr; }
+    .fields { grid-template-columns: 1fr; }
+    .form-pane { border-radius: 20px; }
+  }
+  @media (max-width: 640px) {
+    .shell { padding: 8px; gap: 8px; }
+    .cosmos { min-height: 200px; }
+    .cosmos-content { padding: 20px; }
+    .pane-top { flex-direction: column; gap: 10px; align-items: flex-start; padding: 8px 16px; }
+    .pane-mid { padding: 12px 16px; }
+    .pane-foot { flex-wrap: wrap; gap: 10px; padding: 12px 16px; }
+    .pane-foot .footer-meta { width: 100%; order: 3; text-align: center; }
+    .pane-foot .btn { flex: 1; }
+    .biz-title { font-size: 16px; }
+    .step-header h1 { font-size: 24px; }
+  }
 
-    [x-cloak] { display: none!important; }
-
-    /* FONDO CON DEGRADADO */
-    .abstract-bg {
-      background: radial-gradient(ellipse at top, rgba(124, 58, 237, 0.15) 0%, #000000 50%);
-      min-height: 100vh;
-      width: 100%;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: -1;
-    }
-
-    /* CONTENEDOR PRINCIPAL */
-    .main-container {
-      position: relative;
-      z-index: 10;
-    }
-
-    /* PROGRESS INDICATOR - Apple Style */
-    .progress-step {
-      transition: all 0.5s cubic-bezier(0.16, 0.84, 0.44, 1);
-    }
-
-    .progress-step.active {
-      background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-      border-color: #8b5cf6;
-      box-shadow: 0 4px 16px rgba(124, 58, 237, 0.4);
-      transform: scale(1.05);
-    }
-
-    .progress-line {
-      transition: all 0.6s cubic-bezier(0.16, 0.84, 0.44, 1);
-    }
-
-    .progress-line.active {
-      background: linear-gradient(90deg, #8b5cf6, #7c3aed);
-    }
-
-    /* INPUTS PREMIUM - Apple Style */
-    .form-input {
-      width: 100%;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1.5px solid rgba(255, 255, 255, 0.1);
-      border-radius: 1rem;
-      padding: 1rem 1.125rem;
-      color: white;
-      font-size: 0.9375rem;
-      font-weight: 400;
-      letter-spacing: 0.01em;
-      transition: all 0.4s cubic-bezier(0.16, 0.84, 0.44, 1);
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.03);
-      backdrop-filter: blur(10px);
-    }
-
-    .form-input::placeholder {
-      color: #6b7280;
-      font-weight: 400;
-      transition: all 0.4s cubic-bezier(0.16, 0.84, 0.44, 1);
-    }
-
-    .form-input:hover:not(:focus) {
-      border-color: rgba(255, 255, 255, 0.15);
-      background: rgba(255, 255, 255, 0.06);
-    }
-
-    .form-input:focus {
-      outline: none;
-      border-color: rgba(139, 92, 246, 0.6);
-      box-shadow:
-        0 0 0 4px rgba(139, 92, 246, 0.12),
-        0 8px 24px rgba(124, 58, 237, 0.2),
-        0 0 20px rgba(139, 92, 246, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.05);
-      background: rgba(255, 255, 255, 0.08);
-      transform: translateY(-1px) scale(1.005);
-    }
-
-    .form-input:focus::placeholder {
-      color: #9ca3af;
-      transform: translateX(2px);
-    }
-
-    /* LABELS PREMIUM */
-    .form-label {
-      display: block;
-      font-size: 0.8125rem;
-      font-weight: 600;
-      letter-spacing: 0.025em;
-      color: #d1d5db;
-      margin-bottom: 0.625rem;
-      text-transform: uppercase;
-      transition: all 0.3s cubic-bezier(0.16, 0.84, 0.44, 1);
-    }
-
-    /* INPUT GROUPS */
-    .input-group {
-      position: relative;
-    }
-
-    .input-group .input-icon {
-      position: absolute;
-      left: 1.125rem;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #6b7280;
-      pointer-events: none;
-      transition: all 0.4s cubic-bezier(0.16, 0.84, 0.44, 1);
-      z-index: 1;
-      width: 1.25rem;
-      height: 1.25rem;
-    }
-
-    .input-group .form-input:focus ~ .input-icon,
-    .input-group:focus-within .input-icon {
-      color: #a78bfa;
-      transform: translateY(-50%) scale(1.08);
-    }
-
-    .input-group .form-input:hover:not(:focus) ~ .input-icon {
-      color: #9ca3af;
-    }
-
-    /* BOTONES PREMIUM - Apple Style */
-    .btn-primary {
-      background: linear-gradient(135deg, #7c3aed, #6d28d9);
-      color: white;
-      border: none;
-      border-radius: 0.875rem;
-      padding: 0.75rem 1.5rem;
-      font-weight: 600;
-      font-size: 0.875rem;
-      cursor: pointer;
-      transition: all 0.4s cubic-bezier(0.16, 0.84, 0.44, 1);
-      box-shadow: 0 4px 16px rgba(124, 58, 237, 0.35);
-    }
-
-    .btn-primary:hover:not(:disabled) {
-      transform: translateY(-1px) scale(1.01);
-      box-shadow: 0 8px 28px rgba(124, 58, 237, 0.45);
-    }
-
-    .btn-primary:active:not(:disabled) {
-      transform: translateY(0) scale(0.99);
-      transition: all 0.1s cubic-bezier(0.16, 0.84, 0.44, 1);
-    }
-
-    .btn-primary:disabled {
-      background: rgba(255, 255, 255, 0.1);
-      cursor: not-allowed;
-      box-shadow: none;
-      opacity: 0.5;
-    }
-
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.08);
-      color: white;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 0.875rem;
-      padding: 0.75rem 1.5rem;
-      font-weight: 600;
-      font-size: 0.875rem;
-      cursor: pointer;
-      transition: all 0.4s cubic-bezier(0.16, 0.84, 0.44, 1);
-    }
-
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.15);
-      border-color: rgba(255, 255, 255, 0.25);
-      transform: translateY(-1px);
-    }
-
-    .btn-secondary:active {
-      transform: translateY(0) scale(0.99);
-      transition: all 0.1s cubic-bezier(0.16, 0.84, 0.44, 1);
-    }
-
-    /* BUSINESS CARDS CON GLASS EFFECT */
-    .business-card {
-      cursor: pointer;
-      transition: all 0.4s cubic-bezier(0.16, 0.84, 0.44, 1);
-      border: 2px solid rgba(255, 255, 255, 0.08);
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(16px);
-      border-radius: 1.25rem;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    }
-
-    .business-card:hover {
-      border-color: rgba(167, 139, 250, 0.5);
-      transform: translateY(-6px);
-      box-shadow: 0 16px 40px rgba(124, 58, 237, 0.35);
-    }
-
-    .business-card.selected {
-      border-color: #8b5cf6;
-      background: linear-gradient(135deg, rgba(124, 58, 237, 0.18), rgba(139, 92, 246, 0.12));
-      box-shadow: 0 12px 32px rgba(124, 58, 237, 0.45);
-      transform: translateY(-2px);
-    }
-
-    /* PLAN CARDS */
-    .plan-card {
-      cursor: pointer;
-      transition: all 0.4s cubic-bezier(0.16, 0.84, 0.44, 1);
-      border: 2px solid rgba(255, 255, 255, 0.08);
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(16px);
-      border-radius: 1.25rem;
-      position: relative;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    }
-
-    .plan-card:hover {
-      border-color: rgba(167, 139, 250, 0.5);
-      transform: translateY(-6px);
-      box-shadow: 0 16px 40px rgba(124, 58, 237, 0.35);
-    }
-
-    .plan-card.selected {
-      border-color: #8b5cf6;
-      background: linear-gradient(135deg, rgba(124, 58, 237, 0.18), rgba(139, 92, 246, 0.12));
-      box-shadow: 0 12px 32px rgba(124, 58, 237, 0.45);
-      transform: translateY(-2px);
-    }
-
-    /* BADGES */
-    .badge-recommended {
-      background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-      box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
-    }
-
-    /* STEP TRANSITIONS - Apple Style */
-    .step-content {
-      animation: appleSlideIn 0.6s cubic-bezier(0.16, 0.84, 0.44, 1);
-    }
-
-    @keyframes appleSlideIn {
-      from {
-        opacity: 0;
-        transform: translateX(20px) scale(0.98);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0) scale(1);
-      }
-    }
-
-    /* ERRORES PREMIUM */
-    .validation-errors {
-      background: linear-gradient(135deg, rgba(239, 68, 68, 0.08), rgba(220, 38, 38, 0.06));
-      border: 1.5px solid rgba(239, 68, 68, 0.2);
-      border-radius: 1rem;
-      padding: 1.125rem 1.25rem;
-      margin-bottom: 1.5rem;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 4px 16px rgba(239, 68, 68, 0.12);
-      animation: errorSlideIn 0.4s cubic-bezier(0.16, 0.84, 0.44, 1);
-    }
-
-    @keyframes errorSlideIn {
-      from {
-        opacity: 0;
-        transform: translateY(-10px) scale(0.98);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    .validation-errors ul {
-      list-style: none;
-      color: #fca5a5;
-      font-size: 0.875rem;
-      font-weight: 500;
-    }
-
-    .validation-errors ul li {
-      padding: 0.25rem 0;
-    }
-
-    /* INFO BOX PREMIUM */
-    .info-box {
-      background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(99, 102, 241, 0.06));
-      border: 1.5px solid rgba(59, 130, 246, 0.15);
-      border-radius: 1rem;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 4px 16px rgba(59, 130, 246, 0.08);
-      transition: all 0.3s cubic-bezier(0.16, 0.84, 0.44, 1);
-    }
-
-    .info-box:hover {
-      border-color: rgba(59, 130, 246, 0.25);
-      box-shadow: 0 6px 24px rgba(59, 130, 246, 0.12);
-    }
-
-    /* TÍTULOS CON GRADIENTE */
-    .title-gradient {
-      background: linear-gradient(135deg, #a78bfa, #8b5cf6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    /* ICONOS DE LAS CARDS - Apple Style */
-    .icon-wrapper {
-      transition: all 0.4s cubic-bezier(0.16, 0.84, 0.44, 1);
-    }
-
-    .business-card:hover .icon-wrapper,
-    .plan-card:hover .icon-wrapper {
-      transform: scale(1.15) rotate(5deg);
-    }
-
-    .business-card.selected .icon-wrapper,
-    .plan-card.selected .icon-wrapper {
-      transform: scale(1.05);
-    }
-  </style>
-
-  @livewireStyles
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .stars span { animation: none !important; opacity: 0.25 !important; }
+    .step-enter { animation: none !important; }
+  }
+</style>
 </head>
-<body class="h-full" x-data="{
-  step: 1,
-  businessType: '',
-  plan: '{{ request()->get("plan", "") }}',
-  name: '',
-  email: '',
-  password: '',
-  passwordConfirmation: '',
 
-  nextStep() {
-    if(this.step < 3) this.step++;
-  },
-  prevStep() {
-    if(this.step > 1) this.step--;
-  },
-  selectBusinessType(type) {
-    this.businessType = type;
-  },
-  selectPlan(planType) {
-    this.plan = planType;
-  },
-  canProceedStep1() {
-    return this.businessType !== '';
-  },
-  canProceedStep2() {
-    return this.plan !== '';
-  },
-  canProceedStep3() {
-    return this.name !== '' && this.email !== '' && this.password !== '' && this.passwordConfirmation !== '';
-  }
-}" x-init="
-  // Si hay un plan preseleccionado desde la URL, ir directamente al paso 2
-  if(plan && ['basic', 'premium', 'enterprise'].includes(plan)) {
-    step = 2;
-  }
-">
-  <div class="abstract-bg"></div>
+<body
+  x-data="{
+    step: {{ (request()->get('plan') && in_array(request()->get('plan'), ['basic','premium','enterprise'])) ? 2 : 1 }},
+    businessType: '',
+    plan: '{{ addslashes(request()->get('plan', '')) }}',
 
-  {{-- Header con Progress Indicator --}}
-  <div class="w-full px-4 py-8">
-    <div class="w-full max-w-3xl mx-auto">
+    contextTitles: {
+      1: 'Cada negocio es <em>una constelación.</em>',
+      2: 'Elegí cómo querés <em>orbitar.</em>',
+      3: 'Bienvenido al <em>panel.</em>',
+    },
+    contextSubs: {
+      1: 'Tres pasos para empezar a trazar la tuya.',
+      2: 'Todos los planes están gratis durante la fase inicial.',
+      3: 'Ingresá tus datos y empezá a usar Helipso.',
+    },
+    footerMetas: {
+      1: () => this.businessType ? ('Negocio · ' + (this.businessType === 'comercio' ? 'Comercio / Tienda' : 'Alquiler / Clubes')) : 'Elegí tu tipo de negocio para continuar.',
+      2: () => this.plan ? ('Plan · ' + { basic:'Básico', premium:'Premium', enterprise:'Enterprise' }[this.plan]) : 'Elegí un plan para continuar.',
+      3: () => 'Vas a recibir tus credenciales por email.',
+    },
 
-      {{-- Progress Indicator --}}
-      <div class="flex items-center max-w-md mx-auto">
-        {{-- Step 1 --}}
-        <div class="flex items-center">
-          <div class="progress-step flex items-center justify-center w-10 h-10 rounded-full border-2"
-               :class="step >= 1 ? 'active' : 'border-gray-600 bg-gray-800 text-gray-400'">
-            <span class="text-sm font-semibold">1</span>
+    get footerMeta() {
+      if (this.step === 1) return this.businessType ? 'Negocio · ' + (this.businessType === 'comercio' ? 'Comercio / Tienda' : 'Alquiler / Clubes') : 'Elegí tu tipo de negocio para continuar.';
+      if (this.step === 2) return this.plan ? 'Plan · ' + { basic:'Básico', premium:'Premium', enterprise:'Enterprise' }[this.plan] : 'Elegí un plan para continuar.';
+      return 'Vas a recibir tus credenciales por email.';
+    },
+    get canNext() {
+      if (this.step === 1) return this.businessType !== '';
+      if (this.step === 2) return this.plan !== '';
+      return true;
+    },
+    get nextLabel() {
+      if (this.step === 1) return 'Siguiente · Plan';
+      if (this.step === 2) return 'Siguiente · Datos';
+      return 'Crear cuenta';
+    },
+
+    nextStep() { if (this.step < 3) { this.step++; this.$nextTick(() => this.$el.scrollTop = 0); } },
+    prevStep() { if (this.step > 1) this.step--; },
+    selectBiz(type)  { this.businessType = type; },
+    selectPlan(type) { this.plan = type; },
+  }"
+>
+
+<div class="shell">
+
+  <!-- ================================================
+       LEFT · COSMOS
+       ================================================ -->
+  <aside class="cosmos">
+    <div class="stars" id="stars" aria-hidden="true"></div>
+    <div class="nebula" aria-hidden="true"></div>
+
+    <div class="cosmos-content">
+      <!-- Brand lockup (static, no animation) -->
+      <a href="{{ route('home') }}" class="cosmos-brand">
+        <svg class="brand-glyph" viewBox="26 16 52 80" aria-hidden="true">
+          <g stroke="#fff" fill="none" stroke-linecap="round" stroke-width="2.4" opacity="0.85">
+            <line x1="32" y1="22" x2="38" y2="54" />
+            <line x1="38" y1="54" x2="34" y2="90" />
+            <line x1="38" y1="54" x2="50" y2="46" />
+            <line x1="50" y1="46" x2="66" y2="56" />
+            <line x1="66" y1="56" x2="72" y2="64" />
+            <line x1="72" y1="64" x2="68" y2="90" />
+          </g>
+          <circle cx="32" cy="22" r="3.6" fill="#D670F0" />
+          <circle cx="38" cy="54" r="4.4" fill="#fff" />
+          <circle cx="34" cy="90" r="3.2" fill="#fff" />
+          <circle cx="50" cy="46" r="3.6" fill="#fff" />
+          <circle cx="66" cy="56" r="3.2" fill="#fff" />
+          <circle cx="72" cy="64" r="4.4" fill="#fff" />
+          <circle cx="68" cy="90" r="3.2" fill="#fff" />
+        </svg>
+        <span class="brand-word">elipso</span>
+      </a>
+
+      <!-- Context text (changes per step) -->
+      <div class="center">
+        <h2 class="context-title" x-html="contextTitles[step]">Cada negocio es <em>una constelación.</em></h2>
+        <p class="context-sub" x-text="contextSubs[step]">Tres pasos para empezar a trazar la tuya.</p>
+      </div>
+
+      <!-- Step list -->
+      <div class="cosmos-progress">
+        <div class="cosmos-step-row" :class="{ 'is-active': step === 1, 'is-done': step > 1 }">
+          <div class="num">
+            <span>1</span>
+            <svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
+          <div class="label">Tipo de negocio</div>
+          <div class="meta">Paso 1</div>
         </div>
-
-        {{-- Line 1-2 --}}
-        <div class="progress-line flex-1 h-1 mx-3 bg-gray-700 rounded"
-             :class="step > 1 ? 'active' : ''"></div>
-
-        {{-- Step 2 --}}
-        <div class="flex items-center">
-          <div class="progress-step flex items-center justify-center w-10 h-10 rounded-full border-2"
-               :class="step >= 2 ? 'active' : 'border-gray-600 bg-gray-800 text-gray-400'">
-            <span class="text-sm font-semibold">2</span>
+        <div class="cosmos-step-row" :class="{ 'is-active': step === 2, 'is-done': step > 2 }">
+          <div class="num">
+            <span>2</span>
+            <svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
+          <div class="label">Plan</div>
+          <div class="meta">Paso 2</div>
         </div>
-
-        {{-- Line 2-3 --}}
-        <div class="progress-line flex-1 h-1 mx-3 bg-gray-700 rounded"
-             :class="step > 2 ? 'active' : ''"></div>
-
-        {{-- Step 3 --}}
-        <div class="flex items-center">
-          <div class="progress-step flex items-center justify-center w-10 h-10 rounded-full border-2"
-               :class="step >= 3 ? 'active' : 'border-gray-600 bg-gray-800 text-gray-400'">
-            <span class="text-sm font-semibold">3</span>
+        <div class="cosmos-step-row" :class="{ 'is-active': step === 3, 'is-done': step > 3 }">
+          <div class="num">
+            <span>3</span>
+            <svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
+          <div class="label">Tus datos</div>
+          <div class="meta">Paso 3</div>
         </div>
       </div>
 
-      {{-- Step Labels --}}
-      <div class="flex items-center justify-between max-w-md mx-auto mt-4 text-xs font-medium px-1">
-        <span :class="step >= 1 ? 'text-violet-400' : 'text-gray-500'">Tipo de negocio</span>
-        <span :class="step >= 2 ? 'text-violet-400' : 'text-gray-500'">Plan</span>
-        <span :class="step >= 3 ? 'text-violet-400' : 'text-gray-500'">Datos personales</span>
+      <div class="cosmos-foot">
+        <span>helipso · {{ date('Y') }}</span>
+        <span>cluster ar-1</span>
       </div>
     </div>
-  </div>
+  </aside>
 
-  {{-- Contenido Principal --}}
-  <div class="flex-1 flex items-start justify-center px-4 pb-12">
-    <div class="w-full max-w-6xl main-container">
+  <!-- ================================================
+       RIGHT · FORM PANE
+       ================================================ -->
+  <main class="form-pane">
 
-        {{-- Errores --}}
+    <!-- Top bar -->
+    <div class="pane-top">
+      <div class="top-progress">
+        <span><span x-text="'0' + step">01</span> / 03</span>
+        <div class="bar">
+          <i :class="{ 'bar-on': step === 1, 'bar-done': step > 1 }"></i>
+          <i :class="{ 'bar-on': step === 2, 'bar-done': step > 2 }"></i>
+          <i :class="{ 'bar-on': step === 3, 'bar-done': step > 3 }"></i>
+        </div>
+      </div>
+      <div class="top-link">
+        ¿Ya tenés cuenta? <a href="{{ route('login') }}">Iniciar sesión</a>
+      </div>
+    </div>
+
+    <!-- Form -->
+    <div class="pane-mid">
+      <form id="regForm" x-ref="form" method="POST" action="{{ route('register.wizard.store') }}"
+            class="form-card" autocomplete="on" novalidate>
+        @csrf
+
+        {{-- Hidden fields (bound to Alpine state, always present for POST) --}}
+        <input type="hidden" name="business_type" :value="businessType">
+        <input type="hidden" name="plan" :value="plan">
+
+        {{-- Server-side validation errors --}}
         @if ($errors->any())
-          <div class="validation-errors">
-            <ul class="space-y-1">
-              @foreach ($errors->all() as $error)
-                <li>• {{ $error }}</li>
-              @endforeach
-            </ul>
+          <div class="alert show">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor" style="flex-shrink:0;margin-top:1px;color:var(--error)">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+            </svg>
+            <div>
+              <strong>Revisá los campos.</strong>
+              <ul>
+                @foreach ($errors->all() as $error)
+                  <li>{{ $error }}</li>
+                @endforeach
+              </ul>
+            </div>
           </div>
         @endif
 
-        <form method="POST" action="{{ route('register.wizard.store') }}">
-          @csrf
+        <!-- ==========================
+             STEP 1 · Tipo de negocio
+             ========================== -->
+        <section x-show="step === 1" x-cloak x-transition:enter="step-enter">
+          <div class="step-eyebrow"><span class="dot"></span><span>Paso 1 · Negocio</span></div>
+          <div class="step-header">
+            <h1>¿Qué tipo de negocio tenés?</h1>
+            <p>Elegí el que mejor describe tu actividad. Helipso adapta los módulos según tu elección.</p>
+          </div>
 
-          {{-- STEP 1: Business Type --}}
-          <div x-show="step === 1" x-cloak class="step-content">
-            <div class="mb-8">
-              <h2 class="text-3xl font-bold tracking-tight mb-3 title-gradient">¿Qué tipo de negocio tienes?</h2>
-              <p class="text-gray-400">Selecciona el tipo que mejor describe tu actividad</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-              {{-- Comercio/Tienda --}}
-              <div class="business-card p-6"
-                   :class="businessType === 'comercio' ? 'selected' : ''"
-                   @click="selectBusinessType('comercio')">
-                <div class="flex items-start gap-4">
-                  <div class="icon-wrapper flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-br from-blue-500/20 to-blue-600/20 flex items-center justify-center">
-                    <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
-                    </svg>
-                  </div>
-                  <div class="flex-1">
-                    <h3 class="text-lg font-semibold text-white mb-2">Comercio / Tienda</h3>
-                    <p class="text-sm text-gray-400 mb-3">Gestiona productos, ventas, stock y pedidos para tu negocio</p>
-                    <ul class="space-y-2 text-xs text-gray-400">
-                      <li class="flex items-center gap-2">
-                        <svg class="w-4 h-4 text-violet-400" fill="currentColor" viewBox="0 0 20 20">
-                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                        Control de inventario
-                      </li>
-                      <li class="flex items-center gap-2">
-                        <svg class="w-4 h-4 text-violet-400" fill="currentColor" viewBox="0 0 20 20">
-                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                        Gestión de ventas
-                      </li>
-                      <li class="flex items-center gap-2">
-                        <svg class="w-4 h-4 text-violet-400" fill="currentColor" viewBox="0 0 20 20">
-                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                        Reportes de productos
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="flex-shrink-0">
-                    <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all"
-                         :class="businessType === 'comercio' ? 'border-violet-400 bg-violet-500' : 'border-gray-600'">
-                      <svg x-show="businessType === 'comercio'" class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                      </svg>
-                    </div>
-                  </div>
+          <div class="biz-grid">
+            {{-- Comercio --}}
+            <button type="button" class="biz-card" :class="{ selected: businessType === 'comercio' }" @click="selectBiz('comercio')">
+              <div class="biz-top">
+                <div class="biz-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                  </svg>
+                </div>
+                <div class="check-circle">
+                  <svg width="10" height="10" viewBox="0 0 20 20" fill="none">
+                    <path d="M4 10l4 4 8-8" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
                 </div>
               </div>
+              <h3 class="biz-title">Comercio / Tienda</h3>
+              <p class="biz-desc">Gestioná productos, ventas, stock y pedidos para tu negocio.</p>
+              <ul class="biz-features">
+                <li><svg width="11" height="11" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-8 8a1 1 0 01-1.4 0l-4-4A1 1 0 015.7 9.3L8 11.6l7.3-7.3a1 1 0 011.4 0z" clip-rule="evenodd"/></svg> Control de inventario</li>
+                <li><svg width="11" height="11" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-8 8a1 1 0 01-1.4 0l-4-4A1 1 0 015.7 9.3L8 11.6l7.3-7.3a1 1 0 011.4 0z" clip-rule="evenodd"/></svg> Gestión de ventas</li>
+                <li><svg width="11" height="11" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-8 8a1 1 0 01-1.4 0l-4-4A1 1 0 015.7 9.3L8 11.6l7.3-7.3a1 1 0 011.4 0z" clip-rule="evenodd"/></svg> Reportes de productos</li>
+              </ul>
+            </button>
 
-              {{-- Alquiler / Clubes --}}
-              <div class="business-card p-6"
-                   :class="businessType === 'alquiler' ? 'selected' : ''"
-                   @click="selectBusinessType('alquiler')">
-                <div class="flex items-start gap-4">
-                  <div class="icon-wrapper flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-br from-emerald-500/20 to-emerald-600/20 flex items-center justify-center">
-                    <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                    </svg>
-                  </div>
-                  <div class="flex-1">
-                    <h3 class="text-lg font-semibold text-white mb-2">Alquiler / Clubes</h3>
-                    <p class="text-sm text-gray-400 mb-3">Administra espacios, servicios, turnos y cobros</p>
-                    <ul class="space-y-2 text-xs text-gray-400">
-                      <li class="flex items-center gap-2">
-                        <svg class="w-4 h-4 text-violet-400" fill="currentColor" viewBox="0 0 20 20">
-                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                        Control de espacios
-                      </li>
-                      <li class="flex items-center gap-2">
-                        <svg class="w-4 h-4 text-violet-400" fill="currentColor" viewBox="0 0 20 20">
-                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                        Gestión de turnos
-                      </li>
-                      <li class="flex items-center gap-2">
-                        <svg class="w-4 h-4 text-violet-400" fill="currentColor" viewBox="0 0 20 20">
-                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                        Panel de operarios
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="flex-shrink-0">
-                    <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all"
-                         :class="businessType === 'alquiler' ? 'border-violet-400 bg-violet-500' : 'border-gray-600'">
-                      <svg x-show="businessType === 'alquiler'" class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                      </svg>
-                    </div>
-                  </div>
+            {{-- Alquiler / Clubes --}}
+            <button type="button" class="biz-card" :class="{ selected: businessType === 'alquiler' }" @click="selectBiz('alquiler')">
+              <div class="biz-top">
+                <div class="biz-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                  </svg>
+                </div>
+                <div class="check-circle">
+                  <svg width="10" height="10" viewBox="0 0 20 20" fill="none">
+                    <path d="M4 10l4 4 8-8" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
                 </div>
               </div>
-            </div>
-
-            <input type="hidden" name="business_type" :value="businessType">
-
-            <button type="button"
-                    @click="nextStep()"
-                    :disabled="!canProceedStep1()"
-                    class="btn-primary w-full py-3 px-4">
-              Siguiente: Elegir plan →
+              <h3 class="biz-title">Alquiler / Clubes</h3>
+              <p class="biz-desc">Administrá espacios, servicios, turnos y cobros recurrentes.</p>
+              <ul class="biz-features">
+                <li><svg width="11" height="11" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-8 8a1 1 0 01-1.4 0l-4-4A1 1 0 015.7 9.3L8 11.6l7.3-7.3a1 1 0 011.4 0z" clip-rule="evenodd"/></svg> Control de espacios</li>
+                <li><svg width="11" height="11" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-8 8a1 1 0 01-1.4 0l-4-4A1 1 0 015.7 9.3L8 11.6l7.3-7.3a1 1 0 011.4 0z" clip-rule="evenodd"/></svg> Gestión de turnos</li>
+                <li><svg width="11" height="11" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-8 8a1 1 0 01-1.4 0l-4-4A1 1 0 015.7 9.3L8 11.6l7.3-7.3a1 1 0 011.4 0z" clip-rule="evenodd"/></svg> Panel de operarios</li>
+              </ul>
             </button>
           </div>
+        </section>
 
-          {{-- STEP 2: Plan Selection --}}
-<div x-show="step === 2" x-cloak class="step-content">
-    <div class="mb-8">
-        <h2 class="text-3xl font-bold tracking-tight mb-3 title-gradient">
-            Elegí tu plan
-        </h2>
-        <p class="text-gray-400 max-w-xl">
-            Todos los planes están disponibles durante la fase inicial para que puedas probar Gestior sin límites.
-        </p>
-    </div>
+        <!-- ==========================
+             STEP 2 · Plan
+             ========================== -->
+        <section x-show="step === 2" x-cloak x-transition:enter="step-enter">
+          <div class="step-eyebrow"><span class="dot"></span><span>Paso 2 · Plan</span></div>
+          <div class="step-header">
+            <h1>Elegí tu plan.</h1>
+            <p>Todos los planes están disponibles gratis durante la fase inicial. Podés cambiar cuando quieras.</p>
+          </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
-
-        {{-- Plan Básico --}}
-        <div class="plan-card p-5"
-             style="background: rgba(31, 41, 55, 0.5); border: 2px solid rgba(75, 85, 99, 0.5);"
-             :class="plan === 'basic' ? 'selected' : ''"
-             @click="selectPlan('basic')">
-            <div class="flex items-start justify-between mb-4">
-                <div>
-                    <h3 class="text-lg font-semibold text-white mb-0.5">Básico</h3>
-                    <p class="text-xs text-gray-400">Para comenzar</p>
+          <div class="plan-grid">
+            {{-- Básico --}}
+            <button type="button" class="plan-card" :class="{ selected: plan === 'basic' }" @click="selectPlan('basic')">
+              <div class="plan-head">
+                <div><h3 class="plan-name">Básico</h3><p class="plan-tag">Para comenzar</p></div>
+                <div class="check-circle">
+                  <svg width="10" height="10" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </div>
-                <div class="w-5 h-5 rounded-full border flex items-center justify-center transition-all duration-200"
-                     :class="plan === 'basic' ? 'border-violet-500 bg-violet-500/10' : 'border-gray-600/60'">
-                    <svg x-show="plan === 'basic'" class="w-2.5 h-2.5 text-violet-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                    </svg>
+              </div>
+              <div class="plan-price">
+                <span class="amount">Gratis</span>
+                <span class="note">Siempre, sin tarjeta</span>
+              </div>
+              <ul class="plan-features">
+                <li><svg width="11" height="11" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-8 8a1 1 0 01-1.4 0l-4-4A1 1 0 015.7 9.3L8 11.6l7.3-7.3a1 1 0 011.4 0z" clip-rule="evenodd"/></svg> Hasta 5 usuarios</li>
+                <li><svg width="11" height="11" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-8 8a1 1 0 01-1.4 0l-4-4A1 1 0 015.7 9.3L8 11.6l7.3-7.3a1 1 0 011.4 0z" clip-rule="evenodd"/></svg> 1 sucursal</li>
+                <li><svg width="11" height="11" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-8 8a1 1 0 01-1.4 0l-4-4A1 1 0 015.7 9.3L8 11.6l7.3-7.3a1 1 0 011.4 0z" clip-rule="evenodd"/></svg> Soporte por email</li>
+              </ul>
+            </button>
+
+            {{-- Premium --}}
+            <button type="button" class="plan-card featured" :class="{ selected: plan === 'premium' }" @click="selectPlan('premium')">
+              <div class="plan-badge violet">★ Early access</div>
+              <div class="plan-head">
+                <div><h3 class="plan-name">Premium</h3><p class="plan-tag">Funciones avanzadas</p></div>
+                <div class="check-circle">
+                  <svg width="10" height="10" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </div>
-            </div>
+              </div>
+              <div class="plan-price">
+                <span class="amount">Gratis</span>
+                <span class="note">Durante la fase inicial</span>
+              </div>
+              <ul class="plan-features">
+                <li><svg width="11" height="11" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-8 8a1 1 0 01-1.4 0l-4-4A1 1 0 015.7 9.3L8 11.6l7.3-7.3a1 1 0 011.4 0z" clip-rule="evenodd"/></svg> Todo lo de Básico</li>
+                <li><svg width="11" height="11" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-8 8a1 1 0 01-1.4 0l-4-4A1 1 0 015.7 9.3L8 11.6l7.3-7.3a1 1 0 011.4 0z" clip-rule="evenodd"/></svg> Hasta 50 usuarios</li>
+                <li><svg width="11" height="11" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-8 8a1 1 0 01-1.4 0l-4-4A1 1 0 015.7 9.3L8 11.6l7.3-7.3a1 1 0 011.4 0z" clip-rule="evenodd"/></svg> Hasta 5 sucursales</li>
+                <li><svg width="11" height="11" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-8 8a1 1 0 01-1.4 0l-4-4A1 1 0 015.7 9.3L8 11.6l7.3-7.3a1 1 0 011.4 0z" clip-rule="evenodd"/></svg> Reportes avanzados</li>
+                <li><svg width="11" height="11" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-8 8a1 1 0 01-1.4 0l-4-4A1 1 0 015.7 9.3L8 11.6l7.3-7.3a1 1 0 011.4 0z" clip-rule="evenodd"/></svg> Soporte prioritario</li>
+              </ul>
+            </button>
 
-            <div class="mb-4">
-                <span class="text-2xl font-bold text-white">Gratis</span>
-            </div>
-
-            <ul class="space-y-2 text-sm text-gray-400">
-                <li class="flex items-center gap-2">
-                    <svg class="w-3.5 h-3.5 text-violet-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                    </svg>
-                    <span>Hasta 5 usuarios</span>
-                </li>
-                <li class="flex items-center gap-2">
-                    <svg class="w-3.5 h-3.5 text-violet-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                    </svg>
-                    <span>1 sucursal</span>
-                </li>
-                <li class="flex items-center gap-2">
-                    <svg class="w-3.5 h-3.5 text-violet-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                    </svg>
-                    <span>Soporte por email</span>
-                </li>
-            </ul>
-        </div>
-
-        {{-- Plan Premium --}}
-        <div class="plan-card p-5 relative"
-             style="background: rgba(139, 92, 246, 0.03); border: 2px solid rgba(139, 92, 246, 0.2);"
-             :class="plan === 'premium' ? 'selected' : ''"
-             @click="selectPlan('premium')">
-
-            {{-- Badge Premium Compacto --}}
-            <div class="absolute -top-2 left-1/2 -translate-x-1/2 z-10">
-                <div style="
-                    padding: 0.25rem 0.75rem;
-                    border-radius: 9999px;
-                    backdrop-filter: blur(8px);
-                    background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(192, 132, 252, 0.1));
-                    border: 1px solid rgba(139, 92, 246, 0.4);
-                    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-                    display: flex;
-                    align-items: center;
-                    gap: 0.25rem;
-                ">
-                    <span style="
-                        font-size: 10px;
-                        font-weight: 600;
-                        letter-spacing: 0.05em;
-                        color: rgba(196, 181, 253, 0.95);
-                    ">EARLY ACCESS</span>
+            {{-- Enterprise --}}
+            <button type="button" class="plan-card" :class="{ selected: plan === 'enterprise' }" @click="selectPlan('enterprise')">
+              <div class="plan-badge preview">Preview</div>
+              <div class="plan-head">
+                <div><h3 class="plan-name">Enterprise</h3><p class="plan-tag">Operaciones complejas</p></div>
+                <div class="check-circle">
+                  <svg width="10" height="10" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </div>
+              </div>
+              <div class="plan-price">
+                <span class="amount">Gratis</span>
+                <span class="note">Acceso de evaluación</span>
+              </div>
+              <ul class="plan-features">
+                <li><svg width="11" height="11" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-8 8a1 1 0 01-1.4 0l-4-4A1 1 0 015.7 9.3L8 11.6l7.3-7.3a1 1 0 011.4 0z" clip-rule="evenodd"/></svg> Todo lo de Premium</li>
+                <li><svg width="11" height="11" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-8 8a1 1 0 01-1.4 0l-4-4A1 1 0 015.7 9.3L8 11.6l7.3-7.3a1 1 0 011.4 0z" clip-rule="evenodd"/></svg> Usuarios ilimitados</li>
+                <li><svg width="11" height="11" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-8 8a1 1 0 01-1.4 0l-4-4A1 1 0 015.7 9.3L8 11.6l7.3-7.3a1 1 0 011.4 0z" clip-rule="evenodd"/></svg> Sucursales ilimitadas</li>
+                <li><svg width="11" height="11" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-8 8a1 1 0 01-1.4 0l-4-4A1 1 0 015.7 9.3L8 11.6l7.3-7.3a1 1 0 011.4 0z" clip-rule="evenodd"/></svg> API completa</li>
+                <li><svg width="11" height="11" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-8 8a1 1 0 01-1.4 0l-4-4A1 1 0 015.7 9.3L8 11.6l7.3-7.3a1 1 0 011.4 0z" clip-rule="evenodd"/></svg> Soporte 24/7</li>
+              </ul>
+            </button>
+          </div>
+        </section>
+
+        <!-- ==========================
+             STEP 3 · Tus datos
+             ========================== -->
+        <section x-show="step === 3" x-cloak x-transition:enter="step-enter" x-data="{ showPw: false, showPw2: false }">
+          <div class="step-eyebrow"><span class="dot"></span><span>Paso 3 · Tus datos</span></div>
+          <div class="step-header">
+            <h1>Casi listos.</h1>
+            <p>Ingresá tus datos y te enviamos las credenciales por email.</p>
+          </div>
+
+          <div class="fields">
+            <div class="field full" id="nameField">
+              <input id="name" name="name" type="text" required autocomplete="name" placeholder=" "
+                     value="{{ old('name') }}" />
+              <label for="name">Nombre completo</label>
             </div>
 
-            <div class="flex items-start justify-between mb-4">
-                <div>
-                    <h3 class="text-lg font-semibold text-white mb-0.5">Premium</h3>
-                    <p class="text-xs text-gray-400">Funciones avanzadas</p>
-                </div>
-                <div class="w-5 h-5 rounded-full border flex items-center justify-center transition-all duration-200"
-                     :class="plan === 'premium' ? 'border-violet-500 bg-violet-500/10' : 'border-gray-600/60'">
-                    <svg x-show="plan === 'premium'" class="w-2.5 h-2.5 text-violet-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                    </svg>
-                </div>
+            <div class="field full" id="emailField">
+              <input id="email" name="email" type="email" required autocomplete="username" placeholder=" "
+                     value="{{ old('email') }}" />
+              <label for="email">Email</label>
             </div>
 
-            <div class="mb-4">
-                <span class="text-2xl font-bold text-white">Gratis</span>
-                <span class="block text-xs text-gray-500 mt-0.5">
-                    Durante la fase inicial
-                </span>
-            </div>
-
-            <ul class="space-y-2 text-sm text-gray-400">
-                <li class="flex items-center gap-2">
-                    <svg class="w-3.5 h-3.5 text-violet-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                    </svg>
-                    <span>Todo lo incluido en Básico</span>
-                </li>
-                <li class="flex items-center gap-2">
-                    <svg class="w-3.5 h-3.5 text-violet-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                    </svg>
-                    <span>Hasta 50 usuarios</span>
-                </li>
-                <li class="flex items-center gap-2">
-                    <svg class="w-3.5 h-3.5 text-violet-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                    </svg>
-                    <span>Hasta 5 sucursales</span>
-                </li>
-                <li class="flex items-center gap-2">
-                    <svg class="w-3.5 h-3.5 text-violet-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                    </svg>
-                    <span>Reportes avanzados</span>
-                </li>
-                <li class="flex items-center gap-2">
-                    <svg class="w-3.5 h-3.5 text-violet-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                    </svg>
-                    <span>Soporte prioritario</span>
-                </li>
-            </ul>
-        </div>
-
-        {{-- Plan Enterprise --}}
-        <div class="plan-card p-5 relative"
-             style="background: rgba(156, 163, 175, 0.3); border: 2px solid rgba(107, 114, 128, 0.5);"
-             :class="plan === 'enterprise' ? 'selected' : ''"
-             @click="selectPlan('enterprise')">
-
-            {{-- Badge Enterprise Compacto --}}
-            <div class="absolute -top-2 left-1/2 -translate-x-1/2 z-10">
-                <div style="
-                    padding: 0.25rem 0.75rem;
-                    border-radius: 9999px;
-                    backdrop-filter: blur(8px);
-                    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(156, 163, 175, 0.05));
-                    border: 1px solid rgba(255, 255, 255, 0.4);
-                    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-                    display: flex;
-                    align-items: center;
-                    gap: 0.25rem;
-                ">
-                    <span style="
-                        font-size: 10px;
-                        font-weight: 600;
-                        letter-spacing: 0.05em;
-                        color: rgba(255, 255, 255, 0.95);
-                    ">PREVIEW</span>
-                </div>
-            </div>
-
-            <div class="flex items-start justify-between mb-4">
-                <div>
-                    <h3 class="text-lg font-semibold text-white mb-0.5">Enterprise</h3>
-                    <p class="text-xs text-gray-400">Para operaciones complejas</p>
-                </div>
-                <div class="w-5 h-5 rounded-full border flex items-center justify-center transition-all duration-200"
-                     :class="plan === 'enterprise' ? 'border-violet-500 bg-violet-500/10' : 'border-gray-600/60'">
-                    <svg x-show="plan === 'enterprise'" class="w-2.5 h-2.5 text-violet-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                    </svg>
-                </div>
-            </div>
-
-            <div class="mb-4">
-                <span class="text-2xl font-bold text-white">Gratis</span>
-                <span class="block text-xs text-gray-500 mt-0.5">
-                    Acceso de evaluación
-                </span>
-            </div>
-
-            <ul class="space-y-2 text-sm text-gray-400">
-                <li class="flex items-center gap-2">
-                    <svg class="w-3.5 h-3.5 text-violet-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                    </svg>
-                    <span>Todo lo incluido en Premium</span>
-                </li>
-                <li class="flex items-center gap-2">
-                    <svg class="w-3.5 h-3.5 text-violet-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                    </svg>
-                    <span>Usuarios ilimitados</span>
-                </li>
-                <li class="flex items-center gap-2">
-                    <svg class="w-3.5 h-3.5 text-violet-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                    </svg>
-                    <span>Sucursales ilimitadas</span>
-                </li>
-                <li class="flex items-center gap-2">
-                    <svg class="w-3.5 h-3.5 text-violet-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                    </svg>
-                    <span>API completa</span>
-                </li>
-                <li class="flex items-center gap-2">
-                    <svg class="w-3.5 h-3.5 text-violet-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                    </svg>
-                    <span>Soporte dedicado 24/7</span>
-                </li>
-            </ul>
-        </div>
-    </div>
-
-    <input type="hidden" name="plan" :value="plan">
-
-    <div class="flex gap-3">
-        <button type="button"
-                @click="prevStep()"
-                class="btn-secondary flex-1 py-3 px-4">
-            ← Anterior
-        </button>
-        <button type="button"
-                @click="nextStep()"
-                :disabled="!canProceedStep2()"
-                class="btn-primary flex-1 py-3 px-4">
-            Siguiente: Datos personales →
-        </button>
-    </div>
-</div>
-
-          {{-- STEP 3: Personal Data --}}
-          <div x-show="step === 3" x-cloak class="step-content">
-            <div class="mb-8">
-              <h2 class="text-3xl font-bold tracking-tight mb-3 title-gradient">Datos personales</h2>
-              <p class="text-gray-400">Completa tus datos para finalizar el registro</p>
-            </div>
-
-            <div class="space-y-6 mb-8">
-              {{-- Nombre --}}
-              <div>
-                <label for="name" class="form-label">Nombre completo</label>
-                <div class="input-group">
-                  <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+            <div class="field" id="passwordField">
+              <input id="password" name="password" :type="showPw ? 'text' : 'password'"
+                     required autocomplete="new-password" placeholder=" " />
+              <label for="password">Contraseña</label>
+              <div class="field-action">
+                <button type="button" class="toggle-pw" @click="showPw = !showPw" aria-label="Mostrar / ocultar">
+                  <svg x-show="!showPw" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                    <circle cx="12" cy="12" r="3" />
                   </svg>
-                  <input id="name" name="name" type="text" x-model="name" value="{{ old('name') }}" required autofocus autocomplete="name"
-                         class="form-input"
-                         style="padding-left: 3.5rem;"
-                         placeholder="Ingresa tu nombre completo">
-                </div>
-              </div>
-
-              {{-- Email --}}
-              <div>
-                <label for="email" class="form-label">Correo electrónico</label>
-                <div class="input-group">
-                  <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                          d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                  <svg x-show="showPw" x-cloak width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 3l18 18M10.477 10.477A3 3 0 0012 15c1.657 0 3-1.343 3-3a3 3 0 00-3-3c-.525 0-1.02.135-1.45.373M9.88 9.88L6.343 6.343M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7a9.97 9.97 0 011.563-3.029m3.32-2.91A9.956 9.956 0 0112 5c4.477 0 8.268 2.943 9.542 7a9.97 9.97 0 01-1.186 2.592"/>
                   </svg>
-                  <input id="email" name="email" type="email" x-model="email" value="{{ old('email') }}" required autocomplete="username"
-                         class="form-input"
-                         style="padding-left: 3.5rem;"
-                         placeholder="tu@email.com">
-                </div>
-              </div>
-
-              {{-- Password --}}
-              <div x-data="{showPass:false}">
-                <label for="password" class="form-label">Contraseña</label>
-                <div class="input-group">
-                  <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                          d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-                  </svg>
-                  <input id="password" name="password" :type="showPass ? 'text' : 'password'" x-model="password" required autocomplete="new-password"
-                         class="form-input"
-                         style="padding-left: 3.5rem; padding-right: 3.25rem;"
-                         placeholder="Mínimo 8 caracteres">
-                  <button type="button" @click="showPass=!showPass"
-                          class="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-violet-400 transition-colors duration-300 z-10">
-                    <svg class="h-5 w-5" x-show="!showPass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                      <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                    </svg>
-                    <svg class="h-5 w-5" x-show="showPass" x-cloak viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-
-              {{-- Confirm Password --}}
-              <div x-data="{showPass2:false}">
-                <label for="password_confirmation" class="form-label">Confirmar contraseña</label>
-                <div class="input-group">
-                  <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                  </svg>
-                  <input id="password_confirmation" name="password_confirmation" :type="showPass2 ? 'text' : 'password'" x-model="passwordConfirmation" required autocomplete="new-password"
-                         class="form-input"
-                         style="padding-left: 3.5rem; padding-right: 3.25rem;"
-                         placeholder="Repite tu contraseña">
-                  <button type="button" @click="showPass2=!showPass2"
-                          class="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-violet-400 transition-colors duration-300 z-10">
-                    <svg class="h-5 w-5" x-show="!showPass2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                      <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                    </svg>
-                    <svg class="h-5 w-5" x-show="showPass2" x-cloak viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/>
-                    </svg>
-                  </button>
-                </div>
+                </button>
               </div>
             </div>
 
-            {{-- Info box --}}
-            <div class="info-box p-4 mb-6">
-              <div class="flex gap-3">
-                <svg class="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
-                </svg>
-                <div class="text-sm">
-                  <p class="font-semibold mb-1 text-blue-200">¿Qué sucede después?</p>
-                  <ul class="space-y-1 text-blue-300">
-                    <li>• Revisaremos tu solicitud</li>
-                    <li>• Te enviaremos las credenciales de acceso por email</li>
-                    <li>• Podrás comenzar a usar Gestior inmediatamente</li>
-                  </ul>
-                </div>
+            <div class="field" id="password2Field">
+              <input id="password_confirmation" name="password_confirmation" :type="showPw2 ? 'text' : 'password'"
+                     required autocomplete="new-password" placeholder=" " />
+              <label for="password_confirmation">Repetir contraseña</label>
+              <div class="field-action">
+                <button type="button" class="toggle-pw" @click="showPw2 = !showPw2" aria-label="Mostrar / ocultar">
+                  <svg x-show="!showPw2" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                  <svg x-show="showPw2" x-cloak width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 3l18 18M10.477 10.477A3 3 0 0012 15c1.657 0 3-1.343 3-3a3 3 0 00-3-3c-.525 0-1.02.135-1.45.373M9.88 9.88L6.343 6.343M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7a9.97 9.97 0 011.563-3.029m3.32-2.91A9.956 9.956 0 0112 5c4.477 0 8.268 2.943 9.542 7a9.97 9.97 0 01-1.186 2.592"/>
+                  </svg>
+                </button>
               </div>
             </div>
 
-            <div class="flex gap-3 mb-5">
-              <button type="button"
-                      @click="prevStep()"
-                      class="btn-secondary flex-1 py-3 px-4">
-                ← Anterior
-              </button>
-              <button type="submit"
-                      :disabled="!canProceedStep3()"
-                      class="btn-primary flex-1 py-3 px-4">
-                Solicitar acceso gratis
-              </button>
-            </div>
-
-            <div class="text-center text-sm text-gray-400">
-              <a href="{{ route('login') }}" class="font-medium text-violet-400 hover:text-violet-300 transition-colors">
-                ¿Ya tienes cuenta? Inicia sesión
-              </a>
+            <div class="pw-strength" id="pwStrength">
+              <div class="track"><div class="fill"></div></div>
+              <span class="label-text">—</span>
             </div>
           </div>
-        </form>
-    </div>
-  </div>
 
-  {{-- Footer --}}
-  <footer class="w-full py-8">
-    <div class="text-center">
-      <p class="text-xs text-gray-500">&copy; {{ date('Y') }} Gestior — Todos los derechos reservados.</p>
-    </div>
-  </footer>
+          <div class="info">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+            </svg>
+            <div>
+              <strong>¿Qué sigue?</strong>
+              <ul>
+                <li>Revisamos tu solicitud en minutos.</li>
+                <li>Te enviamos las credenciales por email.</li>
+                <li>Empezás a usar Helipso al instante.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
 
-  @livewireScripts
+      </form>
+    </div>
+
+    <!-- Footer nav -->
+    <div class="pane-foot">
+      <button type="button" class="btn btn-ghost"
+              @click="prevStep()"
+              :style="step === 1 ? 'visibility: hidden' : ''">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        Atrás
+      </button>
+
+      <div class="footer-meta" x-text="footerMeta"></div>
+
+      <button type="button" class="btn btn-primary"
+              @click="step < 3 ? nextStep() : $refs.form.requestSubmit()"
+              :disabled="!canNext">
+        <span x-text="nextLabel">Siguiente</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 5l7 7-7 7"/>
+        </svg>
+      </button>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  // Stars
+  (() => {
+    const el = document.getElementById('stars');
+    if (!el) return;
+    let seed = 19;
+    const rnd = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
+    const frag = document.createDocumentFragment();
+    for (let i = 0; i < 60; i++) {
+      const s = document.createElement('span');
+      const size = 1 + rnd() * 2.2;
+      s.style.left  = (rnd() * 100).toFixed(2) + '%';
+      s.style.top   = (rnd() * 100).toFixed(2) + '%';
+      s.style.width = size.toFixed(2) + 'px';
+      s.style.height = size.toFixed(2) + 'px';
+      s.style.setProperty('--peak', (0.18 + rnd() * 0.55).toFixed(2));
+      const dur = 5 + rnd() * 9;
+      s.style.setProperty('--dur',   dur.toFixed(1) + 's');
+      s.style.setProperty('--delay', (-rnd() * dur).toFixed(1) + 's');
+      frag.appendChild(s);
+    }
+    el.appendChild(frag);
+  })();
+
+  // Password strength meter
+  document.getElementById('password')?.addEventListener('input', function () {
+    const v = this.value;
+    const el = document.getElementById('pwStrength');
+    const lbl = el?.querySelector('.label-text');
+    if (!el || !lbl) return;
+    el.classList.remove('weak', 'medium', 'strong');
+    if (!v.length) { lbl.textContent = '—'; return; }
+    let score = 0;
+    if (v.length >= 8)  score++;
+    if (v.length >= 12) score++;
+    if (/[A-Z]/.test(v) && /[a-z]/.test(v)) score++;
+    if (/[0-9]/.test(v)) score++;
+    if (/[^A-Za-z0-9]/.test(v)) score++;
+    if (score <= 2)      { el.classList.add('weak');   lbl.textContent = 'Débil'; }
+    else if (score <= 3) { el.classList.add('medium'); lbl.textContent = 'Media'; }
+    else                 { el.classList.add('strong'); lbl.textContent = 'Fuerte'; }
+  });
+</script>
+
+@livewireScripts
 </body>
 </html>

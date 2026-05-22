@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Código de Invitación - Gestior</title>
+    <title>Código de Invitación - Helipso</title>
     <style>
         body {
             margin: 0;
@@ -168,14 +168,14 @@
 <body>
     <div class="email-wrapper">
         <div class="header">
-            <img src="{{ asset('images/gestior.png') }}" alt="Gestior" class="logo">
+            <img src="{{ asset('images/helipso.png') }}" alt="Helipso" class="logo">
             <h1>Código de Invitación</h1>
         </div>
 
         <div class="content">
             <p class="greeting">
                 ¡Hola! 👋<br><br>
-                Has recibido un código de invitación para registrarte en <strong>Gestior</strong>,
+                Has recibido un código de invitación para registrarte en <strong>Helipso</strong>,
                 la plataforma de gestión empresarial que transformará tu negocio.
             </p>
 
@@ -217,7 +217,7 @@
                     <li>Completa el formulario de registro con tus datos</li>
                     <li>Selecciona el plan <strong>{{ ucfirst($invitation->subscription_level) }}</strong></li>
                     <li>Ingresa el código de invitación cuando se te solicite</li>
-                    <li>¡Listo! Comienza a usar Gestior inmediatamente</li>
+                    <li>¡Listo! Comienza a usar Helipso inmediatamente</li>
                 </ol>
             </div>
 
@@ -240,7 +240,7 @@
                 ¿Necesitas ayuda? Visita nuestro <a href="{{ config('app.url') }}/contacto">centro de soporte</a>
             </p>
             <p style="margin-top: 20px;">
-                © {{ date('Y') }} Gestior. Todos los derechos reservados.<br>
+                © {{ date('Y') }} Helipso. Todos los derechos reservados.<br>
                 <a href="{{ config('app.url') }}">{{ config('app.url') }}</a>
             </p>
         </div>

@@ -21,7 +21,7 @@ class CustomVerifyEmail extends BaseVerifyEmail
 
         return (new MailMessage)
             ->subject('Verifica tu dirección de correo electrónico - ' . config('app.name'))
-            ->greeting('¡Bienvenido a Gestior! 👋')
+            ->greeting('¡Bienvenido a Helipso! 👋')
             ->line('Gracias por registrarte en **' . config('app.name') . '**, tu plataforma de gestión empresarial.')
             ->line('Para comenzar a usar todas las funcionalidades, necesitamos verificar tu dirección de correo electrónico.')
             ->action('Verificar correo electrónico', $verificationUrl)

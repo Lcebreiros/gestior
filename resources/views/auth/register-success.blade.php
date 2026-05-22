@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Solicitud enviada • Gestior</title>
+  <title>Solicitud enviada • Helipso</title>
   <link rel="preconnect" href="https://fonts.bunny.net">
   <link href="https://fonts.bunny.net/css?family=inter:300,400,500,600,700&display=swap" rel="stylesheet" />
   @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -40,7 +40,7 @@
   <div class="min-h-screen flex flex-col items-center justify-center px-4 py-12" style="background:#000;">
 
     <!-- Logo -->
-    <img src="{{ asset('images/Gestior.png') }}" alt="Gestior" class="h-12 w-auto mb-10 select-none" />
+    <img src="{{ asset('images/Helipso.png') }}" alt="Helipso" class="h-12 w-auto mb-10 select-none" />
 
     <!-- Card principal -->
     <div class="w-full max-w-md rounded-2xl glow-ring p-8" style="background:rgba(15,8,30,.95);">
@@ -113,7 +113,7 @@
     </div>
 
     <p class="text-xs mt-8" style="color:rgba(107,70,193,.5);">
-      &copy; {{ date('Y') }} Gestior — Todos los derechos reservados.
+      &copy; {{ date('Y') }} Helipso — Todos los derechos reservados.
     </p>
 
   </div>

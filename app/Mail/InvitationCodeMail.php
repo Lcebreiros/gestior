@@ -29,7 +29,7 @@ class InvitationCodeMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Tu código de invitación para Gestior',
+            subject: 'Tu código de invitación para Helipso',
         );
     }
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Selecciona tu plan - {{ config('app.name', 'Gestior') }}</title>
+    <title>Selecciona tu plan - {{ config('app.name', 'Helipso') }}</title>
 
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:300,400,500,600,700&display=swap" rel="stylesheet" />
@@ -210,7 +210,7 @@
 
     <div class="container">
         <div class="header">
-            <img src="/images/gestior.png" alt="Gestior" class="logo">
+            <img src="/images/helipso.png" alt="Helipso" class="logo">
             <h1 class="title">Elige tu plan</h1>
             <p class="subtitle">Selecciona el plan que mejor se adapte a tus necesidades</p>
         </div>

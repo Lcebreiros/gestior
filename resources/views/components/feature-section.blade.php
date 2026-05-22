@@ -8,11 +8,13 @@
     'background' => 'black' // black, gradient, or custom
 ])
 
-<section class="feature-section bg-{{ $background }} text-white py-24 md:py-40 relative overflow-hidden" data-feature-section>
+<section class="feature-section text-white py-24 md:py-40 relative overflow-hidden" data-feature-section style="background: #0B0820;">
+    <div class="cst-anchor" aria-hidden="true" style="display:block;width:1px;height:1px;visibility:hidden;pointer-events:none;position:absolute;top:3rem;left:6vw;"></div>
     <style>
         /* Background effects */
         .feature-section {
             position: relative;
+            background: #0B0820;
         }
 
         .feature-section::before {
@@ -22,7 +24,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: radial-gradient(ellipse 80% 50% at 50% 50%, rgba(117, 52, 201, 0.08), transparent);
+            background: radial-gradient(ellipse 80% 50% at 50% 50%, rgba(138, 92, 245, 0.08), transparent);
             opacity: 0;
             transition: opacity 0.8s ease;
             pointer-events: none;
@@ -65,17 +67,17 @@
             align-items: center;
             gap: 0.5rem;
             padding: 0.625rem 1.25rem;
-            background: linear-gradient(135deg, rgba(117, 52, 201, 0.15), rgba(117, 52, 201, 0.08));
-            border: 1px solid rgba(117, 52, 201, 0.3);
+            background: linear-gradient(135deg, rgba(138, 92, 245, 0.15), rgba(138, 92, 245, 0.08));
+            border: 1px solid rgba(138, 92, 245, 0.3);
             border-radius: 100px;
-            color: #c4b5fd;
+            color: #B79CFA;
             font-size: 0.875rem;
             font-weight: 600;
             letter-spacing: 0.08em;
             text-transform: uppercase;
             margin-bottom: 2rem;
             backdrop-filter: blur(10px);
-            box-shadow: 0 4px 12px rgba(117, 52, 201, 0.1);
+            box-shadow: 0 4px 12px rgba(138, 92, 245, 0.1);
             transition: all 0.3s ease;
         }
 
@@ -83,9 +85,9 @@
             content: '';
             width: 6px;
             height: 6px;
-            background: #7534c9;
+            background: #8A5CF5;
             border-radius: 50%;
-            box-shadow: 0 0 8px rgba(117, 52, 201, 0.6);
+            box-shadow: 0 0 8px rgba(138, 92, 245, 0.6);
             animation: pulse-dot 2s ease-in-out infinite;
         }
 
@@ -95,21 +97,19 @@
         }
 
         .feature-text-content:hover .feature-badge {
-            border-color: rgba(117, 52, 201, 0.5);
-            box-shadow: 0 6px 16px rgba(117, 52, 201, 0.2);
+            border-color: rgba(138, 92, 245, 0.5);
+            box-shadow: 0 6px 16px rgba(138, 92, 245, 0.2);
         }
 
         /* Title */
         .feature-title {
+            font-family: 'Space Grotesk', sans-serif;
             font-size: clamp(2.25rem, 5vw, 3.5rem);
-            font-weight: 700;
-            line-height: 1.15;
-            letter-spacing: -0.03em;
+            font-weight: 300;
+            line-height: 1.1;
+            letter-spacing: -0.04em;
             margin-bottom: 1.75rem;
-            background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0.85) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: #E5DBFD;
         }
 
         /* Description */
@@ -152,8 +152,8 @@
         }
 
         .feature-list-item:hover {
-            background: rgba(117, 52, 201, 0.08);
-            border-color: rgba(117, 52, 201, 0.2);
+            background: rgba(138, 92, 245, 0.08);
+            border-color: rgba(138, 92, 245, 0.2);
             transform: translateX(4px);
         }
 
@@ -161,7 +161,7 @@
             content: '✓';
             width: 24px;
             height: 24px;
-            background: linear-gradient(135deg, #7534c9, #9333ea);
+            background: linear-gradient(135deg, #8A5CF5, #8A5CF5);
             color: white;
             border-radius: 6px;
             flex-shrink: 0;
@@ -170,7 +170,7 @@
             justify-content: center;
             font-size: 0.75rem;
             font-weight: 700;
-            box-shadow: 0 2px 8px rgba(117, 52, 201, 0.3);
+            box-shadow: 0 2px 8px rgba(138, 92, 245, 0.3);
             margin-top: 2px;
         }
 
@@ -181,7 +181,7 @@
             overflow: hidden;
             box-shadow:
                 0 25px 70px rgba(0, 0, 0, 0.4),
-                0 10px 30px rgba(117, 52, 201, 0.2);
+                0 10px 30px rgba(138, 92, 245, 0.2);
             transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             opacity: 0;
             transform: translateY(60px) scale(0.95);
@@ -199,7 +199,7 @@
             left: -2px;
             right: -2px;
             bottom: -2px;
-            background: linear-gradient(135deg, rgba(117, 52, 201, 0.4), rgba(147, 51, 234, 0.4));
+            background: linear-gradient(135deg, rgba(138, 92, 245, 0.4), rgba(147, 51, 234, 0.4));
             border-radius: 24px;
             opacity: 0;
             transition: opacity 0.4s ease;
@@ -214,7 +214,7 @@
             transform: translateY(-12px) scale(1.02);
             box-shadow:
                 0 35px 90px rgba(0, 0, 0, 0.5),
-                0 15px 40px rgba(117, 52, 201, 0.35);
+                0 15px 40px rgba(138, 92, 245, 0.35);
         }
 
         /* Efecto parallax en la imagen */
@@ -239,7 +239,7 @@
             transform: translate(-50%, -50%);
             width: 80%;
             height: 80%;
-            background: radial-gradient(circle, rgba(117, 52, 201, 0.2) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(138, 92, 245, 0.2) 0%, transparent 70%);
             opacity: 0;
             transition: opacity 0.6s ease;
             pointer-events: none;

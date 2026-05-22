@@ -1,9 +1,10 @@
 <section id="screenshots" class="screenshots-section">
+    <div class="cst-anchor" aria-hidden="true" style="display:block;width:1px;height:1px;visibility:hidden;pointer-events:none;position:absolute;top:3rem;left:6vw;"></div>
     <style>
         /* SECCIÓN: Screenshots 3D - SIN ESPACIO VERTICAL EXTRA */
         .screenshots-section {
             position: relative;
-            background: #000000;
+            background: #0B0820;
             padding: 4rem 0 8rem 0;
             overflow: hidden;
             margin-top: -4rem;
@@ -25,15 +26,18 @@
         }
 
         .screenshots-text h2 {
+            font-family: 'Space Grotesk', sans-serif;
             font-size: 2.5rem;
-            font-weight: 700;
-            line-height: 1.1;
+            font-weight: 300;
+            letter-spacing: -0.04em;
+            line-height: 1.05;
             margin-bottom: 1.5rem;
+            color: #E5DBFD;
             transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .screenshots-text .highlight {
-            color: #c4b5fd;
+            color: #B79CFA;
         }
 
         .screenshots-text p {
@@ -450,7 +454,7 @@
         <!-- Texto -->
         <div class="screenshots-text">
             <h2>
-                Hacé Gestior tuyo.
+                Hacé Helipso tuyo.
             </h2>
             <p>
                 Una experiencia tan única como tu marca.
@@ -466,7 +470,7 @@
                     <div class="dot dot-green"></div>
                 </div>
                 <img src="{{ asset('images/screenshots/crear-pedido.png') }}" 
-                     alt="Crear pedido - Gestior" 
+                     alt="Crear pedido - Helipso" 
                      loading="lazy"
                      decoding="async"
                      fetchpriority="high" />
@@ -479,7 +483,7 @@
                     <div class="dot dot-green"></div>
                 </div>
                 <img src="{{ asset('images/screenshots/stock.png') }}" 
-                     alt="Control de stock - Gestior" 
+                     alt="Control de stock - Helipso" 
                      loading="lazy"
                      decoding="async"
                      fetchpriority="high" />
@@ -492,7 +496,7 @@
                     <div class="dot dot-green"></div>
                 </div>
                 <img src="{{ asset('images/screenshots/historial.png') }}" 
-                     alt="Historial - Gestior" 
+                     alt="Historial - Helipso" 
                      loading="lazy"
                      decoding="async"
                      fetchpriority="high" />
